@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --color-background: #F0F0F7;
+    /* --color-background: #e0e3e7c2; */
+    --color-primary-green: #1CA65B;
+    --color-primary-gray: #666666;
+    --color-primary-font: #404C51;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--color-primary-font);
+    margin: 0;
+    background-color: var(--color-background);
+}
+
+label {
+    font-weight: bold;
+}
+
+
+/* @media (min-width: 1200px) {
+    .container {
+        margin: 0 auto;
+        width: 1170px;
+    }
+} */

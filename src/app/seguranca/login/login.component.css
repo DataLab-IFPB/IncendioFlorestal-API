@@ -1,0 +1,16 @@
+.card {
+    margin-top: 4rem;
+}
+
+:host ::ng-deep .p-card .p-card-content {
+    padding-bottom: 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.logo {
+    height: 150px;
+    width: 150px;
+}
