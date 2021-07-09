@@ -1,13 +1,18 @@
-import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada/pagina-nao-encontrada.component';
-import { LoginComponent } from './seguranca/login/login.component';
-
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { AuthGuard } from './seguranca/auth.guard';
+import { LoginComponent } from './seguranca/login/login.component';
+import { HomeComponent } from './home/home.component';
+ import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada/pagina-nao-encontrada.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login',   component: LoginComponent },
 
+  // add guard
+  { path: 'home',   component: HomeComponent },
 
 
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },

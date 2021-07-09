@@ -9,7 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 
 import { LoginComponent } from './login/login.component';
-
+import { SharedModule } from './../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +17,8 @@ import { LoginComponent } from './login/login.component';
   ],
   imports: [
     CommonModule,
+
+    SharedModule,
 
     FormsModule,
     CardModule,

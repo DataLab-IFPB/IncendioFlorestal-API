@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "combate-incendios-dev": {
+      "hosting": {
+        "combate-incendios": [
+          "combate-incendios-dev"
+        ]
+      }
+    }
+  }
+}

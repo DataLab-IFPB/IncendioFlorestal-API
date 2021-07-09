@@ -15,17 +15,26 @@
                 <form autocomplete="off" class="p-col-12 formLogin" #formLogin="ngForm">
 
                     <div class="p-col-12 p-field">
-                        <label for="username">Usuário</label>
-                        <input id="username" class="p-col-12" type="text" pInputText />
+                        <label for="email">Usuário</label>
+                        <input id="email" class="p-col-12" type="email" name="email" [(ngModel)]="login.email" pInputText required email #email="ngModel" ngModel/>
+
+                        <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
+
+
                     </div>
 
                     <div class="p-col-12 p-field">
-                        <label for="password">Senha</label>
-                        <input id="password" class="p-col-12" type="text" pInputText />
+                        <label for="senha">Senha</label>
+                        <input id="senha" class="p-col-12" type="text" name="senha" [(ngModel)]="login.senha" minlength="6" maxlength="100" pInputText required #senha="ngModel" ngModel/>
+
+                        <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe a senha"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
+
                     </div>
 
                     <div class="p-col-12">
-                        <button pButton type="button" label="Entrar" class="p-col-12"></button>
+                        <button pButton type="button" label="Entrar" class="p-col-12" (click)="logar()" [disabled]="!formLogin.valid"></button>
                     </div>
 
                 </form>
