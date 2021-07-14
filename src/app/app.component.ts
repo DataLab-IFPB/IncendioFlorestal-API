@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from "@angular/fire/auth";
-import firebase from 'firebase/app';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,23 +9,27 @@ import firebase from 'firebase/app';
 export class AppComponent {
   title = 'combate-incendios';
 
-  constructor(public afAuth: AngularFireAuth) { }
+  constructor(
+    private router: Router) { }
 
 
-  isLoggedIn = false
 
-  async signIn(email: string, password: string) {
-     await this.afAuth.signInWithEmailAndPassword(email, password)
-     .then(res=>{
-      this.isLoggedIn = true
-      localStorage.setItem('user',JSON.stringify(res.user))
-    })
 
+  exibindoMenu() {
+
+    const url = this.router.url;
+
+    return url !== '/login' && url !== '/pagina-nao-encontrada';
   }
 
-  signOut() {
-    this.afAuth.signOut();
-    localStorage.removeItem('user')
-  }
+
+
+
+
+
+
+
+
+
 
 }

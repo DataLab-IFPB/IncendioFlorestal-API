@@ -10,20 +10,24 @@ export class AuthService {
   constructor(public afAuth: AngularFireAuth) { }
 
   isLogado = false
+  usuarioLogado: any;
 
   async logar(email: string, password: string) {
      await this.afAuth.signInWithEmailAndPassword(email, password)
      .then(res=>{
-      this.isLogado = true
-      localStorage.setItem('user',JSON.stringify(res.user))
+       localStorage.setItem('user',JSON.stringify(res.user))
+       this.isLogado = true
+       this.usuarioLogado = JSON.parse(localStorage.getItem('user'));
     })
 
   }
 
   deslogar() {
+    // console.log(this.afAuth.currentUser)
     this.afAuth.signOut();
     localStorage.removeItem('user')
     this.isLogado = false
+    this.usuarioLogado = undefined;
   }
 
 

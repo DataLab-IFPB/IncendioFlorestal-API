@@ -17,10 +17,9 @@ label {
     font-weight: bold;
 }
 
-
-/* @media (min-width: 1200px) {
+@media (min-width: 1200px) {
     .container {
         margin: 0 auto;
         width: 1170px;
     }
-} */
+}

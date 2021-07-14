@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SegurancaModule } from './seguranca/seguranca.module';
 import { HomeComponent } from './home/home.component';
+import { CoreModule } from './core/core.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     BrowserAnimationsModule,
 
+    CoreModule,
     ToastModule,
 
     AppRoutingModule,
