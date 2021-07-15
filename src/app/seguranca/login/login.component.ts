@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+
 import {MessageService} from 'primeng/api';
+
+import { AuthService } from '../auth.service';
 import { Login } from 'src/app/core/model';
 
 @Component({
@@ -12,6 +15,11 @@ import { Login } from 'src/app/core/model';
 export class LoginComponent  {
 
   login = new Login();
+
+
+  dialogIsVisible: boolean = false;
+  emailEsqueciMinhaSenha: string = '';
+
 
   constructor(
     private auth: AuthService,
@@ -28,6 +36,26 @@ export class LoginComponent  {
     })
     .catch(erro => {
       this.messageService.add({severity:'error', summary:'Nenhum usuário foi encontrado com essas credenciais!'});
+    })
+  }
+
+
+
+  enviarEmailDeSenhaEsquecida(form: FormControl) {
+    this.auth.resetarSenha(this.emailEsqueciMinhaSenha)
+    .then(() => {
+      this.messageService.add({severity:'success', summary:'Instruções para redefinir sua senha foram envidas para seu email!'});
+      this.dialogIsVisible = false;
+      form.reset();
+      this.emailEsqueciMinhaSenha = '';
+    })
+    .catch(erro => {
+
+      if(erro.code == 'auth/invalid-email') {
+        this.messageService.add({severity:'error', summary: 'O e-mail está formatado incorretamente.'});
+      }else if(erro.code == 'auth/user-not-found'){
+        this.messageService.add({severity:'error', summary:'Nenhum usuário foi encontrado com esse e-mail!'});
+      }
     })
   }
 

@@ -14,33 +14,34 @@
 
                 <form autocomplete="off" class="p-col-12 formLogin" #formLogin="ngForm">
 
-                    <div class="p-fluid">
-                        <div class="p-field">
-                            <label for="email">Usuário</label>
-                            <input id="email" type="email" name="email" [(ngModel)]="login.email" pInputText required email #email="ngModel" ngModel/>
+                    <!-- <div class="p-fluid"> -->
+                    <div class="p-field p-fluid">
+                        <label for="email">Usuário</label>
+                        <input id="email" type="email" name="email" [(ngModel)]="login.email" pInputText required email #email="ngModel" ngModel/>
 
-                            <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
-                            <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
-
-
-                        </div>
-
-                        <div class="p-field">
-                            <label for="senha">Senha</label>
-                            <!-- <input id="senha" class="p-col-12" type="text" name="senha" [(ngModel)]="login.senha" minlength="6" maxlength="100" pInputText required #senha="ngModel" ngModel/> -->
-
-                            <p-password id="senha" [feedback]="false" toggleMask=true name="senha" [(ngModel)]="login.senha" minlength="6" maxlength="100" required #senha="ngModel" ngModel></p-password>
+                        <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
 
 
-                            <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe a senha"></app-mensagem-de-erro>
-                            <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
-
-                        </div>
-
-                        <div>
-                            <button pButton type="button" label="Entrar" (click)="logar()" [disabled]="!formLogin.valid"></button>
-                        </div>
                     </div>
+
+                    <div class="p-field p-fluid">
+                        <label for="senha">Senha</label>
+                        <p-password id="senha" [feedback]="false" toggleMask=true name="senha" [(ngModel)]="login.senha" minlength="6" maxlength="100" required #senha="ngModel" ngModel></p-password>
+
+                        <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe a senha"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
+
+                    </div>
+
+                    <div class="esqueci-senha">
+                        <button class="p-button-link link-esqueci-senha" type="button" (click)="dialogIsVisible = !dialogIsVisible" label="Esqueci minha senha" pButton></button>
+                    </div>
+
+                    <div class="p-fluid">
+                        <button pButton type="button" label="Entrar" (click)="logar()" [disabled]="!formLogin.valid"></button>
+                    </div>
+                    <!-- </div> -->
 
                 </form>
 
@@ -50,4 +51,40 @@
 
     </div>
 
+</div>
+
+
+<div>
+    <form id="form-esqueci-senha" #formEsqueciSenha="ngForm" autocomplete="off">
+
+        <p-dialog [modal]=true [(visible)]="dialogIsVisible" [closable]="false" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [style]="{width: '450px'}">
+
+            <ng-template pTemplate="header">
+                <div class="header-recuperar-senha">
+                    Esqueceu sua senha?
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="content">
+
+                <div class="p-field p-fluid">
+                    <label for="email">E-mail </label>
+                    <input id="email" type="text" [(ngModel)]="emailEsqueciMinhaSenha" name="emailEsqueciMinhaSenha" placeholder="Informe o e-mail utilizado no seu cadastro" required email #email="ngModel" pInputText>
+
+                    <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
+                    <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <div class="botoes">
+                    <button id="btn-cancelar" form="form-esqueci-senha" type="submit" (click)="dialogIsVisible = !dialogIsVisible" label="Cancelar" pButton></button>
+                    <button form="form-esqueci-senha" type="submit" (click)="enviarEmailDeSenhaEsquecida(formEsqueciSenha)" label="Receber e-mail" [disabled]="!formEsqueciSenha.valid" pButton></button>
+                </div>
+            </ng-template>
+
+
+        </p-dialog>
+    </form>
 </div>

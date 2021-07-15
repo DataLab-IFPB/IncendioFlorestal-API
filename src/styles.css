@@ -17,6 +17,10 @@ label {
     font-weight: bold;
 }
 
+#btn-cancelar {
+    background: rgb(209, 65, 65);
+}
+
 @media (min-width: 1200px) {
     .container {
         margin: 0 auto;

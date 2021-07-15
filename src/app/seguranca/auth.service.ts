@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 
+import * as firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,10 @@ export class AuthService {
     localStorage.removeItem('user')
     this.isLogado = false
     this.usuarioLogado = undefined;
+  }
+
+  resetarSenha(email: string) {
+    return this.afAuth.sendPasswordResetEmail(email)
   }
 
 
