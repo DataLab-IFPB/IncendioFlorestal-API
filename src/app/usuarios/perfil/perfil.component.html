@@ -33,6 +33,18 @@
                         <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
                     </div>
 
+                    <div class="p-field p-fluid">
+                        <label for="senha">Senha</label>
+                        <p-password id="senha" [feedback]="false" toggleMask=true name="senha" [(ngModel)]="usuario.senha" minlength="6" maxlength="50" required #senha="ngModel" ngModel></p-password>
+
+                        <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe a senha"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
+                    </div>
+
+                    <div class="p-field">
+                        <label for="admin">Admin</label>
+                        <p-selectButton id="admin" name="admin" [options]="userOptions" [(ngModel)]="usuario.isAdmin" optionLabel="label" optionValue="value"></p-selectButton>
+                    </div>
 
                     <div class="footer">
                         <a id="btn-cancelar" pButton routerLink="/usuarios" label="Cancelar"></a>

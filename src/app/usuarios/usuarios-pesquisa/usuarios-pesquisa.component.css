@@ -43,6 +43,13 @@
     white-space: nowrap;
 }
 
+.user-email,
+.user-matricula {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .user-nome {
     font-weight: 700;
     font-size: 1.6rem;

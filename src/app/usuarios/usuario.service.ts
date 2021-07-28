@@ -47,6 +47,9 @@ export class UsuarioService {
 
   atualizar(usuario: Usuario) {
 
+    // verificar se foi passada a senha (caso o usuário tenha vindo da área de perfil)
+
+
     // atualizar os dados da collection (realtime) e alterar o email do usuário no (user - authorization)
 
     const user = {

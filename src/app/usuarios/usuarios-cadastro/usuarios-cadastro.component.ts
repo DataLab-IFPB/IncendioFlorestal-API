@@ -28,10 +28,7 @@ export class UsuariosCadastroComponent implements OnInit {
 
     if (keyUsuario){
       this.buscarUsuario(keyUsuario);
-      console.log('usuario buscado: ', this.usuario)
     }
-
-    console.log('usuario buscado: ', this.usuario)
 
     this.userOptions = [
       { label: "Não", value: false },
@@ -81,9 +78,6 @@ export class UsuariosCadastroComponent implements OnInit {
 
 }
 
-voltar(){
-  console.log('usuario buscado: ', this.usuario)
-}
 
   cadastrar() {
     // matricula deve ser única!

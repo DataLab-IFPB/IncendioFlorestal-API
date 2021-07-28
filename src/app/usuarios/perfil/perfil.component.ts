@@ -19,6 +19,9 @@ export class PerfilComponent implements OnInit {
 
   usuario = new Usuario();
 
+  userOptions: any[];
+
+
   constructor(
     private auth: AuthService,
     private usuarioService: UsuarioService,
@@ -35,6 +38,12 @@ export class PerfilComponent implements OnInit {
     }else {
       this.usuario = new Usuario();
     }
+
+
+    this.userOptions = [
+      { label: "Não", value: false },
+      { label: "Sim", value: true }
+    ];
 
   }
 
