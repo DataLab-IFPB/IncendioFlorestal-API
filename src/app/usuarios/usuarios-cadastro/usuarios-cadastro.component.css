@@ -1,0 +1,42 @@
+:host ::ng-deep .p-grid {
+    margin: 0;
+}
+
+.card {
+    margin-top: 1rem;
+}
+
+:host ::ng-deep .p-card .p-card-content {
+    padding-bottom: 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+form .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#btn-cancelar {
+    margin-right: .5rem;
+    text-decoration: none;
+}

@@ -2,6 +2,8 @@
     --color-background: #F0F0F7;
     /* --color-background: #e0e3e7c2; */
     --color-primary-green: #1CA65B;
+    --color-primary-red: rgb(209, 65, 65);
+    --color-primary-blue: #1e94d2;
     --color-primary-gray: #666666;
     --color-primary-font: #404C51;
 }
@@ -18,12 +20,31 @@ label {
 }
 
 #btn-cancelar {
-    background: rgb(209, 65, 65);
+    background: var(--color-primary-red);
+}
+
+.container {
+    padding: 0 .5rem;
 }
 
 @media (min-width: 1200px) {
     .container {
+        padding: 0;
         margin: 0 auto;
         width: 1170px;
     }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary-blue);
+    /* border: 1px solid #a0c7b1; */
+    border-radius: 10px;
 }

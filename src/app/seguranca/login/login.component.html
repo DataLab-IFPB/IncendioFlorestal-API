@@ -17,7 +17,7 @@
                     <!-- <div class="p-fluid"> -->
                     <div class="p-field p-fluid">
                         <label for="email">Usuário</label>
-                        <input id="email" type="email" name="email" [(ngModel)]="login.email" pInputText required email #email="ngModel" ngModel/>
+                        <input id="email" type="email" name="email" [(ngModel)]="login.email" placeholder="e-mail" pInputText required email #email="ngModel" ngModel/>
 
                         <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
                         <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>

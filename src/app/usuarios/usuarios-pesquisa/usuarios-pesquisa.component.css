@@ -1,0 +1,65 @@
+.users-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.users-header a {
+    text-decoration: none;
+}
+
+.card-footer.true {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-footer.false {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+:host ::ng-deep .p-card .p-card-footer {
+    padding-top: .5rem;
+}
+
+:host ::ng-deep .p-card {
+    margin: .5rem .5rem;
+}
+
+:host ::ng-deep .p-card .p-card-content {
+    padding: 0;
+}
+
+.user-icon {
+    margin-right: .5rem;
+}
+
+.user-nome p {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-nome {
+    font-weight: 700;
+    font-size: 1.6rem;
+}
+
+.user-email,
+.user-matricula {
+    margin-top: 1rem;
+}
+
+.badge {
+    border-radius: 5px;
+    padding: 0 5px;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    background-color: #b3e5fc;
+    color: #23547b;
+}

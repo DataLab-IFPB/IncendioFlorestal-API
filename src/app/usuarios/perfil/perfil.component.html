@@ -1,0 +1,50 @@
+<div class="p-grid p-justify-center card">
+
+    <div class="p-col-11 p-sm-10 p-md-4">
+
+        <h1>Perfil</h1>
+
+        <p-card>
+
+            <div class="p-grid">
+
+                <form autocomplete="off" class="p-col-12 formPerfil" #formPerfil="ngForm">
+
+                    <div class="p-field p-fluid">
+                        <label for="nome">Nome</label>
+                        <input id="nome" type="email" name="nome" [(ngModel)]="usuario.nome" minlength="3" maxlength="50" pInputText required #nome="ngModel" ngModel/>
+
+                        <app-mensagem-de-erro [controle]="nome" erro="required" mensagem="Informe o nome"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="nome" erro="minlength" mensagem="Mínimo de {{nome.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
+                    </div>
+
+                    <div class="p-field p-fluid">
+                        <label for="matricula">Matrícula</label>
+                        <input id="matricula" type="number" name="matricula" [(ngModel)]="usuario.matricula" pInputText required #matricula="ngModel" ngModel/>
+
+                        <app-mensagem-de-erro [controle]="matricula" erro="required" mensagem="Informe a matrícula"></app-mensagem-de-erro>
+                    </div>
+
+                    <div class="p-field p-fluid">
+                        <label for="email">Usuário</label>
+                        <input id="email" type="email" name="email" [(ngModel)]="usuario.email" pInputText required email #email="ngModel" ngModel/>
+
+                        <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
+                    </div>
+
+
+                    <div class="footer">
+                        <a id="btn-cancelar" pButton routerLink="/usuarios" label="Cancelar"></a>
+                        <button pButton type="button" label="Salvar" (click)="salvar()" [disabled]="!formPerfil.dirty"></button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </p-card>
+
+    </div>
+
+</div>

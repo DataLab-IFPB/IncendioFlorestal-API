@@ -13,13 +13,13 @@ export class AuthService {
   isLogado = false
   usuarioLogado: any;
 
-  async logar(email: string, password: string) {
-     await this.afAuth.signInWithEmailAndPassword(email, password)
-     .then(res=>{
-       localStorage.setItem('user',JSON.stringify(res.user))
+  async logar(email: string, senha: string) {
+     await this.afAuth.signInWithEmailAndPassword(email, senha)
+     .then(credenciais => {
        this.isLogado = true
-       this.usuarioLogado = JSON.parse(localStorage.getItem('user'));
-    })
+       this.usuarioLogado = credenciais.user;
+       localStorage.setItem('user',JSON.stringify(credenciais.user))
+      })
 
   }
 
@@ -31,9 +31,7 @@ export class AuthService {
     this.usuarioLogado = undefined;
   }
 
-  resetarSenha(email: string) {
-    return this.afAuth.sendPasswordResetEmail(email)
-  }
+
 
 
 }

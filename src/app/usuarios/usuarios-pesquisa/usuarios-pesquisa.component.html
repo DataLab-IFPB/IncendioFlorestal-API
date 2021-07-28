@@ -1,0 +1,72 @@
+<div class="container">
+
+    <div class="users-header">
+        <h1>Usuários</h1>
+        <a pButton icon="pi pi-plus-circle" pTooltip="Novo usuário" tooltipPosition="bottom" routerLink="/usuarios/novo"></a>
+    </div>
+
+
+
+    <p-dataView [value]="usuarios" [paginator]="true" [rows]="10" layout="grid" emptyMessage="Nenhum usuário encontrado">
+        <ng-template pTemplate="header">Search and Filters</ng-template>
+
+        <h1>content</h1>
+
+        <ng-template let-user pTemplate="gridItem">
+            <div class="p-col-12 p-md-3">
+
+                <p-card>
+
+                    <div class="user-nome">
+                        <p>{{user.nome}}</p>
+                    </div>
+
+                    <div class="user-matricula">
+                        <i class="pi pi-id-card user-icon" pTooltip="matrícula"></i>
+                        <span>{{user.matricula}}</span>
+                    </div>
+
+                    <div class="user-email">
+                        <i class="pi pi-envelope user-icon" pTooltip="E-mail"></i>
+                        <span>{{user.email}}</span>
+                    </div>
+
+                    <ng-template pTemplate="footer">
+
+
+
+                        <div [class]="'card-footer ' + user.isAdmin">
+                            <div *ngIf="user.isAdmin">
+                                <span class="badge">Admin</span>
+                            </div>
+
+                            <div class="botoes">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-text" pTooltip="Editar" tooltipPosition="bottom" [routerLink]="['/usuarios/edicao', user.uid]"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmarExclusao(user)"></button>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </p-card>
+
+
+            </div>
+
+        </ng-template>
+
+
+    </p-dataView>
+
+
+
+
+</div>
+
+
+
+<p-confirmDialog #cd [style]="{width: '450px'}" [closable]="false">
+    <ng-template pTemplate="footer">
+        <button id="btn-cancelar" type="button" pButton icon="pi pi-times" label="Não" (click)="cd.reject()"></button>
+        <button class="btn-salvar" type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog>

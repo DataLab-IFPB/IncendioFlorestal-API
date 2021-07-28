@@ -1,3 +1,5 @@
+import { Usuario } from './../model';
+import { UsuarioService } from './../../usuarios/usuario.service';
 import { MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,19 +15,25 @@ export class NavbarComponent implements OnInit {
 
   exibindoMenu = false;
 
-  usuarioLogado: any;
+  usuarioLogado: Usuario;
 
   constructor(
     private auth: AuthService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private usuarioService: UsuarioService
     ) { }
 
   ngOnInit(): void {
-    this.usuarioLogado = this.auth.usuarioLogado;
-    if(this.usuarioLogado == undefined) {
-      this.usuarioLogado = new Object();
+
+    this.usuarioLogado = new Usuario();
+
+    if(this.auth.usuarioLogado){
+      // console.log('nome menu - :', this.auth.usuarioLogado.uid)
+      this.buscarUsuario(this.auth.usuarioLogado.uid);
     }
+
+
   }
 
 
@@ -34,5 +42,38 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/login']);
     this.messageService.add({severity:'success', summary:'Você saiu!'});
   }
+
+  omitir() {
+    this.exibindoMenu = !this.exibindoMenu;
+  }
+
+  // método duplicado em usuario-cadastro e perfil component
+  buscarUsuario(key: string) {
+  this.usuarioService.listar()
+  .subscribe(users => {
+
+    let flag = false;
+
+    users.forEach(user => {
+      if(user.uid === key) {
+        this.usuarioLogado = user;
+        flag = true;
+      }
+    })
+
+    if(!flag){
+      this.messageService.add({severity:'error', summary: 'Usuário não encontrado.'});
+    }
+
+  }, (error) => {
+    console.log(error);
+  });
+
+}
+
+
+
+
+
 
 }

@@ -3,15 +3,15 @@
     <div class="container">
         <div class="p-grid">
             <div class="p-col-12">
-                <a href="javascript:;" class="navbar-toggle" (click)="exibindoMenu = !exibindoMenu"><i class="pi pi-bars"></i></a>
-                <!-- <a href="javascript:;" class="navbar-toggle"><i class="pi pi-bars"></i></a> -->
+                <a href="javascript:;" class="navbar-toggle" (click)="exibindoMenu = !exibindoMenu"><i class="pi pi-bars" pTooltip="Menu" tooltipPosition="bottom" ></i></a>
             </div>
         </div>
     </div>
 
     <ul class="navbar-menu" [hidden]="!exibindoMenu">
-        <!-- <ul class="navbar-menu"> -->
-        <li class="navbar-usuario">{{usuarioLogado.email}}</li>
+        <li class="navbar-usuario">{{usuarioLogado.nome}}</li>
+        <li class="navbar-menuitem"><a href="javascript:;" routerLink="/perfil" (click)="omitir()">Perfil</a></li>
+        <li class="navbar-menuitem"><a href="javascript:;" routerLink="/usuarios" (click)="omitir()">Usuários</a></li>
         <li class="navbar-menuitem"><a href="javascript:;" (click)="logout()">Sair</a></li>
     </ul>
 

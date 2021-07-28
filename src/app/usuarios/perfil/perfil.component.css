@@ -1,0 +1,57 @@
+:host ::ng-deep .p-grid {
+    margin: 0;
+}
+
+.card {
+    margin-top: 1rem;
+}
+
+:host ::ng-deep .p-card .p-card-content {
+    padding-bottom: 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+form .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#btn-cancelar {
+    margin-right: .5rem;
+    text-decoration: none;
+}
+
+.admin-badge {
+    margin-top: 15px;
+}
+
+.badge {
+    border-radius: 5px;
+    padding: 0 5px;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    background-color: #b3e5fc;
+    color: #23547b;
+}
