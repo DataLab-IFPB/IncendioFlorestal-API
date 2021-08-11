@@ -7,25 +7,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './seguranca/auth.guard';
 import { LoginComponent } from './seguranca/login/login.component';
 import { HomeComponent } from './home/home.component';
- import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada/pagina-nao-encontrada.component';
+import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login',   component: LoginComponent },
-
-  { path: 'home',   component: HomeComponent, canActivate: [AuthGuard]  },
+  { path: 'login', component: LoginComponent },
 
   // TODO: add guard
-  { path: 'perfil',   component: PerfilComponent},
+
+  { path: 'home', component: HomeComponent },
+
+  { path: 'perfil', component: PerfilComponent },
 
   // TODO: Criar guarda para validar se o usuário logado é admin
-  { path: 'usuarios',   component: UsuariosPesquisaComponent},
-  { path: 'usuarios/novo',   component: UsuariosCadastroComponent},
-  { path: 'usuarios/edicao/:keyUsuario',   component: UsuariosCadastroComponent},
+  { path: 'usuarios', component: UsuariosPesquisaComponent },
+  { path: 'usuarios/novo', component: UsuariosCadastroComponent },
+  { path: 'usuarios/edicao/:keyUsuario', component: UsuariosCadastroComponent },
 
 
-
-  { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent},
+  { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
   { path: '**', redirectTo: 'pagina-nao-encontrada' }
 
 ];
@@ -34,7 +34,7 @@ const routes: Routes = [
 
   imports: [
     RouterModule.forRoot(routes)
-    ],
+  ],
 
   exports: [RouterModule]
 

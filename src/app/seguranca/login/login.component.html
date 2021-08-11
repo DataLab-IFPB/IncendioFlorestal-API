@@ -14,15 +14,12 @@
 
                 <form autocomplete="off" class="p-col-12 formLogin" #formLogin="ngForm">
 
-                    <!-- <div class="p-fluid"> -->
                     <div class="p-field p-fluid">
                         <label for="email">Usuário</label>
                         <input id="email" type="email" name="email" [(ngModel)]="login.email" placeholder="e-mail" pInputText required email #email="ngModel" ngModel/>
 
                         <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
                         <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
-
-
                     </div>
 
                     <div class="p-field p-fluid">
@@ -31,7 +28,6 @@
 
                         <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe a senha"></app-mensagem-de-erro>
                         <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
-
                     </div>
 
                     <div class="esqueci-senha">
@@ -41,7 +37,6 @@
                     <div class="p-fluid">
                         <button pButton type="button" label="Entrar" (click)="logar()" [disabled]="!formLogin.valid"></button>
                     </div>
-                    <!-- </div> -->
 
                 </form>
 
@@ -80,7 +75,7 @@
             <ng-template pTemplate="footer">
                 <div class="botoes">
                     <button id="btn-cancelar" form="form-esqueci-senha" type="submit" (click)="dialogIsVisible = !dialogIsVisible" label="Cancelar" pButton></button>
-                    <button form="form-esqueci-senha" type="submit" (click)="enviarEmailDeSenhaEsquecida(formEsqueciSenha)" label="Receber e-mail" [disabled]="!formEsqueciSenha.valid" pButton></button>
+                    <button class="btn-receberEmail" form="form-esqueci-senha" type="submit" (click)="enviarEmailDeSenhaEsquecida(formEsqueciSenha)" label="Receber e-mail" [disabled]="!formEsqueciSenha.valid" pButton></button>
                 </div>
             </ng-template>
 

@@ -10,9 +10,10 @@
 
     <ul class="navbar-menu" [hidden]="!exibindoMenu">
         <li class="navbar-usuario">{{usuarioLogado.nome}}</li>
+        <li class="navbar-menuitem"><a href="javascript:;" routerLink="/home" (click)="omitir()">Home</a></li>
         <li class="navbar-menuitem"><a href="javascript:;" routerLink="/perfil" (click)="omitir()">Perfil</a></li>
         <li class="navbar-menuitem"><a href="javascript:;" routerLink="/usuarios" (click)="omitir()">Usuários</a></li>
-        <li class="navbar-menuitem"><a href="javascript:;" (click)="logout()">Sair</a></li>
+        <li class="navbar-menuitem logout"><a href="javascript:;" (click)="logout()">Sair</a></li>
     </ul>
 
 </nav>

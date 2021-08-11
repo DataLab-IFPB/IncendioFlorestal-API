@@ -41,6 +41,10 @@
     text-decoration: none;
 }
 
+.navbar-menuitem.logout a {
+    color: #c63737;
+}
+
 .navbar-menuitem a:hover {
     color: #fff;
 }

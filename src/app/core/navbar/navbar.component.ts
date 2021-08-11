@@ -22,14 +22,13 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private usuarioService: UsuarioService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
 
     this.usuarioLogado = new Usuario();
 
-    if(this.auth.usuarioLogado){
-      // console.log('nome menu - :', this.auth.usuarioLogado.uid)
+    if (this.auth.usuarioLogado) {
       this.buscarUsuario(this.auth.usuarioLogado.uid);
     }
 
@@ -40,7 +39,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.auth.deslogar();
     this.router.navigate(['/login']);
-    this.messageService.add({severity:'success', summary:'Você saiu!'});
+    this.messageService.add({ severity: 'success', summary: 'Você saiu!' });
   }
 
   omitir() {
@@ -48,28 +47,28 @@ export class NavbarComponent implements OnInit {
   }
 
   // método duplicado em usuario-cadastro e perfil component
-  buscarUsuario(key: string) {
-  this.usuarioService.listar()
-  .subscribe(users => {
+  buscarUsuario(uid: string) {
+    this.usuarioService.listar()
+      .subscribe(users => {
 
-    let flag = false;
+        let flag = false;
 
-    users.forEach(user => {
-      if(user.uid === key) {
-        this.usuarioLogado = user;
-        flag = true;
-      }
-    })
+        users.forEach(user => {
+          if (user.uid === uid) {
+            this.usuarioLogado = user;
+            flag = true;
+          }
+        })
 
-    if(!flag){
-      this.messageService.add({severity:'error', summary: 'Usuário não encontrado.'});
-    }
+        if (!flag) {
+          this.messageService.add({ severity: 'error', summary: 'Usuário não encontrado.' });
+        }
 
-  }, (error) => {
-    console.log(error);
-  });
+      }, (error) => {
+        console.log(error);
+      });
 
-}
+  }
 
 
 

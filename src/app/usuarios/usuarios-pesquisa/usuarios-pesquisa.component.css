@@ -1,11 +1,20 @@
-.users-header {
+:host ::ng-deep .p-dataview .p-dataview-header {
+    padding: 1rem .5rem;
+}
+
+.users-list-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.users-header a {
+.btn-new-user {
     text-decoration: none;
+}
+
+.campo-busca {
+    margin-right: .5rem;
+    width: 17rem;
 }
 
 .card-footer.true {

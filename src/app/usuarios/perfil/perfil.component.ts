@@ -1,5 +1,5 @@
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Usuario } from './../../core/model';
+import { Login, Usuario } from './../../core/model';
 import { MessageService } from 'primeng/api';
 import { UsuarioService } from './../usuario.service';
 import { Component, OnInit, Input } from '@angular/core';
@@ -21,21 +21,24 @@ export class PerfilComponent implements OnInit {
 
   userOptions: any[];
 
+  dialogIsVisible: boolean = false;
+
+  confirmacaoDeSenha: string = '';
+  email: string;
 
   constructor(
     private auth: AuthService,
     private usuarioService: UsuarioService,
-    private router: Router,
-    private route: ActivatedRoute,
     private messageService: MessageService,
     public afAuth: AngularFireAuth
   ) { }
 
   ngOnInit(): void {
 
-    if(this.auth.usuarioLogado.uid){
+    if (this.auth.usuarioLogado.uid) {
+      this.email = this.auth.usuarioLogado.email;
       this.buscarUsuario(this.auth.usuarioLogado.uid);
-    }else {
+    } else {
       this.usuario = new Usuario();
     }
 
@@ -49,40 +52,47 @@ export class PerfilComponent implements OnInit {
 
   salvar() {
 
+    const credenciais = new Login();
+    credenciais.email = this.email;
+    credenciais.senha = this.confirmacaoDeSenha;
+
+
     // matricula deve ser única !
-    this.usuarioService.atualizar(this.usuario)
-    .then(() => {
-      // this.router.navigate(['/usuarios']);
-      this.messageService.add({severity:'success', summary:'Perfil atualizado!'});
-      // location.reload();
-    })
-    .catch(erro => {
-        this.messageService.add({severity:'error', summary: erro});
-    })
+    this.usuarioService.atualizarPerfil(this.usuario, credenciais)
+      .then(() => {
+        // this.router.navigate(['/usuarios']);
+        this.confirmacaoDeSenha = '';
+        this.email = this.auth.getUsuarioLogado.email;
+      })
+      .catch(erro => {
+        this.messageService.add({ severity: 'error', summary: erro });
+        // console.log('------------------------------------------ erro no salvar')
+      })
 
   }
 
   // método duplicado em usuario-cadastro component
-  buscarUsuario(key: string) {
+  buscarUsuario(uid: string) {
+
     this.usuarioService.listar()
-    .subscribe(users => {
+      .subscribe(users => {
 
-      let flag = false;
+        let flag = false;
 
-      users.forEach(user => {
-        if(user.uid === key) {
-          this.usuario = user;
-          flag = true;
+        users.forEach(user => {
+          if (user.uid === uid) {
+            this.usuario = user;
+            flag = true;
+          }
+        })
+
+        if (!flag) {
+          this.messageService.add({ severity: 'error', summary: 'Usuário não encontrado.' });
         }
-      })
 
-      if(!flag){
-        this.messageService.add({severity:'error', summary: 'Usuário não encontrado.'});
-      }
-
-    }, (error) => {
-      console.log(error);
-    });
+      }, (error) => {
+        console.log(error);
+      });
 
   }
 

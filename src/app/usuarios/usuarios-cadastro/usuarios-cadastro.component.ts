@@ -63,12 +63,9 @@ export class UsuariosCadastroComponent implements OnInit {
       console.log(error);
     });
 
-    console.log('usuario buscado: ', this.usuario)
   }
 
   salvar() {
-
-    // this.usuario.isAdmin = this.selectedOption;
 
     if (this.editando) {
       this.atualizar();

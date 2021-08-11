@@ -15,8 +15,11 @@ import * as admin from 'firebase-admin'
 })
 export class UsuariosPesquisaComponent implements OnInit {
 
+  usuario: Usuario;
 
   usuarios: Array<Usuario> = [];
+
+  busca: string = '';
 
   constructor(
     private usuarioService: UsuarioService,
@@ -33,26 +36,35 @@ export class UsuariosPesquisaComponent implements OnInit {
 
   listar() {
     this.usuarioService.listar()
-    .subscribe(users => {
-      this.usuarios = users;
-    }, (error) => {
-      console.log(error);
-    });
+      .subscribe(users => {
+
+        const usuariosFlag: Array<Usuario> = [];
+
+        users.forEach(u => {
+          if (!u.isExcluido) {
+            usuariosFlag.push(u);
+          }
+        })
+
+        this.usuarios = usuariosFlag;
+
+      }, (error) => {
+        console.log(error);
+      });
   }
 
+  excluir(key: string) {
 
-  excluir(key: string, uid: string) {
-    // delete user by specify atribute uid
-    // ps: delete in realtime and auth users
-    this.usuarioService.excluir(key, uid)
-    .then(() => {
-      this.messageService.add({severity:'success', summary:'Usuário excluído!'});
-    })
-    .catch(erro => {
-        this.messageService.add({severity:'error', summary: erro});
-    })
+    this.usuarioService.excluir(key)
+      .then(() => {
+        this.messageService.add({ severity: 'success', summary: 'Usuário excluído!' });
+      })
+      .catch(error => {
+        this.messageService.add({ severity: 'error', summary: error });
+        // console.log('------------------------------------------ erro na exclusão')
+      })
+
   }
-
 
   confirmarExclusao(usuario: Usuario) {
     this.confirmationService.confirm({
@@ -60,12 +72,21 @@ export class UsuariosPesquisaComponent implements OnInit {
       message: 'Você tem certeza que deseja excluir esse usuário?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        // passar os 2 valores
-        // this.excluir(usuario.uid);
-        this.excluir(usuario.key, usuario.uid);
+        this.excluir(usuario.key);
       }
     });
   }
+
+
+
+
+  filtrar() {
+    this.messageService.add({ severity: 'success', summary: 'TODO: Implementar filtragem', detail: 'Busca: ' + this.busca });
+    console.log("filtrar por: ", this.busca);
+
+  }
+
+
 
 
 

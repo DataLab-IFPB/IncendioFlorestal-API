@@ -36,7 +36,7 @@ export class LoginComponent  {
       this.messageService.add({severity:'success', summary:'Você entrou!'});
     })
     .catch(erro => {
-      this.messageService.add({severity:'error', summary:'Nenhum usuário foi encontrado com essas credenciais!'});
+        this.messageService.add({severity:'error', summary:'Nenhum usuário foi encontrado com essas credenciais!'});
     })
   }
 
@@ -58,6 +58,8 @@ export class LoginComponent  {
       }
     })
   }
+
+
 
 
 }

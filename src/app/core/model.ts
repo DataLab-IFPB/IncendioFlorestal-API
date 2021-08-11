@@ -14,5 +14,7 @@ export class Usuario{
   email: string;
   senha: string;
   isAdmin: boolean = false;
+  isExcluido: boolean = false;
+  dataExclusao: Date;
 }
 

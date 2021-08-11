@@ -47,8 +47,7 @@
                     </div>
 
                     <div class="footer">
-                        <a id="btn-cancelar" pButton routerLink="/usuarios" label="Cancelar"></a>
-                        <button pButton type="button" label="Salvar" (click)="salvar()" [disabled]="!formPerfil.dirty"></button>
+                        <button pButton type="button" label="Salvar" (click)="dialogIsVisible = !dialogIsVisible" [disabled]="!formPerfil.dirty"></button>
                     </div>
 
                 </form>
@@ -59,4 +58,41 @@
 
     </div>
 
+</div>
+
+
+
+<div>
+    <form id="form-confirmacao-senha" #formConfirmacaoSenha="ngForm" autocomplete="off">
+
+        <p-dialog [modal]=true [(visible)]="dialogIsVisible" [closable]="false" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [style]="{width: '450px'}">
+
+            <ng-template pTemplate="header">
+                <div class="header-confirmacao-senha">
+                    Confirme sua senha
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="content">
+
+                <div class="p-field p-fluid">
+                    <label for="senha">Senha</label>
+                    <p-password id="senha" [feedback]="false" toggleMask=true name="senha" [(ngModel)]="confirmacaoDeSenha" minlength="6" maxlength="100" required #senha="ngModel" ngModel></p-password>
+
+                    <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe a senha"></app-mensagem-de-erro>
+                    <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
+
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <div class="botoes">
+                    <button id="btn-cancelar" form="form-confirmacao-senha" type="submit" (click)="dialogIsVisible = !dialogIsVisible" label="Cancelar" pButton></button>
+                    <button class="btn-okConfirmaSenha" form="form-confirmacao-senha" type="submit" (click)="salvar()" (click)="dialogIsVisible = !dialogIsVisible" label="Ok" [disabled]="!formConfirmacaoSenha.valid" pButton></button>
+                </div>
+            </ng-template>
+
+        </p-dialog>
+    </form>
 </div>

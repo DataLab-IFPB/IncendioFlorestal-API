@@ -1,16 +1,22 @@
 <div class="container">
 
-    <div class="users-header">
-        <h1>Usuários</h1>
-        <a pButton icon="pi pi-plus-circle" pTooltip="Novo usuário" tooltipPosition="bottom" routerLink="/usuarios/novo"></a>
-    </div>
-
-
+    <h1>Usuários</h1>
 
     <p-dataView [value]="usuarios" [paginator]="true" [rows]="10" layout="grid" emptyMessage="Nenhum usuário encontrado">
-        <ng-template pTemplate="header">Search and Filters</ng-template>
+        <ng-template pTemplate="header">
 
-        <h1>content</h1>
+            <div class="users-list-header">
+                <div>
+                    <input class="campo-busca" pInputText type="text" [(ngModel)]="busca" name="buscarEnsaio" placeholder="Nome, Matrícula ou E-mail">
+                    <button pButton icon="pi pi pi-search" pTooltip="Buscar" tooltipPosition="bottom" (click)="filtrar()"></button>
+                </div>
+
+                <div>
+                    <a class="btn-new-user" pButton icon="pi pi-plus-circle" pTooltip="Novo usuário" tooltipPosition="bottom" routerLink="/usuarios/novo"></a>
+                </div>
+            </div>
+
+        </ng-template>
 
         <ng-template let-user pTemplate="gridItem">
             <div class="p-col-12 p-md-3">
@@ -32,9 +38,6 @@
                     </div>
 
                     <ng-template pTemplate="footer">
-
-
-
                         <div [class]="'card-footer ' + user.isAdmin">
                             <div *ngIf="user.isAdmin">
                                 <span class="badge">Admin</span>
@@ -49,16 +52,11 @@
 
                 </p-card>
 
-
             </div>
 
         </ng-template>
 
-
     </p-dataView>
-
-
-
 
 </div>
 
