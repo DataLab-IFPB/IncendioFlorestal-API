@@ -1,10 +1,11 @@
-import { Usuario } from './../model';
-import { UsuarioService } from './../../usuarios/usuario.service';
-import { MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { MessageService } from 'primeng/api';
+
 import { AuthService } from './../../seguranca/auth.service';
+import { UsuarioService } from './../../usuarios/usuario.service';
+import { Usuario } from './../model';
 
 @Component({
   selector: 'app-navbar',
@@ -31,10 +32,7 @@ export class NavbarComponent implements OnInit {
     if (this.auth.usuarioLogado) {
       this.buscarUsuario(this.auth.usuarioLogado.uid);
     }
-
-
   }
-
 
   logout() {
     this.auth.deslogar();
@@ -46,28 +44,11 @@ export class NavbarComponent implements OnInit {
     this.exibindoMenu = !this.exibindoMenu;
   }
 
-  // método duplicado em usuario-cadastro e perfil component
   buscarUsuario(uid: string) {
-    this.usuarioService.listar()
-      .subscribe(users => {
-
-        let flag = false;
-
-        users.forEach(user => {
-          if (user.uid === uid) {
-            this.usuarioLogado = user;
-            flag = true;
-          }
-        })
-
-        if (!flag) {
-          this.messageService.add({ severity: 'error', summary: 'Usuário não encontrado.' });
-        }
-
-      }, (error) => {
-        console.log(error);
-      });
-
+    this.usuarioService.buscarUsuarioPorUid(uid)
+      .then(user => {
+        this.usuarioLogado = user;
+      })
   }
 
 

@@ -12,17 +12,19 @@ export class AppComponent {
   constructor(
     private router: Router) { }
 
-
-
-
   exibindoMenu() {
 
     const url = this.router.url;
 
-    return url !== '/login' && url !== '/pagina-nao-encontrada';
+    if (url.includes('/login')
+      || url.includes('/pagina-nao-encontrada')) {
+
+      return false;
+    } else {
+      return true;
+    }
+
   }
-
-
 
 
 

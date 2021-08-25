@@ -5,9 +5,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { UsuarioService } from './../usuario.service';
 
-import { map } from 'rxjs/operators';
-import * as admin from 'firebase-admin'
-
 @Component({
   selector: 'app-usuarios-pesquisa',
   templateUrl: './usuarios-pesquisa.component.html',
@@ -61,7 +58,6 @@ export class UsuariosPesquisaComponent implements OnInit {
       })
       .catch(error => {
         this.messageService.add({ severity: 'error', summary: error });
-        // console.log('------------------------------------------ erro na exclusão')
       })
 
   }
@@ -77,13 +73,9 @@ export class UsuariosPesquisaComponent implements OnInit {
     });
   }
 
-
-
-
   filtrar() {
     this.messageService.add({ severity: 'success', summary: 'TODO: Implementar filtragem', detail: 'Busca: ' + this.busca });
     console.log("filtrar por: ", this.busca);
-
   }
 
 

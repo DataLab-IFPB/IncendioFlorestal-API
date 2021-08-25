@@ -1,13 +1,13 @@
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Login, Usuario } from './../../core/model';
+import { Component, OnInit } from '@angular/core';
+
 import { MessageService } from 'primeng/api';
+
 import { UsuarioService } from './../usuario.service';
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Login, Usuario } from './../../core/model';
 import { AuthService } from 'src/app/seguranca/auth.service';
 
-import { FormControl } from '@angular/forms';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -25,6 +25,9 @@ export class PerfilComponent implements OnInit {
 
   confirmacaoDeSenha: string = '';
   email: string;
+
+
+  anoAtual = new Date().getFullYear();
 
   constructor(
     private auth: AuthService,
@@ -54,46 +57,26 @@ export class PerfilComponent implements OnInit {
 
     const credenciais = new Login();
     credenciais.email = this.email;
-    credenciais.senha = this.confirmacaoDeSenha;
+    credenciais.password = this.confirmacaoDeSenha;
 
 
     // matricula deve ser única !
     this.usuarioService.atualizarPerfil(this.usuario, credenciais)
       .then(() => {
-        // this.router.navigate(['/usuarios']);
         this.confirmacaoDeSenha = '';
         this.email = this.auth.getUsuarioLogado.email;
       })
       .catch(erro => {
         this.messageService.add({ severity: 'error', summary: erro });
-        // console.log('------------------------------------------ erro no salvar')
       })
 
   }
 
-  // método duplicado em usuario-cadastro component
   buscarUsuario(uid: string) {
-
-    this.usuarioService.listar()
-      .subscribe(users => {
-
-        let flag = false;
-
-        users.forEach(user => {
-          if (user.uid === uid) {
-            this.usuario = user;
-            flag = true;
-          }
-        })
-
-        if (!flag) {
-          this.messageService.add({ severity: 'error', summary: 'Usuário não encontrado.' });
-        }
-
-      }, (error) => {
-        console.log(error);
-      });
-
+    this.usuarioService.buscarUsuarioPorUid(uid)
+      .then(user => {
+        this.usuario = user;
+      })
   }
 
 

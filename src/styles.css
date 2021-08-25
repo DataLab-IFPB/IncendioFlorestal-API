@@ -19,6 +19,11 @@ label {
     font-weight: bold;
 }
 
+button:hover:enabled,
+.button-link:hover {
+    opacity: .9 !important;
+}
+
 #btn-cancelar {
     background: var(--color-primary-red);
 }

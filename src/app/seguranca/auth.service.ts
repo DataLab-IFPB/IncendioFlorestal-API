@@ -1,3 +1,4 @@
+import { ConfirmationService } from 'primeng/api';
 import { Usuario } from 'src/app/core/model';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -16,14 +17,13 @@ export class AuthService {
 
   constructor(
     public afAuth: AngularFireAuth,
+    private usuarioService: UsuarioService,
+    private confirmationService: ConfirmationService
   ) { }
 
-  logar(email: string, senha: string) {
+  async logar(email: string, senha: string) {
 
-    // TODO: BUSCAR USUÁRIO NO REALTIME (criar func em usuarioService) E VERIFICAR SE ELE ESTÁ EXCLUÍDO
-    // if(this.usuarioBuscado.isExcluido) {
-    //   return Promise.reject('Usuário excluído!');
-    // }
+    await this.validarLogin(email)
 
     return this.afAuth.signInWithEmailAndPassword(email, senha)
       .then(credenciais => {
@@ -31,6 +31,16 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(this.usuarioLogado));
       })
 
+  }
+
+  async validarLogin(email: string) {
+    await this.usuarioService.buscarUsuarioPorEmail(email)
+      .then(user => {
+
+        if (user.isDeleted) {
+          return Promise.reject('Usuário deletado!');
+        }
+      })
   }
 
   deslogar() {

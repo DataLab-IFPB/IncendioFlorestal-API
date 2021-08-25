@@ -4,11 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 
-import {CardModule} from 'primeng/card';
+import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-import {PasswordModule} from 'primeng/password';
-import {DialogModule} from 'primeng/dialog';
-
+import { PasswordModule } from 'primeng/password';
+import { DialogModule } from 'primeng/dialog';
 
 import { LoginComponent } from './login/login.component';
 import { SharedModule } from './../shared/shared.module';
@@ -27,7 +26,7 @@ import { SharedModule } from './../shared/shared.module';
     InputTextModule,
     PasswordModule,
     ButtonModule,
-    DialogModule
+    DialogModule,
 
   ]
 })

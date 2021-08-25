@@ -11,8 +11,9 @@ import { CardModule } from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
 import { DataViewModule } from 'primeng/dataview';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import {DialogModule} from 'primeng/dialog';
-import {SelectButtonModule} from 'primeng/selectbutton';
+import { DialogModule } from 'primeng/dialog';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { CalendarModule } from 'primeng/calendar';
 
 import { UsuariosPesquisaComponent } from './usuarios-pesquisa/usuarios-pesquisa.component';
 import { UsuariosCadastroComponent } from './usuarios-cadastro/usuarios-cadastro.component';
@@ -41,6 +42,7 @@ import { PerfilComponent } from './perfil/perfil.component';
     FormsModule,
     InputTextModule,
     PasswordModule,
+    CalendarModule
   ]
 })
 export class UsuariosModule { }

@@ -1,9 +1,13 @@
-import { MessageService } from 'primeng/api';
-import { UsuarioService } from './../usuario.service';
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from 'src/app/core/model';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { MessageService } from 'primeng/api';
+
+import { UsuarioService } from './../usuario.service';
+import { Usuario } from 'src/app/core/model';
+
+import * as moment from 'moment';
 @Component({
   selector: 'app-usuarios-cadastro',
   templateUrl: './usuarios-cadastro.component.html',
@@ -15,18 +19,21 @@ export class UsuariosCadastroComponent implements OnInit {
 
   userOptions: any[];
 
+  anoAtual = new Date().getFullYear();
+
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
 
     const keyUsuario = this.route.snapshot.params['keyUsuario'];
 
-    if (keyUsuario){
+    if (keyUsuario) {
       this.buscarUsuario(keyUsuario);
     }
 
@@ -41,68 +48,54 @@ export class UsuariosCadastroComponent implements OnInit {
     return Boolean(this.usuario.uid);
   }
 
-  // método duplicado em perfil component
-  buscarUsuario(key: string) {
-    this.usuarioService.listar()
-    .subscribe(users => {
-
-      let flag = false;
-
-      users.forEach(user => {
-        if(user.uid === key) {
-          this.usuario = user;
-          flag = true;
-        }
+  buscarUsuario(uid: string) {
+    this.usuarioService.buscarUsuarioPorUid(uid)
+      .then(user => {
+        this.usuario = user;
       })
-
-      if(!flag){
-        this.messageService.add({severity:'error', summary: 'Usuário não encontrado.'});
-      }
-
-    }, (error) => {
-      console.log(error);
-    });
-
   }
 
   salvar() {
-
     if (this.editando) {
       this.atualizar();
     } else {
       this.cadastrar();
     }
-
-}
-
+  }
 
   cadastrar() {
+    this.usuario.birthDate = moment(this.usuario.birthDate).format('DD/MM/YYYY');
+    this.usuario.password = this.usuario.birthDate; // pegar apenas os números para a senha?
     // matricula deve ser única!
     this.usuarioService.cadastrar(this.usuario)
-    .then(() => {
-      this.router.navigate(['/usuarios']);
-      this.messageService.add({severity:'success', summary:'Usuário cadastrado!'});
-    })
-    .catch(erro => {
+      .then(() => {
+        this.router.navigate(['/usuarios']);
+        this.messageService.add({ severity: 'success', summary: 'Usuário cadastrado!' });
+      })
+      .catch(erro => {
 
-      if(erro.code == 'auth/invalid-email') {
-        this.messageService.add({severity:'error', summary: 'O e-mail não está formatado corretamente.'});
-      }else if(erro.code == 'auth/email-already-in-use') {
-        this.messageService.add({severity:'error', summary: 'O e-mail já está sendo utilizado.'});
-      }
-    })
+        if (erro.code == 'auth/invalid-email') {
+          this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
+        } else if (erro.code == 'auth/email-already-in-use') {
+          this.messageService.add({ severity: 'error', summary: 'O e-mail já está sendo utilizado.' });
+        }
+      })
   }
 
   atualizar() {
     // matricula deve ser única !
     this.usuarioService.atualizar(this.usuario)
-    .then(() => {
-      this.router.navigate(['/usuarios']);
-      this.messageService.add({severity:'success', summary:'Usuário atualizado!'});
-    })
-    .catch(erro => {
-        this.messageService.add({severity:'error', summary: erro});
-    })
+      .then(() => {
+        this.router.navigate(['/usuarios']);
+        this.messageService.add({ severity: 'success', summary: 'Usuário atualizado!' });
+      })
+      .catch(erro => {
+        this.messageService.add({ severity: 'error', summary: erro });
+      })
+  }
+
+  goBack() {
+    this.location.back();
   }
 
 }

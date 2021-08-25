@@ -1,3 +1,4 @@
+import { HomeComponent } from './home/home/home.component';
 import { PerfilComponent } from './usuarios/perfil/perfil.component';
 import { UsuariosCadastroComponent } from './usuarios/usuarios-cadastro/usuarios-cadastro.component';
 import { UsuariosPesquisaComponent } from './usuarios/usuarios-pesquisa/usuarios-pesquisa.component';
@@ -6,7 +7,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './seguranca/auth.guard';
 import { LoginComponent } from './seguranca/login/login.component';
-import { HomeComponent } from './home/home.component';
 import { PaginaNaoEncontradaComponent } from './core/pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 const routes: Routes = [

@@ -6,15 +6,11 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Usuario, Login } from './../core/model';
 
 import { map } from 'rxjs/operators';
-import * as firebase from 'firebase';
-import { AuthService } from '../seguranca/auth.service';
+import 'rxjs/add/operator/map';
+import 'rxjs-compat/add/operator/first';
 
-import * as admin from 'firebase-admin';
 
-import { first } from 'rxjs/operators';
-import { threadId } from 'worker_threads';
-import { promise } from 'protractor';
-
+import * as moment from 'moment';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,37 +19,38 @@ export class UsuarioService {
   private dbPath = '/users';
 
   constructor(
-    private auth: AuthService,
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
     private messageService: MessageService
   ) { }
 
   cadastrar(usuario: Usuario) {
-    return this.afAuth.createUserWithEmailAndPassword(usuario.email, usuario.senha)
+    return this.afAuth.createUserWithEmailAndPassword(usuario.email, usuario.password)
       .then(credenciais => {
         // TODO: como setar o nome do documento com o uid?
 
         const user = {
-          uid: credenciais.user.uid,
-          nome: usuario.nome,
-          matricula: usuario.matricula,
+          name: usuario.name,
+          surname: usuario.surname,
+          birthDate: usuario.birthDate,
           email: usuario.email,
+          registration: usuario.registration,
+          firstLogin: true,
           isAdmin: usuario.isAdmin,
-          isExcluido: false,
-          dataExclusao: null
+          isDeleted: false,
+          lastLoginAt: "",
+          deletedAt: "",
+          updatedAt: "",
+          uid: credenciais.user.uid
         }
 
         this.db.list(this.dbPath).push(user);
-
       })
   }
 
   atualizarPerfil(usuario: Usuario, credenciaisLogin: Login) {
 
-    console.log(credenciaisLogin)
-
-    return this.afAuth.signInWithEmailAndPassword(credenciaisLogin.email, credenciaisLogin.senha)
+    return this.afAuth.signInWithEmailAndPassword(credenciaisLogin.email, credenciaisLogin.password)
       .then(userCredential => {
 
         if (usuario.email != credenciaisLogin.email) {
@@ -61,17 +58,29 @@ export class UsuarioService {
           userCredential.user.updateEmail(usuario.email);
         }
 
-        if (usuario.senha != "" && usuario.senha != undefined) {
+        if (usuario.password != "" && usuario.password != undefined) {
           console.log('ALTERAR A SENHA')
-          userCredential.user.updatePassword(usuario.senha);
+          userCredential.user.updatePassword(usuario.password);
         }
 
+
+        // const user = {
+        //   uid: usuario.uid,
+        //   nome: usuario.name,
+        //   matricula: usuario.registration,
+        //   email: usuario.email,
+        //   isAdmin: usuario.isAdmin
+        // }
+
+
         const user = {
-          uid: usuario.uid,
-          nome: usuario.nome,
-          matricula: usuario.matricula,
+          name: usuario.name,
+          surname: usuario.surname,
+          birthDate: moment(usuario.birthDate).format('DD/MM/YYYY'),
           email: usuario.email,
-          isAdmin: usuario.isAdmin
+          registration: usuario.registration,
+          isAdmin: usuario.isAdmin,
+          updatedAt: new Date(),
         }
 
 
@@ -93,22 +102,40 @@ export class UsuarioService {
 
   }
 
-
-
-
   atualizar(usuario: Usuario) {
 
+    // this.usuario.birthDate = moment(this.usuario.birthDate).format('DD/MM/YYYY');
+
+    // const user = {
+    //   uid: usuario.uid,
+    //   nome: usuario.name,
+    //   matricula: usuario.registration,
+    //   email: usuario.email,
+    //   isAdmin: usuario.isAdmin
+    // }
+
+
     const user = {
-      uid: usuario.uid,
-      nome: usuario.nome,
-      matricula: usuario.matricula,
-      email: usuario.email,
-      isAdmin: usuario.isAdmin
+      name: usuario.name,
+      surname: usuario.surname,
+      birthDate: moment(usuario.birthDate).format('DD/MM/YYYY'),
+      registration: usuario.registration,
+      isAdmin: usuario.isAdmin,
+      updatedAt: new Date(),
     }
+
 
     return this.db.list(this.dbPath).update(usuario.key, user)
   }
 
+  atualizarFirstLogin(usuario: Usuario) {
+
+    const user = {
+      firstLogin: false,
+    }
+
+    return this.db.list(this.dbPath).update(usuario.key, user)
+  }
 
 
   listar() {
@@ -120,91 +147,67 @@ export class UsuarioService {
           )
         )
       )
-
   }
 
-  // TODO: criar método que realiza a busca de um usuário específico (para evitar a duplição já existente)
 
-  // buscarUsuario(key: string) {
+  buscarUsuarioPorUid(uid: string) {
 
-  //   // console.log("???", this.usuarioService.getUserProfile)
+    let usuarioEncontrado;
 
-  //   this.usuarioService.listar()
-  //   .subscribe(users => {
+    return this.listar()
+      .map(users => {
 
-  //     let flag = false;
+        let flag = false;
 
-  //     users.forEach(user => {
-  //       if(user.uid === key) {
-  //         this.usuario = user;
-  //         flag = true;
-  //       }
-  //     })
+        users.forEach(user => {
+          if (user.uid === uid) {
+            usuarioEncontrado = user;
+            usuarioEncontrado.birthDate = moment(user.birthDate, 'DD-MM-YYYY').toDate();
+            flag = true;
+          }
+        })
 
-  //     if(!flag){
-  //       this.messageService.add({severity:'error', summary: 'Usuário não encontrado.'});
-  //     }
+        if (!flag) {
+          this.messageService.add({ severity: 'error', summary: 'Usuário não encontrado.' });
+        }
 
-  //   }, (error) => {
-  //     console.log(error);
-  //   });
+        return usuarioEncontrado;
+      })
+      .first()
+      .toPromise()
+  }
 
-  // }
+  buscarUsuarioPorEmail(email: string) {
 
+    let usuarioEncontrado;
 
+    return this.listar()
+      .map(users => {
 
+        users.forEach(user => {
+          if (user.email === email) {
+            usuarioEncontrado = user;
+          }
+        })
 
-
-  // getUserInDataBase(uid: string)
-  // {
-  // get usuário logado
-  //  this.afAuth.authState.subscribe(user => {console.log('user loggedIn: ', user)})
-
-
-  // console.log('-- ', this.db.list('/users', ref => ref.orderByChild('uid').equalTo(uid)))
-  // return this.db.list('/users', ref => ref.orderByChild('uid').equalTo(uid))
-
-
-  // this.db.object('/users/' + uid)
-  // .valueChanges()
-  // .subscribe(usuarioEncontrado => {
-  //   console.log('usuario encontrado ', usuarioEncontrado)
-  // })
-
-
-
-
-  // firebase.database().ref('companies').orderByChild('owner').equalTo(id)
-  // .once('value')
-  // .then(snapshot => {
-  //   const records = snapshot.val();
-  //   console.log(`Companies whose owner id is ${id}: `, records);
-  // })
-  // .catch(error => console.log(error));
-
-
-
-  // }
-
+        return usuarioEncontrado;
+      })
+      .first()
+      .toPromise()
+  }
 
   excluir(key: string) {
 
     const user = {
-      isExcluido: true,
-      dataExclusao: new Date()
+      isDeleted: true,
+      deletedAt: new Date()
     }
 
     return this.db.list(this.dbPath).update(key, user);
   }
 
-
   resetarSenha(email: string) {
     return this.afAuth.sendPasswordResetEmail(email)
-  }
-
-
-  get getUsuarioLogado() {
-    return this.afAuth.authState.pipe(first()).toPromise();
   }
 
 }
