@@ -24,6 +24,11 @@ button:hover:enabled,
     opacity: .9 !important;
 }
 
+button:hover:disabled,
+.button-link:hover:disabled {
+    cursor: not-allowed;
+}
+
 #btn-cancelar {
     background: var(--color-primary-red);
 }

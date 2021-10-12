@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoaderConfig } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
@@ -29,8 +29,8 @@ export class NavbarComponent implements OnInit {
 
     this.usuarioLogado = new Usuario();
 
-    if (this.auth.usuarioLogado) {
-      this.buscarUsuario(this.auth.usuarioLogado.uid);
+    if (this.auth.getUsuarioLogado) {
+      this.buscarUsuario(this.auth.getUsuarioLogado.uid);
     }
   }
 

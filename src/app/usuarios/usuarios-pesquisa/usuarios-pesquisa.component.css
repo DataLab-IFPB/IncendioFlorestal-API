@@ -2,6 +2,10 @@
     padding: 1rem .5rem;
 }
 
+:host ::ng-deep .p-dataview {
+    padding-bottom: 1rem;
+}
+
 .users-list-header {
     display: flex;
     align-items: center;

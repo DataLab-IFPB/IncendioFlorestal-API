@@ -75,7 +75,6 @@ export class UsuariosPesquisaComponent implements OnInit {
 
   filtrar() {
     this.messageService.add({ severity: 'success', summary: 'TODO: Implementar filtragem', detail: 'Busca: ' + this.busca });
-    console.log("filtrar por: ", this.busca);
   }
 
 

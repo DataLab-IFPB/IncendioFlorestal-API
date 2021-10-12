@@ -27,7 +27,6 @@ export class UsuarioService {
   cadastrar(usuario: Usuario) {
     return this.afAuth.createUserWithEmailAndPassword(usuario.email, usuario.password)
       .then(credenciais => {
-        // TODO: como setar o nome do documento com o uid?
 
         const user = {
           name: usuario.name,
@@ -54,24 +53,12 @@ export class UsuarioService {
       .then(userCredential => {
 
         if (usuario.email != credenciaisLogin.email) {
-          console.log('ALTERAR O EMAIL')
           userCredential.user.updateEmail(usuario.email);
         }
 
         if (usuario.password != "" && usuario.password != undefined) {
-          console.log('ALTERAR A SENHA')
           userCredential.user.updatePassword(usuario.password);
         }
-
-
-        // const user = {
-        //   uid: usuario.uid,
-        //   nome: usuario.name,
-        //   matricula: usuario.registration,
-        //   email: usuario.email,
-        //   isAdmin: usuario.isAdmin
-        // }
-
 
         const user = {
           name: usuario.name,
@@ -82,8 +69,6 @@ export class UsuarioService {
           isAdmin: usuario.isAdmin,
           updatedAt: new Date(),
         }
-
-
 
         const localStorageUser = JSON.parse(localStorage.getItem('user'));
         localStorageUser.email = usuario.email;
@@ -104,17 +89,6 @@ export class UsuarioService {
 
   atualizar(usuario: Usuario) {
 
-    // this.usuario.birthDate = moment(this.usuario.birthDate).format('DD/MM/YYYY');
-
-    // const user = {
-    //   uid: usuario.uid,
-    //   nome: usuario.name,
-    //   matricula: usuario.registration,
-    //   email: usuario.email,
-    //   isAdmin: usuario.isAdmin
-    // }
-
-
     const user = {
       name: usuario.name,
       surname: usuario.surname,
@@ -123,7 +97,6 @@ export class UsuarioService {
       isAdmin: usuario.isAdmin,
       updatedAt: new Date(),
     }
-
 
     return this.db.list(this.dbPath).update(usuario.key, user)
   }
@@ -208,6 +181,10 @@ export class UsuarioService {
 
   resetarSenha(email: string) {
     return this.afAuth.sendPasswordResetEmail(email)
+  }
+
+  validarDominioDeEmail(email) {
+    return email.endsWith("@bombeirospb.gov")
   }
 
 }

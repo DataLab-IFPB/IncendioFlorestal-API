@@ -20,8 +20,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    this.buscarUsuario(this.auth.usuarioLogado.uid);
+    this.buscarUsuario(this.auth.getUsuarioLogado.uid);
   }
 
 

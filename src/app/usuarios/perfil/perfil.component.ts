@@ -15,8 +15,6 @@ import * as moment from 'moment';
 })
 export class PerfilComponent implements OnInit {
 
-
-
   usuario = new Usuario();
 
   userOptions: any[];
@@ -25,7 +23,6 @@ export class PerfilComponent implements OnInit {
 
   confirmacaoDeSenha: string = '';
   email: string;
-
 
   anoAtual = new Date().getFullYear();
 
@@ -38,13 +35,12 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (this.auth.usuarioLogado.uid) {
-      this.email = this.auth.usuarioLogado.email;
-      this.buscarUsuario(this.auth.usuarioLogado.uid);
+    if (this.auth.getUsuarioLogado.uid) {
+      this.email = this.auth.getUsuarioLogado.email;
+      this.buscarUsuario(this.auth.getUsuarioLogado.uid);
     } else {
       this.usuario = new Usuario();
     }
-
 
     this.userOptions = [
       { label: "Não", value: false },
@@ -55,20 +51,23 @@ export class PerfilComponent implements OnInit {
 
   salvar() {
 
-    const credenciais = new Login();
-    credenciais.email = this.email;
-    credenciais.password = this.confirmacaoDeSenha;
+    if (this.usuarioService.validarDominioDeEmail(this.usuario.email)) {
+      const credenciais = new Login();
+      credenciais.email = this.email;
+      credenciais.password = this.confirmacaoDeSenha;
 
-
-    // matricula deve ser única !
-    this.usuarioService.atualizarPerfil(this.usuario, credenciais)
-      .then(() => {
-        this.confirmacaoDeSenha = '';
-        this.email = this.auth.getUsuarioLogado.email;
-      })
-      .catch(erro => {
-        this.messageService.add({ severity: 'error', summary: erro });
-      })
+      // matricula deve ser única !
+      this.usuarioService.atualizarPerfil(this.usuario, credenciais)
+        .then(() => {
+          this.confirmacaoDeSenha = '';
+          this.email = this.auth.getUsuarioLogado.email;
+        })
+        .catch(erro => {
+          this.messageService.add({ severity: 'error', summary: erro });
+        })
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
+    }
 
   }
 

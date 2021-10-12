@@ -56,16 +56,19 @@ export class UsuariosCadastroComponent implements OnInit {
   }
 
   salvar() {
-    if (this.editando) {
-      this.atualizar();
+
+    if (this.usuarioService.validarDominioDeEmail(this.usuario.email)) {
+      this.editando ? this.atualizar : this.cadastrar();
     } else {
-      this.cadastrar();
+      this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
     }
+
   }
 
   cadastrar() {
     this.usuario.birthDate = moment(this.usuario.birthDate).format('DD/MM/YYYY');
-    this.usuario.password = this.usuario.birthDate; // pegar apenas os números para a senha?
+    this.usuario.password = this.usuario.birthDate.replace(/[^0-9]/g, '');
+
     // matricula deve ser única!
     this.usuarioService.cadastrar(this.usuario)
       .then(() => {
@@ -73,7 +76,6 @@ export class UsuariosCadastroComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Usuário cadastrado!' });
       })
       .catch(erro => {
-
         if (erro.code == 'auth/invalid-email') {
           this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
         } else if (erro.code == 'auth/email-already-in-use') {
