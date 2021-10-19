@@ -1,3 +1,4 @@
+import { UsuariosNovaSenhaComponent } from './usuarios/usuarios-nova-senha/usuarios-nova-senha.component';
 import { RoleGuard } from './seguranca/role.guard';
 import { HomeComponent } from './home/home/home.component';
 import { PerfilComponent } from './usuarios/perfil/perfil.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'usuarios', component: UsuariosPesquisaComponent, canActivate: [RoleGuard] },
   { path: 'usuarios/novo', component: UsuariosCadastroComponent, canActivate: [RoleGuard] },
   { path: 'usuarios/edicao/:keyUsuario', component: UsuariosCadastroComponent, canActivate: [RoleGuard] },
+  { path: 'usuario/nova-senha', component: UsuariosNovaSenhaComponent },
 
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
   { path: '**', redirectTo: 'pagina-nao-encontrada' }

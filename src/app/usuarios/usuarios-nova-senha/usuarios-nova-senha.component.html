@@ -1,0 +1,77 @@
+<div class="p-grid p-justify-center card">
+
+    <div class="p-col-11 p-sm-10 p-md-4">
+
+        <h1>Alteração de senha</h1>
+
+        <p-card>
+
+            <div class="p-grid">
+
+                <form autocomplete="off" class="p-col-12" #formSenhas="ngForm">
+
+                    <div class="p-field p-fluid">
+                        <label for="senha">Senha</label>
+                        <p-password id="senha" [feedback]="false" toggleMask=true name="senha" [(ngModel)]="novaSenha" minlength="6" maxlength="100" required #senha="ngModel" ngModel></p-password>
+
+                        <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe sua antiga senha"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
+                    </div>
+
+                    <div class="p-field p-fluid">
+                        <label for="confirmacaoSenha">Confirme sua nova senha</label>
+                        <p-password id="confirmacaoSenha" [feedback]="false" toggleMask=true name="confirmacaoSenha" [(ngModel)]="confirmacaoNovaSenha" minlength="6" maxlength="100" required #confirmacaoSenha="ngModel" ngModel></p-password>
+
+                        <app-mensagem-de-erro [controle]="confirmacaoSenha" erro="required" mensagem="Informe sua antiga senha"></app-mensagem-de-erro>
+                        <app-mensagem-de-erro [controle]="confirmacaoSenha" erro="minlength" mensagem="Mínimo de {{confirmacaoSenha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
+                    </div>
+
+
+                    <div class="footer">
+                        <button pButton type="button" label="Salvar" (click)="validaCompatibilidade()" [disabled]="!formSenhas.valid"></button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </p-card>
+
+    </div>
+
+</div>
+
+
+<div>
+    <form id="form-confirmacao-senha-antiga" #formConfirmacaoSenhaAntiga="ngForm" autocomplete="off">
+
+        <p-dialog [modal]=true [(visible)]="dialogIsVisible" [closable]="false" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [style]="{width: '450px'}">
+
+            <ng-template pTemplate="header">
+                <div class="header-confirmacao-senha-antiga">
+                    Confirme sua antiga senha
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="content">
+
+                <div class="p-field p-fluid">
+                    <label for="senhaAntiga">Senha</label>
+                    <p-password id="senhaAntiga" [feedback]="false" toggleMask=true name="senhaAntiga" [(ngModel)]="confirmacaoDeSenhaAntiga" minlength="6" maxlength="100" required #senhaAntiga="ngModel" ngModel></p-password>
+
+                    <app-mensagem-de-erro [controle]="senhaAntiga" erro="required" mensagem="Informe sua antiga senha"></app-mensagem-de-erro>
+                    <app-mensagem-de-erro [controle]="senhaAntiga" erro="minlength" mensagem="Mínimo de {{senhaAntiga.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <div class="botoes">
+                    <button id="btn-cancelar" form="form-confirmacao-senha-antiga" type="submit" (click)="dialogIsVisible = !dialogIsVisible" label="Cancelar" pButton></button>
+                    <button class="btn-okConfirmaSenha" form="form-confirmacao-senha-antiga" type="submit" (click)="salvar()" (click)="dialogIsVisible = !dialogIsVisible" label="Ok" [disabled]="!formConfirmacaoSenhaAntiga.valid" pButton></button>
+                </div>
+            </ng-template>
+
+        </p-dialog>
+    </form>
+</div>

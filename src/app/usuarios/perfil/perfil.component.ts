@@ -65,6 +65,7 @@ export class PerfilComponent implements OnInit {
         .catch(erro => {
           this.messageService.add({ severity: 'error', summary: erro });
         })
+
     } else {
       this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
     }

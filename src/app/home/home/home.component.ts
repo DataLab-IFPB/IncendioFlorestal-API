@@ -3,6 +3,7 @@ import { Usuario } from 'src/app/core/model';
 import { UsuarioService } from './../../usuarios/usuario.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/seguranca/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private usuarioService: UsuarioService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +47,8 @@ export class HomeComponent implements OnInit {
         icon: 'pi pi-info-circle',
         key: 'alertaTrocaDeSenha',
         accept: () => {
-          this.usuarioService.atualizarFirstLogin(this.usuarioLogado)
+          // this.usuarioService.atualizarFirstLogin(this.usuarioLogado)
+          this.router.navigate(['/usuario/nova-senha']);
         }
       });
     }

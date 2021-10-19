@@ -17,7 +17,8 @@ export class AppComponent {
     const url = this.router.url;
 
     if (url.includes('/login')
-      || url.includes('/pagina-nao-encontrada')) {
+      || url.includes('/pagina-nao-encontrada')
+      || url.includes('/usuario/nova-senha')) {
 
       return false;
     } else {

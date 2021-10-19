@@ -18,12 +18,14 @@ import { CalendarModule } from 'primeng/calendar';
 import { UsuariosPesquisaComponent } from './usuarios-pesquisa/usuarios-pesquisa.component';
 import { UsuariosCadastroComponent } from './usuarios-cadastro/usuarios-cadastro.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosNovaSenhaComponent } from './usuarios-nova-senha/usuarios-nova-senha.component';
 
 @NgModule({
   declarations: [
     UsuariosPesquisaComponent,
     UsuariosCadastroComponent,
-    PerfilComponent
+    PerfilComponent,
+    UsuariosNovaSenhaComponent
   ],
   imports: [
     CommonModule,

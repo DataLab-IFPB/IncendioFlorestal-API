@@ -11,6 +11,7 @@ import 'rxjs-compat/add/operator/first';
 
 
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +22,8 @@ export class UsuarioService {
   constructor(
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   cadastrar(usuario: Usuario) {
@@ -52,12 +54,17 @@ export class UsuarioService {
     return this.afAuth.signInWithEmailAndPassword(credenciaisLogin.email, credenciaisLogin.password)
       .then(userCredential => {
 
-        if (usuario.email != credenciaisLogin.email) {
+        if (usuario.email != credenciaisLogin.email && usuario.email != "" && usuario.email != undefined) {
           userCredential.user.updateEmail(usuario.email);
+        } else {
+          return Promise.reject('Informe um email válido!');
         }
 
+        // this.atualizarSenha(usuario, credenciaisLogin)
         if (usuario.password != "" && usuario.password != undefined) {
           userCredential.user.updatePassword(usuario.password);
+        } else {
+          return Promise.reject('Informe uma senha válida!');
         }
 
         const user = {
@@ -73,8 +80,6 @@ export class UsuarioService {
         const localStorageUser = JSON.parse(localStorage.getItem('user'));
         localStorageUser.email = usuario.email;
 
-        // localStorage.removeItem('user')
-        // localStorage.setItem('user', JSON.stringify(userCredential.user));
         localStorage.setItem('user', JSON.stringify(localStorageUser));
 
         this.db.list(this.dbPath).update(usuario.key, user)
@@ -108,6 +113,28 @@ export class UsuarioService {
     }
 
     return this.db.list(this.dbPath).update(usuario.key, user)
+  }
+
+  atualizarSenha(usuario: Usuario, credenciaisLogin: Login) {
+
+    return this.afAuth.signInWithEmailAndPassword(credenciaisLogin.email, credenciaisLogin.password)
+      .then(userCredential => {
+
+        if (usuario.password != "" && usuario.password != undefined) {
+          userCredential.user.updatePassword(usuario.password);
+          this.atualizarFirstLogin(usuario);
+
+          this.messageService.add({ severity: 'success', summary: 'Senha atualizada!' });
+          this.router.navigate(['/home']);
+        } else {
+          return Promise.reject('Informe uma senha válida!');
+        }
+
+      })
+      .catch(erro => {
+        this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
+      })
+
   }
 
 
