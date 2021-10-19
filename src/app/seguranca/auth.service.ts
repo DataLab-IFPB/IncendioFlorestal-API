@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 
+import { MessageService } from 'primeng/api';
+
 import { UsuarioService } from '../usuarios/usuario.service';
 
 @Injectable({
@@ -11,6 +13,7 @@ export class AuthService {
   constructor(
     public afAuth: AngularFireAuth,
     private usuarioService: UsuarioService,
+    private messageService: MessageService
   ) { }
 
   async logar(email: string, senha: string) {
@@ -24,6 +27,10 @@ export class AuthService {
   }
 
   async validarLogin(email: string) {
+
+    if (!this.usuarioService.validarDominioDeEmail(email))
+      return Promise.reject("E-mail inválido");
+
     await this.usuarioService.buscarUsuarioPorEmail(email)
       .then(user => {
         if (user.isDeleted) {

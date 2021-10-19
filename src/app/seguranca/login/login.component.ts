@@ -27,7 +27,7 @@ export class LoginComponent {
     private messageService: MessageService
   ) {
     this.login.email = 'mycaell@gmail.com';
-    this.login.password = '18/09/1999';
+    this.login.password = 'mycaell';
   }
 
   logar() {
@@ -37,7 +37,13 @@ export class LoginComponent {
         this.messageService.add({ severity: 'success', summary: 'Você entrou!' });
       })
       .catch(erro => {
-        this.messageService.add({ severity: 'error', summary: 'Nenhum usuário foi encontrado com essas credenciais!' });
+
+        if (erro === "E-mail inválido") {
+          this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Nenhum usuário foi encontrado com essas credenciais!' });
+        }
+
       })
   }
 
