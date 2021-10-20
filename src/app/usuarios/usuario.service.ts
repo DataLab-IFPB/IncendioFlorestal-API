@@ -54,17 +54,12 @@ export class UsuarioService {
     return this.afAuth.signInWithEmailAndPassword(credenciaisLogin.email, credenciaisLogin.password)
       .then(userCredential => {
 
-        if (usuario.email != credenciaisLogin.email && usuario.email != "" && usuario.email != undefined) {
+        if (usuario.email != credenciaisLogin.email) {
           userCredential.user.updateEmail(usuario.email);
-        } else {
-          return Promise.reject('Informe um email válido!');
         }
 
-        // this.atualizarSenha(usuario, credenciaisLogin)
         if (usuario.password != "" && usuario.password != undefined) {
           userCredential.user.updatePassword(usuario.password);
-        } else {
-          return Promise.reject('Informe uma senha válida!');
         }
 
         const user = {
@@ -87,6 +82,7 @@ export class UsuarioService {
 
       })
       .catch(erro => {
+        console.log(erro)
         this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
       })
 

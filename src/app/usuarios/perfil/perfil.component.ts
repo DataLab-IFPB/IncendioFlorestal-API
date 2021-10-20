@@ -59,7 +59,7 @@ export class PerfilComponent implements OnInit {
       // matricula deve ser única !
       this.usuarioService.atualizarPerfil(this.usuario, credenciais)
         .then(() => {
-          this.confirmacaoDeSenha = '';
+          this.resetarConfirmacaoDeSenha();
           this.email = this.auth.getUsuarioLogado.email;
         })
         .catch(erro => {
@@ -77,6 +77,11 @@ export class PerfilComponent implements OnInit {
       .then(user => {
         this.usuario = user;
       })
+  }
+
+
+  resetarConfirmacaoDeSenha() {
+    this.confirmacaoDeSenha = '';
   }
 
 

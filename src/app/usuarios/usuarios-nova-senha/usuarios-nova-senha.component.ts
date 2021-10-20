@@ -60,7 +60,7 @@ export class UsuariosNovaSenhaComponent implements OnInit {
 
     this.usuarioService.atualizarSenha(this.usuario, credenciais)
       .then(() => {
-        this.confirmacaoDeSenhaAntiga = '';
+        this.resetarConfirmacaoDeSenha();
       })
       .catch(erro => {
         this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
@@ -73,6 +73,10 @@ export class UsuariosNovaSenhaComponent implements OnInit {
       .then(user => {
         this.usuario = user;
       })
+  }
+
+  resetarConfirmacaoDeSenha() {
+    this.confirmacaoDeSenhaAntiga = '';
   }
 
 

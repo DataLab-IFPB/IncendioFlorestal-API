@@ -67,7 +67,7 @@
 
             <ng-template pTemplate="footer">
                 <div class="botoes">
-                    <button id="btn-cancelar" form="form-confirmacao-senha-antiga" type="submit" (click)="dialogIsVisible = !dialogIsVisible" label="Cancelar" pButton></button>
+                    <button id="btn-cancelar" form="form-confirmacao-senha-antiga" type="submit" (click)="resetarConfirmacaoDeSenha()" (click)="dialogIsVisible = !dialogIsVisible" label="Cancelar" pButton></button>
                     <button class="btn-okConfirmaSenha" form="form-confirmacao-senha-antiga" type="submit" (click)="salvar()" (click)="dialogIsVisible = !dialogIsVisible" label="Ok" [disabled]="!formConfirmacaoSenhaAntiga.valid" pButton></button>
                 </div>
             </ng-template>
