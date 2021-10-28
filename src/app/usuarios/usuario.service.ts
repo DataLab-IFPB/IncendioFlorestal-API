@@ -31,8 +31,6 @@ export class UsuarioService {
       .then(credenciais => {
 
         const user = {
-          name: usuario.name,
-          surname: usuario.surname,
           birthDate: usuario.birthDate,
           email: usuario.email,
           registration: usuario.registration,
@@ -63,8 +61,6 @@ export class UsuarioService {
         }
 
         const user = {
-          name: usuario.name,
-          surname: usuario.surname,
           birthDate: moment(usuario.birthDate).format('DD/MM/YYYY'),
           email: usuario.email,
           registration: usuario.registration,
@@ -91,8 +87,6 @@ export class UsuarioService {
   atualizar(usuario: Usuario) {
 
     const user = {
-      name: usuario.name,
-      surname: usuario.surname,
       birthDate: moment(usuario.birthDate).format('DD/MM/YYYY'),
       registration: usuario.registration,
       isAdmin: usuario.isAdmin,

@@ -11,25 +11,10 @@
                 <form autocomplete="off" class="p-col-12 formPerfil" #formPerfil="ngForm">
 
                     <div class="p-field p-fluid">
-                        <label for="nome">Nome</label>
-                        <input id="nome" type="email" name="nome" [(ngModel)]="usuario.name" minlength="3" maxlength="50" pInputText required #nome="ngModel" ngModel/>
-
-                        <app-mensagem-de-erro [controle]="nome" erro="required" mensagem="Informe o nome"></app-mensagem-de-erro>
-                        <app-mensagem-de-erro [controle]="nome" erro="minlength" mensagem="Mínimo de {{nome.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
-                    </div>
-
-                    <div class="p-field p-fluid">
                         <label for="matricula">Matrícula</label>
                         <input id="matricula" type="number" name="matricula" [(ngModel)]="usuario.registration" pInputText required #matricula="ngModel" ngModel/>
 
                         <app-mensagem-de-erro [controle]="matricula" erro="required" mensagem="Informe a matrícula"></app-mensagem-de-erro>
-                    </div>
-
-                    <div class="p-field p-fluid">
-                        <label for="dataNascimento">Data de Nascimento</label>
-                        <p-calendar id="dataNascimento" dateFormat="dd/mm/yy" name="dataNascimento" [(ngModel)]="usuario.birthDate" showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="1900:{{anoAtual}}" readonlyInput="true" required #dataNascimento="ngModel"></p-calendar>
-
-                        <app-mensagem-de-erro [controle]="dataNascimento" erro="required" mensagem="Informe a data de nascimento"></app-mensagem-de-erro>
                     </div>
 
                     <div class="p-field p-fluid">
@@ -38,6 +23,13 @@
 
                         <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
                         <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
+                    </div>
+
+                    <div class="p-field p-fluid">
+                        <label for="dataNascimento">Data de Nascimento</label>
+                        <p-calendar id="dataNascimento" dateFormat="dd/mm/yy" name="dataNascimento" [(ngModel)]="usuario.birthDate" showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="1900:{{anoAtual}}" readonlyInput="true" required #dataNascimento="ngModel"></p-calendar>
+
+                        <app-mensagem-de-erro [controle]="dataNascimento" erro="required" mensagem="Informe a data de nascimento"></app-mensagem-de-erro>
                     </div>
 
                     <div class="p-field p-fluid">
@@ -81,16 +73,13 @@
             </ng-template>
 
             <ng-template pTemplate="content">
-
                 <div class="p-field p-fluid">
                     <label for="senha">Senha</label>
                     <p-password id="senha" [feedback]="false" toggleMask=true name="senha" [(ngModel)]="confirmacaoDeSenha" minlength="6" maxlength="100" required #senha="ngModel" ngModel></p-password>
 
                     <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe sua antiga senha"></app-mensagem-de-erro>
                     <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
-
                 </div>
-
             </ng-template>
 
             <ng-template pTemplate="footer">

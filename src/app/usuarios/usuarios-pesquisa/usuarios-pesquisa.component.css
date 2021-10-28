@@ -49,13 +49,6 @@
     margin-right: .5rem;
 }
 
-.user-nome p {
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .user-email,
 .user-matricula {
     overflow: hidden;
@@ -63,7 +56,7 @@
     white-space: nowrap;
 }
 
-.user-nome {
+.user-matricula {
     font-weight: 700;
     font-size: 1.6rem;
 }
