@@ -7,44 +7,65 @@
     color: #fff;
 }
 
-.navbar-menu {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 210px;
-    margin: 0;
-    padding: 0;
-    z-index: 9998;
+:host ::ng-deep .p-sidebar-left {
     background-color: #3a3633;
-    list-style: none;
 }
 
-.navbar-usuario {
+:host ::ng-deep .p-sidebar .p-sidebar-header .p-sidebar-close,
+.p-sidebar .p-sidebar-header .p-sidebar-icon {
+    color: white;
+}
+
+.navbar-menu {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.navbar-menuitem {
+    margin: 5px 0;
+}
+
+.navbar-menuitem a {
+    padding: 15px;
+    display: block;
+    color: #cccac8;
+    text-decoration: none;
+}
+
+.navbar-menuitem.usuario {
+    text-align: center;
     padding: 15px;
     margin-bottom: 15px;
     border-bottom: 1px solid #525151;
     text-transform: uppercase;
     font-weight: bold;
+    font-size: 1.8rem;
     color: #fff;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.navbar-menuitem {
-    padding: 15px;
-}
-
-.navbar-menuitem a {
-    color: #c0bbb7;
-    text-decoration: none;
+.navbar-menuitem.logout {
+    border-top: 1px solid #525151;
 }
 
 .navbar-menuitem.logout a {
     color: #c63737;
+    cursor: pointer;
+}
+
+.navbar-menuitem.logout a:hover {
+    color: #ac1717;
 }
 
 .navbar-menuitem a:hover {
     color: #fff;
+    background-color: #948b8b;
+    font-weight: bold;
+}
+
+.menu-icon {
+    margin-right: 1.5rem;
 }

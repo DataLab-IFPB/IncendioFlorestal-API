@@ -4,17 +4,19 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
+import { SidebarModule } from 'primeng/sidebar';
 
 
 
 @NgModule({
-  declarations: [ PaginaNaoEncontradaComponent, NavbarComponent ],
+  declarations: [PaginaNaoEncontradaComponent, NavbarComponent],
   imports: [
     CommonModule,
 
     RouterModule,
-    TooltipModule
+    TooltipModule,
+    SidebarModule,
   ],
-  exports: [ NavbarComponent]
+  exports: [NavbarComponent]
 })
 export class CoreModule { }

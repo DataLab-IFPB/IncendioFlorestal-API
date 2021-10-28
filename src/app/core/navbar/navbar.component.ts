@@ -14,7 +14,7 @@ import { Usuario } from './../model';
 })
 export class NavbarComponent implements OnInit {
 
-  exibindoMenu = false;
+  exibeMenu = false;
 
   usuarioLogado: Usuario;
 
@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
   }
 
   omitir() {
-    this.exibindoMenu = !this.exibindoMenu;
+    this.exibeMenu = !this.exibeMenu;
   }
 
   buscarUsuario(uid: string) {

@@ -3,17 +3,43 @@
     <div class="container">
         <div class="p-grid">
             <div class="p-col-12">
-                <a href="javascript:;" class="navbar-toggle" (click)="exibindoMenu = !exibindoMenu"><i class="pi pi-bars" pTooltip="Menu" tooltipPosition="bottom" ></i></a>
+                <a href="javascript:;" class="navbar-toggle" (click)="exibeMenu=true"><i class="pi pi-bars" pTooltip="Menu" tooltipPosition="bottom" ></i></a>
             </div>
         </div>
     </div>
 
-    <ul class="navbar-menu" [hidden]="!exibindoMenu">
-        <li class="navbar-usuario">{{usuarioLogado.name}}</li>
-        <li class="navbar-menuitem"><a href="javascript:;" routerLink="/home" (click)="omitir()">Home</a></li>
-        <li class="navbar-menuitem"><a href="javascript:;" routerLink="/perfil" (click)="omitir()">Perfil</a></li>
-        <li *ngIf="usuarioLogado.isAdmin" class="navbar-menuitem"><a href="javascript:;" routerLink="/usuarios" (click)="omitir()">Usuários</a></li>
-        <li class="navbar-menuitem logout"><a href="javascript:;" (click)="logout()">Sair</a></li>
-    </ul>
-
 </nav>
+
+<p-sidebar [(visible)]="exibeMenu">
+    <ul class="navbar-menu">
+        <li class="navbar-menuitem usuario" pTooltip="matrícula" tooltipPosition="top">{{usuarioLogado.registration}}</li>
+
+        <li class="navbar-menuitem">
+            <a routerLink="/home" (click)="omitir()">
+                <i class="pi pi-home menu-icon"></i>
+                <span>Home</span>
+            </a>
+        </li>
+
+        <li class="navbar-menuitem">
+            <a routerLink="/perfil" (click)="omitir()">
+                <i class="pi pi-user menu-icon"></i>
+                <span>Perfil</span>
+            </a>
+        </li>
+
+        <li *ngIf="usuarioLogado.isAdmin" class="navbar-menuitem">
+            <a routerLink="/usuarios" (click)="omitir()">
+                <i class="pi pi-users menu-icon"></i>
+                <span>Usuários</span>
+            </a>
+        </li>
+
+        <li class="navbar-menuitem logout">
+            <a (click)="logout()">
+                <i class="pi pi-sign-out menu-icon"></i>
+                <span>Sair</span>
+            </a>
+        </li>
+    </ul>
+</p-sidebar>
