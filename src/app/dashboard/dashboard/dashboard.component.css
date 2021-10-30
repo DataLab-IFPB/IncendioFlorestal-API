@@ -1,0 +1,27 @@
+#card-mapa {
+  width: 100%;
+}
+
+.container-grid {
+  margin: 0 auto;
+}
+
+:host ::ng-deep .p-col-12 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep .p-col-4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep .p-dropdown {
+  margin: 10px;
+}
+
+:host ::ng-deep .p-calendar {
+  margin: 10px;
+}

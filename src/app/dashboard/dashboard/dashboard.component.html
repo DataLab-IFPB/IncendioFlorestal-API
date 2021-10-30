@@ -1,0 +1,45 @@
+<div class="p-grid"">
+
+  <div class="p-col-12">
+    <p-multiSelect
+      [options]="municipios"
+      [group]="true"
+      display="chip"
+      placeholder="Selecione o município">
+    </p-multiSelect>
+
+    <p-dropdown *ngIf="tipoDashboard === 'dashboard-por-ano'"
+      [options]="periodoAno"
+      [(ngModel)]="peridoAnoSelecionado">
+    </p-dropdown>
+
+    <p-calendar *ngIf="tipoDashboard === 'dashboard-por-periodo'"
+      [(ngModel)]="periodoSelecionado"
+      [showIcon]="true"
+      [readonlyInput]="true"
+      placeholder="Selecione o período"
+      selectionMode="range">
+    </p-calendar>
+  </div>
+
+  <!-- Cards Infos -->
+  <div [ngClass]="{'p-col-3' : tipoDashboard === 'dashboard-por-ano',
+                   'p-col-4' : tipoDashboard === 'dashboard-por-periodo'}"
+    *ngFor="let dados of dadosEstaticos">
+      <app-card-info [imagem]=dados.imagem [titulo]=dados.titulo [dado]=dados.dado></app-card-info>
+  </div>
+
+  <!-- Cards Gráficos -->
+  <div class="p-lg-6" *ngFor="let dado of dadosGraficos">
+    <app-card-chart [titulo]=dado.titulo [tipo]=dado.tipo [dataset]=dado.dados></app-card-chart>
+  </div>
+
+  <!-- Card Heatmap -->
+  <div class="p-col-12" *ngIf="tipoDashboard === 'dashboard-por-ano'">
+    <p-card id="card-mapa" header="Mapa de Calor">
+      <app-heatmap [dados]=dadosHeatmap></app-heatmap>
+    </p-card>
+  </div>
+</div>
+
+<!-- Error -->
