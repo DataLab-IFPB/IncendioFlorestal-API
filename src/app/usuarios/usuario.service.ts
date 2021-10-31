@@ -140,6 +140,10 @@ export class UsuarioService {
   }
 
 
+  filtrar() {
+
+  }
+
   buscarUsuarioPorUid(uid: string) {
 
     let usuarioEncontrado;

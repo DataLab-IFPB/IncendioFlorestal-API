@@ -74,7 +74,29 @@ export class UsuariosPesquisaComponent implements OnInit {
   }
 
   filtrar() {
-    this.messageService.add({ severity: 'success', summary: 'TODO: Implementar filtragem', detail: 'Busca: ' + this.busca });
+
+    this.usuarioService.listar()
+      .subscribe(users => {
+
+        const usuariosFlag: Array<Usuario> = [];
+
+        users.forEach(u => {
+          if (!u.isExcluido) {
+            const email = String(u.email);
+            const registration = String(u.registration);
+
+            if (email.includes(this.busca) || registration.includes(this.busca)) {
+              usuariosFlag.push(u);
+            }
+          }
+        })
+
+        this.usuarios = usuariosFlag;
+
+      }, (error) => {
+        console.log(error);
+      });
+
   }
 
 
