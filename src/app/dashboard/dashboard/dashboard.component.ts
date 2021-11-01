@@ -10,19 +10,24 @@ export class DashboardComponent implements OnInit {
 
   @Input() tipoDashboard: string;
 
+  // Dados
   periodoAno = [];
   municipios = [];
   dadosEstaticos = [];
   dadosGraficos = [];
   dadosHeatmap: object;
 
-  periodoAnoSelecionado : string;
-  municipioSelecionado : any;
-  periodoSelecionado: any;
+  // Filtros
+  anoFilter : string;
+  municipiosFilter : string[] = [];
+  periodoFilter: any;
 
   constructor(private dashboardService: DashboardService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  exibirMensagem(): boolean {
+    return this.municipiosFilter.length === 0 ? true : false;
   }
 
 }

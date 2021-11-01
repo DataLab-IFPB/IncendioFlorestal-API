@@ -1,7 +1,8 @@
-<div class="p-grid"">
+<div class="p-d-flex p-flex-column">
 
-  <div class="p-col-12">
+  <div class="p-d-flex p-jc-center p-flex-wrap">
     <p-multiSelect
+      [(ngModel)]="municipiosFilter"
       [options]="municipios"
       [group]="true"
       display="chip"
@@ -10,11 +11,12 @@
 
     <p-dropdown *ngIf="tipoDashboard === 'dashboard-por-ano'"
       [options]="periodoAno"
-      [(ngModel)]="peridoAnoSelecionado">
+      [(ngModel)]="anoFilter"
+      placeholder="Ano">
     </p-dropdown>
 
     <p-calendar *ngIf="tipoDashboard === 'dashboard-por-periodo'"
-      [(ngModel)]="periodoSelecionado"
+      [(ngModel)]="periodoFilter"
       [showIcon]="true"
       [readonlyInput]="true"
       placeholder="Selecione o período"
@@ -22,24 +24,31 @@
     </p-calendar>
   </div>
 
-  <!-- Cards Infos -->
-  <div [ngClass]="{'p-col-3' : tipoDashboard === 'dashboard-por-ano',
-                   'p-col-4' : tipoDashboard === 'dashboard-por-periodo'}"
-    *ngFor="let dados of dadosEstaticos">
-      <app-card-info [imagem]=dados.imagem [titulo]=dados.titulo [dado]=dados.dado></app-card-info>
-  </div>
+  <div *ngIf="!exibirMensagem()">
+    <!-- Cards Infos -->
+    <div class="p-d-flex p-jc-center p-flex-wrap container-card">
+      <div *ngFor="let dados of dadosEstaticos">
+        <app-card-info [imagem]=dados.imagem [titulo]=dados.titulo [dado]=dados.dado></app-card-info>
+      </div>
+    </div>
 
-  <!-- Cards Gráficos -->
-  <div class="p-lg-6" *ngFor="let dado of dadosGraficos">
-    <app-card-chart [titulo]=dado.titulo [tipo]=dado.tipo [dataset]=dado.dados></app-card-chart>
-  </div>
+    <!-- Cards Gráficos -->
+    <div class="p-d-flex p-jc-center p-flex-wrap container-card">
+      <div class="container-chart" *ngFor="let dado of dadosGraficos">
+          <app-card-chart [titulo]=dado.titulo [tipo]=dado.tipo [dataset]=dado.dados></app-card-chart>
+      </div>
+    </div>
 
-  <!-- Card Heatmap -->
-  <div class="p-col-12" *ngIf="tipoDashboard === 'dashboard-por-ano'">
-    <p-card id="card-mapa" header="Mapa de Calor">
-      <app-heatmap [dados]=dadosHeatmap></app-heatmap>
-    </p-card>
+    <!-- Card Heatmap -->
+    <div class="p-d-flex p-jc-center p-flex-wrap container-card" *ngIf="tipoDashboard === 'dashboard-por-ano'">
+      <div class="container-heatmap">
+        <app-heatmap [dados]=dadosHeatmap></app-heatmap>
+      </div>
+    </div>
   </div>
+  
 </div>
 
-<!-- Error -->
+<div class="container-message" *ngIf="exibirMensagem()">
+  <p-message severity="warn" text="Nenhum município foi selecionado"></p-message>
+</div>

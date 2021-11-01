@@ -16,6 +16,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HeatmapComponent } from './heatmap/heatmap.component';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
   providers: [ DashboardService ],
@@ -24,6 +26,10 @@ import { HeatmapComponent } from './heatmap/heatmap.component';
     CardChartComponent,
     DashboardComponent,
     CardInfoComponent,
+    HeatmapComponent
+  ],
+  imports: [
+    CommonModule,
     FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -33,10 +39,8 @@ import { HeatmapComponent } from './heatmap/heatmap.component';
     CalendarModule,
     MultiSelectModule,
     SharedModule,
-    HeatmapComponent
-  ],
-  imports: [
-    CommonModule
+    MessagesModule,
+    MessageModule
   ]
 })
 

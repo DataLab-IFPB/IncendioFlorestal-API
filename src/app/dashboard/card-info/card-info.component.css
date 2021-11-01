@@ -1,0 +1,15 @@
+.container-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-label {
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  font-weight: bold;
+  margin-left: 15px;
+}
+
+.label-dado {
+  font-size: 26px;
+}
