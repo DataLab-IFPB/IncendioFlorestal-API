@@ -1,11 +1,15 @@
-<div class="container">
-
-    <p>home works!</p>
-
-
-</div>
-
-
+<p-tabView>
+  <p-tabPanel header="Por Ano" leftIcon="pi pi-calendar">
+    <div class="container-dashboard">
+      <app-dashboard tipoDashboard="dashboard-por-ano"></app-dashboard>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Por Período" leftIcon="pi pi-clock">
+    <div class="container-dashboard">
+      <app-dashboard tipoDashboard="dashboard-por-periodo"></app-dashboard>
+    </div>
+  </p-tabPanel>
+</p-tabView>
 
 <p-confirmDialog #cd [style]="{width: '450px'}" key="alertaTrocaDeSenha" [closable]="false">
     <ng-template pTemplate="footer">
