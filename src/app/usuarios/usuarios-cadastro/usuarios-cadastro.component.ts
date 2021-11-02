@@ -31,10 +31,10 @@ export class UsuariosCadastroComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const keyUsuario = this.route.snapshot.params['keyUsuario'];
+    const matricula = this.route.snapshot.params['matricula'];
 
-    if (keyUsuario) {
-      this.buscarUsuario(keyUsuario);
+    if (matricula) {
+      this.buscarUsuario(matricula);
     }
 
     this.userOptions = [
@@ -45,11 +45,11 @@ export class UsuariosCadastroComponent implements OnInit {
   }
 
   get editando() {
-    return Boolean(this.usuario.uid);
+    return Boolean(this.usuario.registration);
   }
 
-  buscarUsuario(uid: string) {
-    this.usuarioService.buscarUsuarioPorUid(uid)
+  buscarUsuario(matricula: string) {
+    this.usuarioService.buscarUsuarioPorMatricula(matricula)
       .then(user => {
         this.usuario = user;
       })
@@ -58,7 +58,7 @@ export class UsuariosCadastroComponent implements OnInit {
   salvar() {
 
     if (this.usuarioService.validarDominioDeEmail(this.usuario.email)) {
-      this.editando ? this.atualizar : this.cadastrar();
+      this.editando ? this.atualizar() : this.cadastrar();
     } else {
       this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
     }
@@ -66,8 +66,6 @@ export class UsuariosCadastroComponent implements OnInit {
   }
 
   cadastrar() {
-    this.usuario.birthDate = moment(this.usuario.birthDate).format('DD/MM/YYYY');
-    this.usuario.password = this.usuario.birthDate.replace(/[^0-9]/g, '');
 
     // matricula deve ser única!
     this.usuarioService.cadastrar(this.usuario)
@@ -76,10 +74,10 @@ export class UsuariosCadastroComponent implements OnInit {
         this.messageService.add({ severity: 'success', summary: 'Usuário cadastrado!' });
       })
       .catch(erro => {
-        if (erro.code == 'auth/invalid-email') {
-          this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
-        } else if (erro.code == 'auth/email-already-in-use') {
-          this.messageService.add({ severity: 'error', summary: 'O e-mail já está sendo utilizado.' });
+        if (erro == 'O e-mail não está formatado corretamente') {
+          this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente!' });
+        } else if (erro == 'O e-mail já está sendo utilizado') {
+          this.messageService.add({ severity: 'error', summary: 'O e-mail já está sendo utilizado!' });
         }
       })
   }

@@ -41,37 +41,9 @@
 
 </div>
 
-
-<div>
-    <form id="form-confirmacao-senha-antiga" #formConfirmacaoSenhaAntiga="ngForm" autocomplete="off">
-
-        <p-dialog [modal]=true [(visible)]="dialogIsVisible" [closable]="false" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [style]="{width: '450px'}">
-
-            <ng-template pTemplate="header">
-                <div class="header-confirmacao-senha-antiga">
-                    Confirme sua antiga senha
-                </div>
-            </ng-template>
-
-            <ng-template pTemplate="content">
-
-                <div class="p-field p-fluid">
-                    <label for="senhaAntiga">Senha</label>
-                    <p-password id="senhaAntiga" [feedback]="false" toggleMask=true name="senhaAntiga" [(ngModel)]="confirmacaoDeSenhaAntiga" minlength="6" maxlength="100" required #senhaAntiga="ngModel" ngModel></p-password>
-
-                    <app-mensagem-de-erro [controle]="senhaAntiga" erro="required" mensagem="Informe sua antiga senha"></app-mensagem-de-erro>
-                    <app-mensagem-de-erro [controle]="senhaAntiga" erro="minlength" mensagem="Mínimo de {{senhaAntiga.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
-                </div>
-
-            </ng-template>
-
-            <ng-template pTemplate="footer">
-                <div class="botoes">
-                    <button id="btn-cancelar" form="form-confirmacao-senha-antiga" type="submit" (click)="resetarConfirmacaoDeSenha()" (click)="dialogIsVisible = !dialogIsVisible" label="Cancelar" pButton></button>
-                    <button class="btn-okConfirmaSenha" form="form-confirmacao-senha-antiga" type="submit" (click)="salvar()" (click)="dialogIsVisible = !dialogIsVisible" label="Ok" [disabled]="!formConfirmacaoSenhaAntiga.valid" pButton></button>
-                </div>
-            </ng-template>
-
-        </p-dialog>
-    </form>
-</div>
+<p-confirmDialog #cd [style]="{width: '450px'}" [closable]="false">
+    <ng-template pTemplate="footer">
+        <button id="btn-cancelar" type="button" pButton icon="pi pi-times" label="Não" (click)="cd.reject()"></button>
+        <button class="btn-salvar" type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog>

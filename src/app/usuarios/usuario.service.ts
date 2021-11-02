@@ -12,6 +12,8 @@ import 'rxjs-compat/add/operator/first';
 
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { Console } from 'console';
+import { TypeScriptEmitter } from '@angular/compiler';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,25 +28,36 @@ export class UsuarioService {
     private router: Router
   ) { }
 
-  cadastrar(usuario: Usuario) {
-    return this.afAuth.createUserWithEmailAndPassword(usuario.email, usuario.password)
-      .then(credenciais => {
+  async cadastrar(usuario: Usuario) {
 
-        const user = {
-          birthDate: usuario.birthDate,
-          email: usuario.email,
-          registration: usuario.registration,
-          firstLogin: true,
-          isAdmin: usuario.isAdmin,
-          isDeleted: false,
-          lastLoginAt: "",
-          deletedAt: "",
-          updatedAt: "",
-          uid: credenciais.user.uid
-        }
+    if (!this.validarDominioDeEmail(usuario.email)) {
+      return Promise.reject("O e-mail não está formatado corretamente");
+    }
 
-        this.db.list(this.dbPath).push(user);
-      })
+    await this.verificarExistenciaDeEmail(usuario.email).then(u => {
+      if (u) {
+        return Promise.reject("O e-mail já está sendo utilizado");
+      }
+    })
+
+    usuario.birthDate = moment(usuario.birthDate).format('DD/MM/YYYY');
+    usuario.birthDate = usuario.birthDate.replace(/[^0-9]/g, '');
+
+    const user = {
+      birthDate: usuario.birthDate,
+      email: usuario.email,
+      registration: usuario.registration,
+      firstLogin: true,
+      isAdmin: usuario.isAdmin,
+      isDeleted: false,
+      lastLoginAt: "",
+      deletedAt: "",
+      updatedAt: "",
+      uid: ""
+    }
+
+    this.db.list(this.dbPath).push(user);
+    return Promise.resolve();
   }
 
   atualizarPerfil(usuario: Usuario, credenciaisLogin: Login) {
@@ -84,6 +97,7 @@ export class UsuarioService {
 
   }
 
+
   atualizar(usuario: Usuario) {
 
     const user = {
@@ -96,14 +110,25 @@ export class UsuarioService {
     return this.db.list(this.dbPath).update(usuario.key, user)
   }
 
-  atualizarFirstLogin(usuario: Usuario) {
+
+  atualizarFirstLogin(key: string) {
 
     const user = {
       firstLogin: false,
     }
 
-    return this.db.list(this.dbPath).update(usuario.key, user)
+    return this.db.list(this.dbPath).update(key, user)
   }
+
+  atualizarUid(key: string, uid: string) {
+
+    const user = {
+      uid: uid,
+    }
+
+    return this.db.list(this.dbPath).update(key, user)
+  }
+
 
   atualizarSenha(usuario: Usuario, credenciaisLogin: Login) {
 
@@ -112,7 +137,7 @@ export class UsuarioService {
 
         if (usuario.password != "" && usuario.password != undefined) {
           userCredential.user.updatePassword(usuario.password);
-          this.atualizarFirstLogin(usuario);
+          this.atualizarFirstLogin(usuario.uid);
 
           this.messageService.add({ severity: 'success', summary: 'Senha atualizada!' });
           this.router.navigate(['/home']);
@@ -123,6 +148,23 @@ export class UsuarioService {
       })
       .catch(erro => {
         this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
+      })
+
+  }
+
+
+
+  criarUsuarioFirstLogin(key: string, email: string, senha: string) {
+    return this.afAuth.createUserWithEmailAndPassword(email, senha)
+      .then(credenciais => {
+
+        localStorage.setItem('user', JSON.stringify(credenciais.user));
+
+        this.atualizarFirstLogin(key);
+        this.atualizarUid(key, credenciais.user.uid);
+      })
+      .catch(err => {
+        console.log(err);
       })
 
   }
@@ -139,10 +181,6 @@ export class UsuarioService {
       )
   }
 
-
-  filtrar() {
-
-  }
 
   buscarUsuarioPorUid(uid: string) {
 
@@ -190,6 +228,45 @@ export class UsuarioService {
       .toPromise()
   }
 
+  buscarUsuarioPorMatricula(matricula: string) {
+    let usuarioEncontrado;
+
+    return this.listar()
+      .map(users => {
+
+        users.forEach(user => {
+          if (user.registration == matricula) {
+            user.birthDate = moment(user.birthDate, 'DD-MM-YYYY').toDate();
+            user.birthDate = moment(user.birthDate).format('DD/MM/YYYY')
+            usuarioEncontrado = user;
+          }
+        })
+
+        return usuarioEncontrado;
+      })
+      .first()
+      .toPromise()
+  }
+
+
+  buscarUsuarioPorEmailEDataNascimento(email: string, dataNascimento: string) {
+    let usuarioEncontrado;
+
+    return this.listar()
+      .map(users => {
+
+        users.forEach(user => {
+          if (user.email == email && user.birthDate == dataNascimento) {
+            usuarioEncontrado = user;
+          }
+        })
+
+        return usuarioEncontrado;
+      })
+      .first()
+      .toPromise()
+  }
+
   excluir(key: string) {
 
     const user = {
@@ -204,8 +281,26 @@ export class UsuarioService {
     return this.afAuth.sendPasswordResetEmail(email)
   }
 
-  validarDominioDeEmail(email) {
+  validarDominioDeEmail(email: string) {
     return email.endsWith("@bombeirospb.gov")
+  }
+
+  verificarExistenciaDeEmail(email: string) {
+    let usuarioEncontrado = false;
+
+    return this.listar()
+      .map(users => {
+
+        users.forEach(user => {
+          if (user.email == email) {
+            usuarioEncontrado = true;
+          }
+        })
+
+        return usuarioEncontrado;
+      })
+      .first()
+      .toPromise()
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { AuthService } from 'src/app/seguranca/auth.service';
 import { UsuarioService } from '../usuario.service';
 
@@ -17,8 +17,6 @@ export class UsuariosNovaSenhaComponent implements OnInit {
 
   usuario = new Usuario();
 
-  dialogIsVisible: boolean = false;
-
   novaSenha: string;
   confirmacaoNovaSenha: string;
   confirmacaoDeSenhaAntiga: string;
@@ -28,15 +26,16 @@ export class UsuariosNovaSenhaComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
     private auth: AuthService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
 
-    if (this.auth.getUsuarioLogado.uid) {
+    if (this.auth.getUsuarioLogado.registration) {
       this.email = this.auth.getUsuarioLogado.email;
-      this.buscarUsuario(this.auth.getUsuarioLogado.uid);
+      this.buscarUsuario(this.auth.getUsuarioLogado.registration);
     } else {
       this.usuario = new Usuario();
     }
@@ -45,38 +44,46 @@ export class UsuariosNovaSenhaComponent implements OnInit {
 
   validaCompatibilidade() {
     if (this.novaSenha === this.confirmacaoNovaSenha) {
-      this.dialogIsVisible = true;
+      this.confirmarTrocaDeSenha(this.usuario);
     } else {
       this.messageService.add({ severity: 'error', summary: 'As senhas informadas não são compatíveis!' });
     }
   }
 
-  salvar() {
-    const credenciais = new Login();
-    credenciais.email = this.email;
-    credenciais.password = this.confirmacaoDeSenhaAntiga;
+  salvar(usuario: Usuario) {
 
-    this.usuario.password = this.confirmacaoNovaSenha;
+    usuario.password = this.confirmacaoNovaSenha;
 
-    this.usuarioService.atualizarSenha(this.usuario, credenciais)
+    this.usuarioService.criarUsuarioFirstLogin(usuario.key, usuario.email, usuario.password)
       .then(() => {
-        this.resetarConfirmacaoDeSenha();
-      })
-      .catch(erro => {
-        this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
+        this.messageService.add({ severity: 'success', summary: 'Senha atualizada!' });
+        this.router.navigate(['/home']);
       })
 
   }
 
-  buscarUsuario(uid: string) {
-    this.usuarioService.buscarUsuarioPorUid(uid)
+  buscarUsuario(matricula: string) {
+    this.usuarioService.buscarUsuarioPorMatricula(matricula)
       .then(user => {
         this.usuario = user;
+        console.log(user)
       })
   }
 
   resetarConfirmacaoDeSenha() {
     this.confirmacaoDeSenhaAntiga = '';
+  }
+
+
+  confirmarTrocaDeSenha(usuario: Usuario) {
+    this.confirmationService.confirm({
+      header: 'Atenção!',
+      message: 'Você tem certeza?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.salvar(usuario);
+      }
+    });
   }
 
 

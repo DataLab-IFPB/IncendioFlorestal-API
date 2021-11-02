@@ -21,7 +21,7 @@ const routes: Routes = [
 
   { path: 'usuarios', component: UsuariosPesquisaComponent, canActivate: [RoleGuard] },
   { path: 'usuarios/novo', component: UsuariosCadastroComponent, canActivate: [RoleGuard] },
-  { path: 'usuarios/edicao/:keyUsuario', component: UsuariosCadastroComponent, canActivate: [RoleGuard] },
+  { path: 'usuarios/edicao/:matricula', component: UsuariosCadastroComponent, canActivate: [RoleGuard] },
   { path: 'usuario/nova-senha', component: UsuariosNovaSenhaComponent, canActivate: [AuthGuard] },
 
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },

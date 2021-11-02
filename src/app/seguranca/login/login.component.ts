@@ -26,8 +26,8 @@ export class LoginComponent {
     private router: Router,
     private messageService: MessageService
   ) {
-    this.login.email = 'oliveiramycaell@bombeirospb.gov';
-    this.login.password = 'mycaell';
+    this.login.email = 'mycael123@bombeirospb.gov';
+    this.login.password = '180920211';
   }
 
   logar() {

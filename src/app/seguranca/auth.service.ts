@@ -20,10 +20,32 @@ export class AuthService {
 
     await this.validarLogin(email)
 
-    return this.afAuth.signInWithEmailAndPassword(email, senha)
-      .then(credenciais => {
-        localStorage.setItem('user', JSON.stringify(credenciais.user));
+    await this.usuarioService.buscarUsuarioPorEmail(email)
+      .then(user => {
+        if (user.firstLogin) {
+          if (user.birthDate === senha) {
+            localStorage.setItem('user', JSON.stringify(user));
+            Promise.resolve();
+          } else {
+            return Promise.reject('Credenciais inválidas');
+          }
+
+        } else {
+          return this.afAuth.signInWithEmailAndPassword(email, senha)
+            .then(credenciais => {
+              localStorage.setItem('user', JSON.stringify(credenciais.user));
+            })
+        }
       })
+      .catch(err => {
+        return Promise.reject("Usuário não encontrado");
+      })
+
+
+
+
+
+
   }
 
   async validarLogin(email: string) {

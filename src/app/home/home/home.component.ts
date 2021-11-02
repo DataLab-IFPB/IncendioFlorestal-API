@@ -47,7 +47,6 @@ export class HomeComponent implements OnInit {
         icon: 'pi pi-info-circle',
         key: 'alertaTrocaDeSenha',
         accept: () => {
-          // this.usuarioService.atualizarFirstLogin(this.usuarioLogado)
           this.router.navigate(['/usuario/nova-senha']);
         }
       });
