@@ -8,5 +8,6 @@ export const environment = {
     storageBucket: "combate-incendios-dev.appspot.com",
     messagingSenderId: "883770424001",
     appId: "1:883770424001:web:72bf5cfadf0b7708c63240"
-  }
+  },
+  mapboxkey: 'pk.eyJ1IjoiaWdvcnBpbWVudGVsZyIsImEiOiJja3EycWxxOWowcXc1MnBvN21hZGd4MG9mIn0.rqxMemACdrupo-V-5FXX5g'
 };

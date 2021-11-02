@@ -1,0 +1,41 @@
+p-calendar {
+  margin: 5px;
+}
+
+.container-card {
+  margin-top: 10px;
+}
+
+.container-chart {
+  width: 50%;
+}
+
+.container-heatmap {
+  width: 100%
+}
+
+.container-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+:host ::ng-deep .p-multiselect {
+  margin: 5px;
+}
+
+:host ::ng-deep .p-dropdown {
+  margin: 5px;
+}
+
+:host ::ng-deep .p-inline-message  {
+  border-left: 6px solid #d9a300;
+  height: 50px;
+}
+
+@media(max-width: 950px) {
+  .container-chart {
+    width: 100%;
+  }
+}

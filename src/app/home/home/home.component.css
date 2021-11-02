@@ -1,0 +1,7 @@
+.container-dashboard {
+  margin: 10px 20px;
+}
+
+:host ::ng-deep .p-tabview-panels{
+  background-color: transparent;
+}

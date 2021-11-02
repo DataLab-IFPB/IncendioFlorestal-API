@@ -1,0 +1,54 @@
+<div class="p-d-flex p-flex-column">
+
+  <div class="p-d-flex p-jc-center p-flex-wrap">
+    <p-multiSelect
+      [(ngModel)]="municipiosFilter"
+      [options]="municipios"
+      [group]="true"
+      display="chip"
+      placeholder="Selecione o município">
+    </p-multiSelect>
+
+    <p-dropdown *ngIf="tipoDashboard === 'dashboard-por-ano'"
+      [options]="periodoAno"
+      [(ngModel)]="anoFilter"
+      placeholder="Ano">
+    </p-dropdown>
+
+    <p-calendar *ngIf="tipoDashboard === 'dashboard-por-periodo'"
+      [(ngModel)]="periodoFilter"
+      [showIcon]="true"
+      [readonlyInput]="true"
+      placeholder="Selecione o período"
+      selectionMode="range">
+    </p-calendar>
+  </div>
+
+  <div *ngIf="!exibirMensagem()">
+    <!-- Cards Infos -->
+    <div class="p-d-flex p-jc-center p-flex-wrap container-card">
+      <div *ngFor="let dados of dadosEstaticos">
+        <app-card-info [imagem]=dados.imagem [titulo]=dados.titulo [dado]=dados.dado></app-card-info>
+      </div>
+    </div>
+
+    <!-- Cards Gráficos -->
+    <div class="p-d-flex p-jc-center p-flex-wrap container-card">
+      <div class="container-chart" *ngFor="let dado of dadosGraficos">
+          <app-card-chart [titulo]=dado.titulo [tipo]=dado.tipo [dataset]=dado.dados></app-card-chart>
+      </div>
+    </div>
+
+    <!-- Card Heatmap -->
+    <div class="p-d-flex p-jc-center p-flex-wrap container-card" *ngIf="tipoDashboard === 'dashboard-por-ano'">
+      <div class="container-heatmap">
+        <app-heatmap [dados]=dadosHeatmap></app-heatmap>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<div class="container-message" *ngIf="exibirMensagem()">
+  <p-message severity="warn" text="Nenhum município foi selecionado"></p-message>
+</div>
