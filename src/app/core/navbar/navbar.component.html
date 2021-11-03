@@ -41,5 +41,13 @@
                 <span>Sair</span>
             </a>
         </li>
+
+        <div class="navbar-menuitem" style="text-align:center">
+            <i class="pi pi-sun" style="font-size: 2rem; color: #cccac8;"></i>
+            <p-inputSwitch name="switchTheme" [(ngModel)]="darkThemeisActive" (click)="changeTheme()" style="margin: 0 1rem"></p-inputSwitch>
+            <i class="pi pi-moon" style="font-size: 2rem; color: #cccac8;"></i>
+        </div>
     </ul>
+
+
 </p-sidebar>

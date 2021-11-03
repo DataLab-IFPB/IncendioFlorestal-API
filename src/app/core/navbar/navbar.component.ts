@@ -2,6 +2,7 @@ import { Component, OnInit, SystemJsNgModuleLoaderConfig } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
+import { ThemeService } from 'src/app/shared/theme.service';
 
 import { AuthService } from './../../seguranca/auth.service';
 import { UsuarioService } from './../../usuarios/usuario.service';
@@ -18,11 +19,14 @@ export class NavbarComponent implements OnInit {
 
   usuarioLogado: Usuario;
 
+  darkThemeisActive: boolean = false;
+
   constructor(
     private auth: AuthService,
     private router: Router,
     private messageService: MessageService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +36,9 @@ export class NavbarComponent implements OnInit {
     if (this.auth.getUsuarioLogado) {
       this.buscarUsuario(this.auth.getUsuarioLogado.uid);
     }
+
+
+
   }
 
   logout() {
@@ -51,6 +58,19 @@ export class NavbarComponent implements OnInit {
       })
   }
 
+  changeTheme() {
+
+    let theme: string;
+
+    if (this.darkThemeisActive) {
+      theme = 'dark'
+    } else {
+      theme = 'light'
+    }
+
+    this.themeService.switchTheme(theme);
+
+  }
 
 
 

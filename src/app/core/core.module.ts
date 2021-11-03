@@ -5,8 +5,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarModule } from 'primeng/sidebar';
-
-
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [PaginaNaoEncontradaComponent, NavbarComponent],
@@ -16,6 +16,8 @@ import { SidebarModule } from 'primeng/sidebar';
     RouterModule,
     TooltipModule,
     SidebarModule,
+    InputSwitchModule,
+    FormsModule
   ],
   exports: [NavbarComponent]
 })

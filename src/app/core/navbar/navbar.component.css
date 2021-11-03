@@ -16,14 +16,26 @@
     color: white;
 }
 
+:host ::ng-deep .p-sidebar .p-sidebar-content,
+:host ::ng-deep .p-sidebar .p-sidebar-content ul {
+    height: 100%;
+}
+
 .navbar-menu {
     margin: 0;
     padding: 0;
     list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .navbar-menuitem {
     margin: 5px 0;
+}
+
+.navbar-menuitem:last-child {
+    margin-top: auto;
 }
 
 .navbar-menuitem a {
@@ -68,4 +80,5 @@
 
 .menu-icon {
     margin-right: 1.5rem;
+    font-size: 1.5rem;
 }
