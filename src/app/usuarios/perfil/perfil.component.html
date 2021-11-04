@@ -40,7 +40,7 @@
                         <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
                     </div>
 
-                    <div class="p-field">
+                    <div class="p-field" *ngIf="usuario.isAdmin">
                         <label for="admin">Admin</label>
                         <p-selectButton id="admin" name="admin" [options]="userOptions" [(ngModel)]="usuario.isAdmin" optionLabel="label" optionValue="value"></p-selectButton>
                     </div>
