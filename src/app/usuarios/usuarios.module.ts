@@ -19,6 +19,7 @@ import { UsuariosPesquisaComponent } from './usuarios-pesquisa/usuarios-pesquisa
 import { UsuariosCadastroComponent } from './usuarios-cadastro/usuarios-cadastro.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosNovaSenhaComponent } from './usuarios-nova-senha/usuarios-nova-senha.component';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { UsuariosNovaSenhaComponent } from './usuarios-nova-senha/usuarios-nova-
     FormsModule,
     InputTextModule,
     PasswordModule,
-    CalendarModule
+    CalendarModule,
+    RippleModule
   ]
 })
 export class UsuariosModule { }

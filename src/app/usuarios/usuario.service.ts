@@ -30,13 +30,9 @@ export class UsuarioService {
 
   async cadastrar(usuario: Usuario) {
 
-    if (!this.validarDominioDeEmail(usuario.email)) {
-      return Promise.reject("O e-mail não está formatado corretamente");
-    }
-
-    await this.verificarExistenciaDeEmail(usuario.email).then(u => {
+    await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
       if (u) {
-        return Promise.reject("O e-mail já está sendo utilizado");
+        return Promise.reject("Matrícula já utilizada");
       }
     })
 
@@ -60,7 +56,18 @@ export class UsuarioService {
     return Promise.resolve();
   }
 
-  atualizarPerfil(usuario: Usuario, credenciaisLogin: Login) {
+  async atualizarPerfil(usuario: Usuario, credenciaisLogin: Login) {
+
+
+    await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
+      if (u) {
+
+        if (u.key != usuario.key) {
+          return Promise.reject("Matrícula já utilizada");
+        }
+      }
+    })
+
 
     return this.afAuth.signInWithEmailAndPassword(credenciaisLogin.email, credenciaisLogin.password)
       .then(userCredential => {
@@ -89,16 +96,28 @@ export class UsuarioService {
         this.db.list(this.dbPath).update(usuario.key, user)
         this.messageService.add({ severity: 'success', summary: 'Perfil atualizado!' });
 
+        location.reload(); // para atualizar a matricula presente no menu
       })
       .catch(erro => {
-        console.log(erro)
-        this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
+        if (erro.code === "auth/too-many-requests") {
+          this.messageService.add({ severity: 'error', summary: 'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.', detail: ' Tente novamente mais tarde!' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
+        }
       })
 
   }
 
 
-  atualizar(usuario: Usuario) {
+  async atualizar(usuario: Usuario) {
+
+    await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
+      if (u) {
+        if (u.key != usuario.key) {
+          return Promise.reject("Matrícula já utilizada");
+        }
+      }
+    })
 
     const user = {
       birthDate: moment(usuario.birthDate).format('DD/MM/YYYY'),
@@ -302,5 +321,25 @@ export class UsuarioService {
       .first()
       .toPromise()
   }
+
+
+  verificarExistenciaDeMatricula(matricula: string) {
+    let usuarioEncontrado;
+
+    return this.listar()
+      .map(users => {
+
+        users.forEach(user => {
+          if (user.registration == matricula) {
+            usuarioEncontrado = user;
+          }
+        })
+
+        return usuarioEncontrado;
+      })
+      .first()
+      .toPromise()
+  }
+
 
 }

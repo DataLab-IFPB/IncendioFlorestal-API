@@ -37,8 +37,12 @@ export class AuthService {
             })
         }
       })
-      .catch(err => {
-        return Promise.reject("Usuário não encontrado");
+      .catch(erro => {
+        if (erro.code === "auth/too-many-requests") {
+          return Promise.reject("Conta bloqueada");
+        } else {
+          return Promise.reject("Usuário não encontrado");
+        }
       })
 
 

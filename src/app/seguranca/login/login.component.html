@@ -15,7 +15,7 @@
                 <form autocomplete="off" class="p-col-12 formLogin" #formLogin="ngForm" (keydown.enter)="submitBtn.click()">
 
                     <div class="p-field p-fluid">
-                        <label for="email">Usuário</label>
+                        <label for="email">E-mail</label>
                         <input id="email" type="email" name="email" [(ngModel)]="login.email" placeholder="e-mail" pInputText required email #email="ngModel" ngModel/>
 
                         <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>

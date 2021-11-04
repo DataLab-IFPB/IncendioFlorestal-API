@@ -66,7 +66,6 @@ export class UsuariosNovaSenhaComponent implements OnInit {
     this.usuarioService.buscarUsuarioPorMatricula(matricula)
       .then(user => {
         this.usuario = user;
-        console.log(user)
       })
   }
 

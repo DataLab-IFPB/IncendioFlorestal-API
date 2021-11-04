@@ -12,14 +12,15 @@
 
                     <div class="p-field p-fluid">
                         <label for="matricula">Matrícula</label>
-                        <input id="matricula" type="number" name="matricula" [(ngModel)]="usuario.registration" pInputText required #matricula="ngModel" ngModel/>
+                        <input id="matricula" type="number" name="matricula" [(ngModel)]="usuario.registration" [disabled]="editando" pInputText required #matricula="ngModel" ngModel onKeyDown="if(this.value.length==16 && event.keyCode>47 && event.keyCode < 58)return false;"
+                        />
 
                         <app-mensagem-de-erro [controle]="matricula" erro="required" mensagem="Informe a matrícula"></app-mensagem-de-erro>
                     </div>
 
                     <div class="p-field p-fluid">
-                        <label for="email">Usuário</label>
-                        <input id="email" type="email" name="email" [(ngModel)]="usuario.email" placeholder="e-mail" [disabled]="editando" pInputText required email #email="ngModel" ngModel/>
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" name="email" placeholder="{{usuario.registration}}@bombeirospb.gov" [disabled]="true" pInputText required email #email="ngModel" ngModel/>
 
                         <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
                         <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>

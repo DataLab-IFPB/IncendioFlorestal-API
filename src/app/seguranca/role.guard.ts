@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class RoleGuard implements CanActivate {
   constructor(
     private auth: AuthService,
     private messageService: MessageService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private location: Location
   ) { }
 
 
@@ -29,6 +31,7 @@ export class RoleGuard implements CanActivate {
           return true;
         } else {
           this.messageService.add({ severity: 'error', summary: 'Apenas admins têm acesso!' });
+          this.location.back();
           return false;
         }
       })

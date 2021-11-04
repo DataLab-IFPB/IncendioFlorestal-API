@@ -51,24 +51,27 @@ export class PerfilComponent implements OnInit {
 
   salvar() {
 
-    if (this.usuarioService.validarDominioDeEmail(this.usuario.email)) {
-      const credenciais = new Login();
-      credenciais.email = this.email;
-      credenciais.password = this.confirmacaoDeSenha;
+    const credenciais = new Login();
+    credenciais.email = this.email;
+    credenciais.password = this.confirmacaoDeSenha;
 
-      // matricula deve ser única !
-      this.usuarioService.atualizarPerfil(this.usuario, credenciais)
-        .then(() => {
-          this.resetarConfirmacaoDeSenha();
-          this.email = this.auth.getUsuarioLogado.email;
-        })
-        .catch(erro => {
-          this.messageService.add({ severity: 'error', summary: erro });
-        })
 
-    } else {
-      this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
-    }
+    this.usuario.email = this.usuario.registration + "@bombeirospb.gov";
+
+    this.usuarioService.atualizarPerfil(this.usuario, credenciais)
+      .then(() => {
+
+        this.email = this.auth.getUsuarioLogado.email;
+
+      })
+      .catch(erro => {
+        if (erro == 'Matrícula já utilizada') {
+          this.messageService.add({ severity: 'error', summary: 'Matrícula já utilizada!' });
+        }
+      })
+
+    this.resetarConfirmacaoDeSenha();
+
 
   }
 

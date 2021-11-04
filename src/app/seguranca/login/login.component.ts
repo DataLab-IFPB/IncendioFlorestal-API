@@ -40,6 +40,8 @@ export class LoginComponent {
 
         if (erro === "E-mail inválido") {
           this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
+        } else if (erro === "Conta bloqueada") {
+          this.messageService.add({ severity: 'error', summary: 'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.', detail: ' Tente novamente mais tarde!' });
         } else {
           this.messageService.add({ severity: 'error', summary: 'Nenhum usuário foi encontrado com essas credenciais!' });
         }
