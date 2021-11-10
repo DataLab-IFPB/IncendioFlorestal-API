@@ -1,0 +1,56 @@
+<div class="container">
+
+    <h1>Incêndios ({{incendios.length}})</h1>
+
+    <p-table [value]="incendios" [paginator]="true" currentPageReportTemplate="{first} a {last} de {totalRecords} incêndios" [rowHover]="true" [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]">
+
+        <ng-template class="fire-list-header" pTemplate="caption">
+
+            <div class="fire-list-header">
+
+                <div>
+                    <input class="campo-busca" pInputText type="text" [(ngModel)]="busca" name="buscarIncendio" placeholder="Buscar">
+                    <button pButton icon="pi pi pi-search" pTooltip="Buscar" tooltipPosition="bottom" (click)="filtrar()"></button>
+                </div>
+
+                <div>
+                    <a class="btn-new-user button-link" pButton icon="pi pi-plus-circle" pTooltip="Novo incêndio" tooltipPosition="bottom"></a>
+                </div>
+            </div>
+
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Status</th>
+                <th>Período</th>
+                <th>Intencidade</th>
+                <th>Data e Hora</th>
+                <th>Ações</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-incendio>
+            <tr [class]="'status ' + incendio.ativo">
+                <td>{{incendio.ativo ? 'Ativo' : 'Desativo'}}</td>
+                <td>{{incendio.daynight == 'D'? 'Dia' : 'Noite'}}</td>
+                <td>{{incendio.brightness}}</td>
+                <td>{{incendio.acq_datetime}}</td>
+                <td>
+                    <div class="botoes">
+                        <button id="btn-editar" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success" pTooltip="Editar" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Excluir" tooltipPosition="bottom"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nenhum foco de incêndio encontrado</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-progressSpinner class="spinner" *ngIf="spinnerIsActive" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
+</div>

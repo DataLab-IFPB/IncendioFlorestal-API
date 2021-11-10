@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 
 import * as admin from 'firebase-admin'
 import { HomeModule } from './home/home.module';
+import { IncendiosModule } from './incendios/incendios.module';
 
 
 
@@ -38,6 +39,7 @@ import { HomeModule } from './home/home.module';
     SegurancaModule,
     UsuariosModule,
     HomeModule,
+    IncendiosModule,
 
     AngularFireDatabaseModule,
     AngularFireAuthModule,

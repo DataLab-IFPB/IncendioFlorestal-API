@@ -190,11 +190,13 @@ export class UsuarioService {
 
 
   listar() {
-    return this.db.list('users')
+    return this.db.list(this.dbPath)
       .snapshotChanges().pipe(
         map(changes =>
           changes.map(c =>
-            ({ key: c.payload.key, ...c.payload.exportVal() })
+          ({
+            key: c.payload.key, ...c.payload.exportVal()
+          })
           )
         )
       )
