@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { DashboardService } from '../dashboard.service';
 
 const mapboxgl = require('mapbox-gl');
 
@@ -14,9 +15,15 @@ export class HeatmapComponent implements OnInit {
 
   @Input() dados: object;
 
+  constructor(private dashboardService : DashboardService) {}
+
   ngOnInit(): void {
     this.configMap();
     this.configLayer();
+
+    this.dashboardService.heatmapEvent.subscribe(
+      () => this.mapa.getSource('dataset-incendios-florestais').setData(this.dados)
+    );
   }
 
   private configMap(): void {
@@ -25,8 +32,8 @@ export class HeatmapComponent implements OnInit {
     this.mapa = new mapboxgl.Map({
       container: 'mapa',
       style: 'mapbox://styles/mapbox/dark-v10',
-      center: [-37.3103333, -7.0219652],
-      zoom: 10,
+      center: [-36.304, -7.199],
+      zoom: 7,
       minZoom: 7
     });
 

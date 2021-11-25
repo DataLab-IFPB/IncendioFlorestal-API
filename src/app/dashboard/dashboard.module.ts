@@ -16,8 +16,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HeatmapComponent } from './heatmap/heatmap.component';
-import { MessagesModule } from 'primeng/messages';
-import { MessageModule } from 'primeng/message';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   providers: [ DashboardService ],
@@ -39,8 +38,7 @@ import { MessageModule } from 'primeng/message';
     CalendarModule,
     MultiSelectModule,
     SharedModule,
-    MessagesModule,
-    MessageModule
+    ProgressSpinnerModule
   ]
 })
 
