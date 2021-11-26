@@ -28,6 +28,17 @@
     border: 1px solid #ced4da;
 }
 
+form .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#btn-cancelar {
+    margin-right: .5rem;
+    text-decoration: none;
+}
+
 
 /* Chrome, Safari, Edge, Opera */
 
@@ -42,15 +53,4 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield;
-}
-
-form .footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-#btn-cancelar {
-    margin-right: .5rem;
-    text-decoration: none;
 }

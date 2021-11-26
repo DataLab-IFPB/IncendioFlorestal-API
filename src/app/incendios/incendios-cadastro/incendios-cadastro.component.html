@@ -1,0 +1,91 @@
+<div class="p-grid p-justify-center card">
+
+    <div class="p-col-11 p-sm-10 p-md-4">
+
+        <div class="header-novo-incendio">
+            <h1>{{editando ? 'Edição de' : 'Novo'}} incêndio</h1>
+            <button class="btn-localizar" pButton icon="pi pi-map-marker" pTooltip="Localizar" tooltipPosition="bottom"></button>
+        </div>
+
+
+        <p-card>
+
+            <div class="p-grid">
+
+                <form autocomplete="off" class="p-col-12" #formNovoIncendio="ngForm">
+
+
+                    <p-fieldset>
+                        <ng-template pTemplate="header">Dados</ng-template>
+
+                        <div class="p-field p-fluid">
+                            <label for="matricula">Período</label>
+                            <input id="email" type="email" name="email" pInputText/>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="matricula">Intencidade</label>
+                            <input id="email" type="email" name="email" pInputText/>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="matricula">Status</label>
+                            <input id="email" type="email" name="email" pInputText/>
+                        </div>
+
+                    </p-fieldset>
+
+                    <p-fieldset>
+                        <ng-template pTemplate="header">Clima</ng-template>
+
+                        <div class="p-field p-fluid">
+                            <label for="matricula">Temperatura</label>
+                            <input id="email" type="email" name="email" pInputText/>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="matricula">Humidade</label>
+                            <input id="email" type="email" name="email" pInputText/>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="matricula">Velocidade do vento</label>
+                            <input id="email" type="email" name="email" pInputText/>
+                        </div>
+
+
+
+                    </p-fieldset>
+
+                    <p-fieldset>
+                        <ng-template pTemplate="header">Local</ng-template>
+                        <div class="p-field p-fluid">
+                            <label for="matricula">Latitude</label>
+                            <input id="email" type="email" name="email" pInputText/>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="matricula">Longitude</label>
+                            <input id="email" type="email" name="email" pInputText/>
+                        </div>
+
+                    </p-fieldset>
+
+
+
+
+
+                    <div class="footer">
+                        <a id="btn-cancelar" class="button-link" pButton (click)="goBack()" label="Cancelar"></a>
+                        <button pButton type="button" label="Salvar" (click)="salvar()" [disabled]="!formNovoIncendio.valid"></button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </p-card>
+
+    </div>
+
+</div>

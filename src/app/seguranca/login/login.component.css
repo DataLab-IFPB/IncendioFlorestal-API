@@ -36,3 +36,9 @@
 .btn-receberEmail {
     margin-right: 0 !important;
 }
+
+@media only screen and (max-width: 550px) {
+    .card {
+        margin-top: 1rem;
+    }
+}

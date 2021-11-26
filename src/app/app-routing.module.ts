@@ -1,3 +1,4 @@
+import { IncendiosCadastroComponent } from './incendios/incendios-cadastro/incendios-cadastro.component';
 import { IncendiosPesquisaComponent } from './incendios/incendios-pesquisa/incendios-pesquisa.component';
 import { UsuariosNovaSenhaComponent } from './usuarios/usuarios-nova-senha/usuarios-nova-senha.component';
 import { RoleGuard } from './seguranca/role.guard';
@@ -25,7 +26,10 @@ const routes: Routes = [
   { path: 'usuarios/edicao/:matricula', component: UsuariosCadastroComponent, canActivate: [RoleGuard] },
   { path: 'usuario/nova-senha', component: UsuariosNovaSenhaComponent, canActivate: [AuthGuard] },
 
+  // add guard
   { path: 'incendios', component: IncendiosPesquisaComponent },
+  { path: 'incendios/novo', component: IncendiosCadastroComponent },
+  { path: 'incendios/edicao/:key', component: IncendiosCadastroComponent },
 
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
   { path: '**', redirectTo: 'pagina-nao-encontrada' }

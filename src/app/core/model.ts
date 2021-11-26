@@ -26,6 +26,8 @@ export class Usuario {
 }
 
 export class Incendio {
+  key: string;
+
   acq_date
   acq_datetime
   acq_time

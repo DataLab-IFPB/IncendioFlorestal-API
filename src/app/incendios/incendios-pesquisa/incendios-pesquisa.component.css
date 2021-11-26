@@ -6,8 +6,29 @@
     background-color: #b3e5fc !important;
 }
 
-.campo-busca {
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th,
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    text-align: center;
+}
+
+.btn-new-user {
+    text-decoration: none;
+}
+
+.busca {
+    display: flex;
+}
+
+.texto-buscado {
     margin-right: .5rem;
+    width: 17rem;
+}
+
+.btn-buscar {
+    margin-left: .5rem;
+}
+
+:host ::ng-deep .p-calendar {
     width: 17rem;
 }
 
@@ -35,4 +56,32 @@
 
 #btn-editar {
     margin-right: .5rem !important;
+}
+
+@media only screen and (max-width: 720px) {
+    #btn-editar {
+        margin: 0 0 .5rem !important;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .busca {
+        display: block;
+    }
+    .texto-buscado {
+        margin-bottom: 0.5rem;
+    }
+    .fire-list-header {
+        align-items: end;
+    }
+     :host ::ng-deep .p-calendar,
+    .texto-buscado {
+        margin-right: 0;
+    }
+}
+
+@media only screen and (max-width: 415px) {
+    .btn-buscar {
+        margin: .5rem 0 0 0;
+    }
 }

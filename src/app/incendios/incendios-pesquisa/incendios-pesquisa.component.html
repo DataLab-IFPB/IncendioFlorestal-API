@@ -2,26 +2,43 @@
 
     <h1>Incêndios ({{incendios.length}})</h1>
 
-    <p-table [value]="incendios" [paginator]="true" currentPageReportTemplate="{first} a {last} de {totalRecords} incêndios" [rowHover]="true" [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]">
+    <p-table [value]="incendios" [paginator]="true" currentPageReportTemplate="{first} a {last} de {totalRecords} incêndios" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]">
 
-        <ng-template class="fire-list-header" pTemplate="caption">
+        <ng-template pTemplate="caption">
 
             <div class="fire-list-header">
 
-                <div>
-                    <input class="campo-busca" pInputText type="text" [(ngModel)]="busca" name="buscarIncendio" placeholder="Buscar">
-                    <button pButton icon="pi pi pi-search" pTooltip="Buscar" tooltipPosition="bottom" (click)="filtrar()"></button>
+                <div class="busca">
+
+                    <div>
+                        <input class="texto-buscado" pInputText type="text" [(ngModel)]="busca" name="buscarIncendio" placeholder="Buscar">
+                    </div>
+
+                    <div>
+                        <!-- obrigatorio? -->
+                        <p-calendar id="dataIncendio" dateFormat="dd/mm/yy" name="dataIncendio" [(ngModel)]="dataBuscada" showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="2000:{{anoAtual}}" readonlyInput="true" required #dataIncendio="ngModel"></p-calendar>
+
+                        <app-mensagem-de-erro [controle]="dataIncendio" erro="required" mensagem="Informe a data de nascimento"></app-mensagem-de-erro>
+
+                        <button class="btn-buscar" pButton icon="pi pi pi-search" pTooltip="Buscar" tooltipPosition="bottom" (click)="filtrar()"></button>
+                    </div>
+
+
                 </div>
 
+
+
                 <div>
-                    <a class="btn-new-user button-link" pButton icon="pi pi-plus-circle" pTooltip="Novo incêndio" tooltipPosition="bottom"></a>
+                    <a class="btn-new-user button-link" pButton icon="pi pi-plus-circle" pTooltip="Novo incêndio" tooltipPosition="bottom" routerLink="/incendios/novo"></a>
                 </div>
             </div>
+
 
         </ng-template>
 
         <ng-template pTemplate="header">
             <tr>
+                <th>Detalhes</th>
                 <th>Status</th>
                 <th>Período</th>
                 <th>Intencidade</th>
@@ -32,14 +49,17 @@
 
         <ng-template pTemplate="body" let-incendio>
             <tr [class]="'status ' + incendio.ativo">
-                <td>{{incendio.ativo ? 'Ativo' : 'Desativo'}}</td>
+
+                <!-- exibe info de clima/longitude-latitude -->
+                <td> <button pButton pRipple type="button" icon="pi pi-eye" class="p-button-rounded p-button-outlined p-button-info" pTooltip="Detalhes" tooltipPosition="bottom"></button></td>
+                <td>{{incendio.ativo ? 'Ativo' : 'Inativo'}}</td>
                 <td>{{incendio.daynight == 'D'? 'Dia' : 'Noite'}}</td>
                 <td>{{incendio.brightness}}</td>
                 <td>{{incendio.acq_datetime}}</td>
                 <td>
                     <div class="botoes">
-                        <button id="btn-editar" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success" pTooltip="Editar" tooltipPosition="bottom"></button>
-                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Excluir" tooltipPosition="bottom"></button>
+                        <button id="btn-editar" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success" pTooltip="Editar" tooltipPosition="bottom" [routerLink]="['/incendios/edicao', incendio.key]"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmarExclusao(incendio)"></button>
                     </div>
                 </td>
             </tr>
@@ -47,10 +67,23 @@
 
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="5">Nenhum foco de incêndio encontrado</td>
+                <td colspan="6">Nenhum foco de incêndio encontrado</td>
             </tr>
         </ng-template>
     </p-table>
 
+    <!-- <h1>prev key{{prevKeys?.length}}</h1>
+    <h1>next key {{nextKey}}</h1>
+    <button type="button" pButton (click)="onPrev()" *ngIf='prevKeys?.length'>Prev</button>
+    <button type="button" pButton (click)="onNext()" *ngIf='nextKey'>Next</button> -->
+
     <p-progressSpinner class="spinner" *ngIf="spinnerIsActive" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
 </div>
+
+
+<p-confirmDialog #cd [style]="{width: '450px'}" [closable]="false">
+    <ng-template pTemplate="footer">
+        <button id="btn-cancelar" type="button" pButton icon="pi pi-times" label="Não" (click)="cd.reject()"></button>
+        <button class="btn-salvar" type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>
+    </ng-template>
+</p-confirmDialog>
