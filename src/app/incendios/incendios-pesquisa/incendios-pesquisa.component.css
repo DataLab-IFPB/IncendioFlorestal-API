@@ -58,6 +58,24 @@
     margin-right: .5rem !important;
 }
 
+:host ::ng-deep .p-button-icon.pi.pi-chevron-right {
+    margin-left: .5rem;
+}
+
+:host ::ng-deep .p-button-icon.pi.pi-chevron-left {
+    margin-right: .5rem;
+}
+
+.buttons-prev-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons-prev-next .prev {
+    margin-right: 1rem;
+}
+
 @media only screen and (max-width: 720px) {
     #btn-editar {
         margin: 0 0 .5rem !important;

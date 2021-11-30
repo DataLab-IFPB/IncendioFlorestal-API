@@ -24,36 +24,23 @@ export class IncendioService {
 
 
   getFire(numberItems, startKey?): AngularFireList<Incendio[]> {
-    console.log("get fire")
-    // startKey == undefined ? startKey = "" : console.log('key usada: ', startKey)
-
-    if (startKey == undefined) {
-      startKey = ""
-      console.log('key vazia')
-    } else {
-      console.log('key usada: ', startKey)
-    }
 
     return this.db.list(this.dbPath, ref => {
-      return ref.orderByKey().startAt(startKey).limitToFirst(numberItems + 1);
+
+      var query = ref.orderByKey().limitToFirst(numberItems + 1); // limitToFirst começa a partir do topo da coleção
+
+      if (startKey) { // Se não houver cursor, começa no início da coleção ... caso contrário, começa no cursor
+        query = query.startAt(startKey);
+      }
+
+      return query;
+
     });
+
+
   }
 
 
-  // getCustomers(numberItems, startKey?): AngularFireList<Incendio[]> {
-  // this.incendios = this.db.list(this.dbPath, {
-  // query: {
-  //   orderByKey: true,
-  //   startAt: startKey,
-  //   limitToFirst: numberItems + 1
-  // }
-  // });
-
-
-
-
-  // return this.incendios;
-  // }
 
 
   listar() {
@@ -69,6 +56,17 @@ export class IncendioService {
       )
   }
 
+  exportVal(incendios: AngularFireList<Incendio[]>) {
+    return incendios.snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c =>
+        ({
+          key: c.payload.key, ...c.payload.exportVal()
+        })
+        )
+      )
+    )
+  }
 
 
   excluir(key: string) {

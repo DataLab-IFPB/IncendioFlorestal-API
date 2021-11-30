@@ -3,7 +3,11 @@ import { Incendio } from './../../core/model';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
+import { map } from 'rxjs/operators';
+import 'rxjs/add/operator/map';
+
 import * as ARR from 'lodash';
+import { type } from 'os';
 
 @Component({
   selector: 'app-incendios-pesquisa',
@@ -19,8 +23,6 @@ export class IncendiosPesquisaComponent implements OnInit {
 
   incendios = [];
 
-
-
   spinnerIsActive = true;
 
   textoBuscado: string = '';
@@ -29,14 +31,9 @@ export class IncendiosPesquisaComponent implements OnInit {
   anoAtual = new Date().getFullYear();
 
 
-
-
-
-
-
   //
   fires: any;
-  numberItems = 2;
+  numberItems = 10;
   nextKey: any;
   prevKeys: any[] = [];
   subscription: any;
@@ -49,32 +46,43 @@ export class IncendiosPesquisaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listar();
-    // this.getFogo();
+    // this.listar();
+    this.getFogo();
   }
 
 
   getFogo(key?) {
+
     if (this.subscription) this.subscription.unsubscribe()
 
     this.subscription = this.incendioService.getFire(this.numberItems, key)
-      .valueChanges()
-      .subscribe(customers => {
-        this.fires = ARR.slice(customers, 0, this.numberItems)
-        this.nextKey = ARR.get(customers[this.numberItems], 'acq_date').toString()
+      .snapshotChanges()
+      .subscribe(async incendios => {
 
+        const incendiosFlag = [];
 
-        this.incendios = ARR.slice(customers, 0, this.numberItems)
+        for await (let contents of incendios) {
+          incendiosFlag.push({ key: contents.payload.key, ...contents.payload.exportVal() })
+        }
 
-        console.log('?', ARR.get(customers[this.numberItems], 'acq_date').toString())
-        console.log('fogo ---')
-        console.log(customers)
+        this.fires = ARR.slice(incendiosFlag, 0, this.numberItems)
+        this.nextKey = ARR.get(incendiosFlag[this.numberItems], 'key')
+        this.incendios = ARR.slice(incendiosFlag, 0, this.numberItems) // elimina o último incêndio (ele é a próxima key)
+
+        this.stopSpinner();
       })
+
+
+
+
+
+
+
 
   }
 
   onNext() {
-    this.prevKeys.push(ARR.first(this.fires)['acq_date'])
+    this.prevKeys.push(ARR.first(this.fires)['key']) // get prev key
     this.getFogo(this.nextKey)
   }
 
@@ -95,9 +103,7 @@ export class IncendiosPesquisaComponent implements OnInit {
   listar() {
     this.incendioService.listar()
       .subscribe(incendios => {
-
         this.incendios = incendios;
-        // console.log(incendios)
         this.stopSpinner();
 
       }, (error) => {
