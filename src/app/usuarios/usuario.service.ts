@@ -1,7 +1,7 @@
 import { MessageService } from 'primeng/api';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 import { Usuario, Login } from './../core/model';
 
@@ -189,7 +189,21 @@ export class UsuarioService {
   }
 
 
-  listar() {
+
+  listar(numberItems, startKey?): AngularFireList<Usuario[]> {
+    return this.db.list(this.dbPath, ref => {
+
+      var query = ref.orderByKey().limitToFirst(numberItems + 1); // limitToFirst começa a partir do topo da coleção
+
+      if (startKey) { // Se não houver cursor, começa no início da coleção ... caso contrário, começa no cursor
+        query = query.startAt(startKey);
+      }
+
+      return query;
+    });
+  }
+
+  getUsuarios() {
     return this.db.list('users')
       .snapshotChanges().pipe(
         map(changes =>
@@ -205,7 +219,7 @@ export class UsuarioService {
 
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         let flag = false;
@@ -232,7 +246,7 @@ export class UsuarioService {
 
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {
@@ -250,7 +264,7 @@ export class UsuarioService {
   buscarUsuarioPorMatricula(matricula: string) {
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {
@@ -271,7 +285,7 @@ export class UsuarioService {
   buscarUsuarioPorEmailEDataNascimento(email: string, dataNascimento: string) {
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {
@@ -307,7 +321,7 @@ export class UsuarioService {
   verificarExistenciaDeEmail(email: string) {
     let usuarioEncontrado = false;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {
@@ -326,7 +340,7 @@ export class UsuarioService {
   verificarExistenciaDeMatricula(matricula: string) {
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {

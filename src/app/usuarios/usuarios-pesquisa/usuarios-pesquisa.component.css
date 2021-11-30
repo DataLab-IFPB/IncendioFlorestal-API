@@ -1,9 +1,14 @@
+:host ::ng-deep .p-dataview {
+    padding-bottom: 1rem;
+}
+
 :host ::ng-deep .p-dataview .p-dataview-header {
     padding: 1rem .5rem;
 }
 
-:host ::ng-deep .p-dataview {
-    padding-bottom: 1rem;
+:host ::ng-deep .p-dataview .p-dataview-emptymessage {
+    text-align: center;
+    font-weight: bold;
 }
 
 .users-list-header {
@@ -75,4 +80,20 @@
     letter-spacing: .3px;
     background-color: #b3e5fc;
     color: #23547b;
+}
+
+.buttons-prev-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons-prev-next .prev {
+    margin-right: 1rem;
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

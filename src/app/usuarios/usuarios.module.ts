@@ -1,3 +1,4 @@
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RouterModule } from '@angular/router';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
@@ -46,7 +47,8 @@ import { RippleModule } from 'primeng/ripple';
     InputTextModule,
     PasswordModule,
     CalendarModule,
-    RippleModule
+    RippleModule,
+    ProgressSpinnerModule
   ]
 })
 export class UsuariosModule { }

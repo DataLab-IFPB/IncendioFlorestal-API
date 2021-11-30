@@ -2,7 +2,8 @@
 
     <h1>Usuários</h1>
 
-    <p-dataView [value]="usuarios" [paginator]="true" [rows]="30" layout="grid" emptyMessage="Nenhum usuário encontrado">
+    <p-dataView [value]="usuarios" layout="grid" emptyMessage="Nenhum usuário encontrado">
+
         <ng-template pTemplate="header">
 
             <div class="users-list-header">
@@ -49,10 +50,18 @@
                 </p-card>
 
             </div>
+        </ng-template>
 
+        <ng-template pTemplate="footer">
+            <div class="buttons-prev-next">
+                <button class="prev" type="button" pButton icon="pi pi-chevron-left" (click)="onPrev()" [disabled]="prevKeys?.length == 0" label="Anterior"></button>
+                <button class="next" type="button" pButton icon="pi pi-chevron-right" iconPos="right" (click)="onNext()" [disabled]="nextKey == null" label="Próximo"></button>
+            </div>
         </ng-template>
 
     </p-dataView>
+
+    <p-progressSpinner class="spinner" *ngIf="spinnerIsActive" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
 
 </div>
 

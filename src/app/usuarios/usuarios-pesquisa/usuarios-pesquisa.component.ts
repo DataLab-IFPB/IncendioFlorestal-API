@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 
+import 'rxjs/add/operator/map';
+import * as ARR from 'lodash';
+
 import { UsuarioService } from './../usuario.service';
 
 @Component({
@@ -12,11 +15,20 @@ import { UsuarioService } from './../usuario.service';
 })
 export class UsuariosPesquisaComponent implements OnInit {
 
+
+  spinnerIsActive = true;
+
   usuario: Usuario;
 
-  usuarios: Array<Usuario> = [];
 
   busca: string = '';
+
+  usuarios: Array<Usuario> = [];
+  //
+  numberItems = 24;
+  nextKey: any;
+  prevKeys: any[] = [];
+  subscription: any;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -26,11 +38,53 @@ export class UsuariosPesquisaComponent implements OnInit {
 
 
   ngOnInit(): void {
+    // this.getUsuarios();
     this.listar();
   }
 
-  listar() {
-    this.usuarioService.listar()
+  listar(key?) {
+
+    if (this.subscription) this.subscription.unsubscribe()
+
+    this.subscription = this.usuarioService.listar(this.numberItems, key)
+      .snapshotChanges()
+      .subscribe(async usuarios => {
+
+        const usuariosFlag = [];
+
+        for await (let contents of usuarios) {
+          usuariosFlag.push({ key: contents.payload.key, ...contents.payload.exportVal() })
+        }
+
+        this.usuarios = ARR.slice(usuariosFlag, 0, this.numberItems) // elimina o último incêndio (ele é a próxima key)
+        this.nextKey = ARR.get(usuariosFlag[this.numberItems], 'key')
+
+
+        this.stopSpinner();
+      })
+  }
+
+  onNext() {
+    this.prevKeys.push(ARR.first(this.usuarios)['key']) // get prev key
+    this.listar(this.nextKey)
+  }
+
+  onPrev() {
+    const prevKey = ARR.last(this.prevKeys) // get last key
+    this.prevKeys = ARR.dropRight(this.prevKeys) // delete last key
+
+    this.listar(prevKey)
+  }
+
+
+  //
+
+  stopSpinner() {
+    this.spinnerIsActive = false;
+  }
+
+  getUsuarios() {
+    this.usuarioService.getUsuarios()
       .subscribe(users => {
 
         const usuariosFlag: Array<Usuario> = [];
@@ -50,7 +104,7 @@ export class UsuariosPesquisaComponent implements OnInit {
 
 
   filtrar() {
-    this.usuarioService.listar()
+    this.usuarioService.getUsuarios()
       .subscribe(users => {
 
         const usuariosFlag: Array<Usuario> = [];
