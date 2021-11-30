@@ -13,18 +13,12 @@ export class IncendioService {
 
   private dbPath = '/dados-firms';
 
-
-  incendios: AngularFireList<Incendio[]> = null;
-
   constructor(
     private db: AngularFireDatabase
   ) { }
 
 
-
-
-  getFire(numberItems, startKey?): AngularFireList<Incendio[]> {
-
+  listar(numberItems, startKey?): AngularFireList<Incendio[]> {
     return this.db.list(this.dbPath, ref => {
 
       var query = ref.orderByKey().limitToFirst(numberItems + 1); // limitToFirst começa a partir do topo da coleção
@@ -34,16 +28,11 @@ export class IncendioService {
       }
 
       return query;
-
     });
-
-
   }
 
 
-
-
-  listar() {
+  getIncendios() {
     return this.db.list(this.dbPath)
       .snapshotChanges().pipe(
         map(changes =>
@@ -56,22 +45,20 @@ export class IncendioService {
       )
   }
 
-  exportVal(incendios: AngularFireList<Incendio[]>) {
-    return incendios.snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c =>
-        ({
-          key: c.payload.key, ...c.payload.exportVal()
-        })
-        )
-      )
-    )
-  }
+  // exportVal(incendios: AngularFireList<Incendio[]>) {
+  //   return incendios.snapshotChanges().pipe(
+  //     map(changes =>
+  //       changes.map(c =>
+  //       ({
+  //         key: c.payload.key, ...c.payload.exportVal()
+  //       })
+  //       )
+  //     )
+  //   )
+  // }
 
 
   excluir(key: string) {
-
-    console.log('remover ', key)
 
     const incendio = {
       isDeleted: true,

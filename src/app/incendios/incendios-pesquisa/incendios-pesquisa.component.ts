@@ -19,10 +19,6 @@ export class IncendiosPesquisaComponent implements OnInit {
 
   incendio: Incendio;
 
-  // incendios: Array<Incendio> = [];
-
-  incendios = [];
-
   spinnerIsActive = true;
 
   textoBuscado: string = '';
@@ -31,8 +27,8 @@ export class IncendiosPesquisaComponent implements OnInit {
   anoAtual = new Date().getFullYear();
 
 
+  incendios: Array<Incendio> = [];
   //
-  fires: any;
   numberItems = 10;
   nextKey: any;
   prevKeys: any[] = [];
@@ -55,7 +51,7 @@ export class IncendiosPesquisaComponent implements OnInit {
 
     if (this.subscription) this.subscription.unsubscribe()
 
-    this.subscription = this.incendioService.getFire(this.numberItems, key)
+    this.subscription = this.incendioService.listar(this.numberItems, key)
       .snapshotChanges()
       .subscribe(async incendios => {
 
@@ -65,24 +61,16 @@ export class IncendiosPesquisaComponent implements OnInit {
           incendiosFlag.push({ key: contents.payload.key, ...contents.payload.exportVal() })
         }
 
-        this.fires = ARR.slice(incendiosFlag, 0, this.numberItems)
-        this.nextKey = ARR.get(incendiosFlag[this.numberItems], 'key')
         this.incendios = ARR.slice(incendiosFlag, 0, this.numberItems) // elimina o último incêndio (ele é a próxima key)
+        this.nextKey = ARR.get(incendiosFlag[this.numberItems], 'key')
+
 
         this.stopSpinner();
       })
-
-
-
-
-
-
-
-
   }
 
   onNext() {
-    this.prevKeys.push(ARR.first(this.fires)['key']) // get prev key
+    this.prevKeys.push(ARR.first(this.incendios)['key']) // get prev key
     this.getFogo(this.nextKey)
   }
 
@@ -101,7 +89,7 @@ export class IncendiosPesquisaComponent implements OnInit {
   }
 
   listar() {
-    this.incendioService.listar()
+    this.incendioService.getIncendios()
       .subscribe(incendios => {
         this.incendios = incendios;
         this.stopSpinner();
