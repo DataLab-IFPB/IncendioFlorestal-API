@@ -25,7 +25,7 @@ export class UsuariosPesquisaComponent implements OnInit {
 
   usuarios: Array<Usuario> = [];
   //
-  numberItems = 24;
+  numberItems = 28;
   nextKey: any;
   prevKeys: any[] = [];
   subscription: any;
@@ -53,12 +53,14 @@ export class UsuariosPesquisaComponent implements OnInit {
         const usuariosFlag = [];
 
         for await (let contents of usuarios) {
-          usuariosFlag.push({ key: contents.payload.key, ...contents.payload.exportVal() })
+          const user = { key: contents.payload.key, ...contents.payload.exportVal() }
+          if (!user.isDeleted) {
+            usuariosFlag.push(user)
+          }
         }
 
         this.usuarios = ARR.slice(usuariosFlag, 0, this.numberItems) // elimina o último incêndio (ele é a próxima key)
-        this.nextKey = ARR.get(usuariosFlag[this.numberItems], 'key')
-
+        this.nextKey = ARR.get(usuarios[this.numberItems], 'key')
 
         this.stopSpinner();
       })
@@ -104,27 +106,39 @@ export class UsuariosPesquisaComponent implements OnInit {
 
 
   filtrar() {
-    this.usuarioService.getUsuarios()
-      .subscribe(users => {
 
-        const usuariosFlag: Array<Usuario> = [];
+    if (this.busca == '') {
+      this.listar();
+    } else {
 
-        users.forEach(u => {
-          if (!u.isDeleted) {
-            const email = String(u.email);
-            const registration = String(u.registration);
+      this.usuarioService.getUsuarios()
+        .subscribe(users => {
 
-            if (email.includes(this.busca) || registration.includes(this.busca)) {
-              usuariosFlag.push(u);
+          const usuariosFlag: Array<Usuario> = [];
+
+          users.forEach(u => {
+            if (!u.isDeleted) {
+              const email = String(u.email);
+              const registration = String(u.registration);
+
+              if (email.includes(this.busca) || registration.includes(this.busca)) {
+                usuariosFlag.push(u);
+              }
             }
-          }
-        })
+          })
 
-        this.usuarios = usuariosFlag;
+          this.usuarios = usuariosFlag;
 
-      }, (error) => {
-        console.log(error);
-      });
+          this.nextKey = undefined;
+          this.prevKeys = [];
+
+        }, (error) => {
+          console.log(error);
+        });
+
+    }
+
+
   }
 
 

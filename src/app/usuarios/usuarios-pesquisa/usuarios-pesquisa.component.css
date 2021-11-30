@@ -26,6 +26,10 @@
     width: 17rem;
 }
 
+.user.true {
+    background-color: red;
+}
+
 .card-footer.true {
     display: flex;
     align-items: center;
