@@ -1,5 +1,6 @@
 <div class="p-d-flex p-flex-column" *ngIf="!exibirSpinner">
 
+  <!-- Filtros -->
   <div class="p-d-flex p-jc-center p-flex-wrap">
     <p-multiSelect
       [(ngModel)]="municipiosFilter"
@@ -30,7 +31,7 @@
   </div>
 
   <div>
-    <!-- Cards Infos -->
+    <!-- Cards Quantitativos -->
     <div class="p-d-flex p-jc-center p-flex-wrap container-card">
       <div *ngFor="let dados of dadosEstaticos">
         <app-card-info [imagem]=dados.imagem [titulo]=dados.titulo [dado]=dados.dado></app-card-info>

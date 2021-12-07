@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IncendioService } from 'src/app/incendios/incendio.service';
 import { DashboardService } from '../dashboard.service';
 
 @Component({
@@ -25,12 +24,12 @@ export class DashboardComponent implements OnInit {
   municipiosFilter : string[] = [];
   periodoFilter: Date;
 
-  constructor(private dashboardService: DashboardService, private incendioService: IncendioService) { }
+  constructor(private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
 
-    this.incendioService.listar().subscribe((data) => {
-      this.dashboardService.datasetFirebase = data;
+    this.dashboardService.getterData().subscribe((data) => {
+      this.dashboardService.setterDataFirebase(data);
       this.exibirSpinner = false;
       this.config();
     });
@@ -42,10 +41,10 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.carregarFiltros();
     this.dashboardService.gerarDatasets();
 
-    this.municipios = this.dashboardService.getMunicipiosFiltro();
+    this.municipios = this.dashboardService.getterFiltrosMunicipios();
 
     if(this.tipoDashboard === 'dashboard-por-ano') {
-      this.periodoAno = this.dashboardService.getAnosFiltro();
+      this.periodoAno = this.dashboardService.getterFiltroAnos();
       this.anoFilter = this.periodoAno[0];
     }
 
@@ -55,12 +54,12 @@ export class DashboardComponent implements OnInit {
   atualizar() {
 
     this.dashboardService.tipoDashboard = this.tipoDashboard;
-    this.dashboardService.clear();
+    this.dashboardService.clearDataset();
 
     switch(this.tipoDashboard) {
       case 'dashboard-por-ano':
         this.dashboardService.filtrarRegistrosPorAno(this.municipiosFilter, this.anoFilter);
-        this.dadosHeatmap = this.dashboardService.getDatasetHeatmap();
+        this.dadosHeatmap = this.dashboardService.getterHeatmap();
         break;
       case 'dashboard-por-periodo':
         if(this.periodoFilter !== undefined) {
@@ -71,8 +70,8 @@ export class DashboardComponent implements OnInit {
         break;
     }
 
-    this.dadosEstaticos = this.dashboardService.getDatasetEstatico();
-    this.dadosGraficos = this.dashboardService.getDatasetCharts();
+    this.dadosEstaticos = this.dashboardService.getterDadosQuantitativos();
+    this.dadosGraficos = this.dashboardService.getterDadosGraficos();
 
   }
 

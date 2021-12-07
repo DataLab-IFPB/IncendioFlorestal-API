@@ -1,4 +1,3 @@
-import { IncendiosPesquisaComponent } from './incendios/incendios-pesquisa/incendios-pesquisa.component';
 import { UsuariosNovaSenhaComponent } from './usuarios/usuarios-nova-senha/usuarios-nova-senha.component';
 import { RoleGuard } from './seguranca/role.guard';
 import { HomeComponent } from './home/home/home.component';
@@ -24,8 +23,6 @@ const routes: Routes = [
   { path: 'usuarios/novo', component: UsuariosCadastroComponent, canActivate: [RoleGuard] },
   { path: 'usuarios/edicao/:matricula', component: UsuariosCadastroComponent, canActivate: [RoleGuard] },
   { path: 'usuario/nova-senha', component: UsuariosNovaSenhaComponent, canActivate: [AuthGuard] },
-
-  { path: 'incendios', component: IncendiosPesquisaComponent },
 
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
   { path: '**', redirectTo: 'pagina-nao-encontrada' }

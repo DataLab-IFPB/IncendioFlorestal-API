@@ -11,22 +11,25 @@ const mapboxgl = require('mapbox-gl');
 })
 export class HeatmapComponent implements OnInit {
 
-  mapa: any;
-
   @Input() dados: object;
+
+  private mapa: any;
 
   constructor(private dashboardService : DashboardService) {}
 
   ngOnInit(): void {
+
     this.configMap();
     this.configLayer();
 
-    this.dashboardService.heatmapEvent.subscribe(
+    // Ouvinte do evento de atualização do heatmap
+    this.dashboardService.getterHeatmapEvent().subscribe(
       () => this.mapa.getSource('dataset-incendios-florestais').setData(this.dados)
     );
   }
 
   private configMap(): void {
+
     mapboxgl.accessToken = environment.mapboxkey;
 
     this.mapa = new mapboxgl.Map({
@@ -42,6 +45,7 @@ export class HeatmapComponent implements OnInit {
   }
 
   private configLayer(): void {
+
     this.mapa.on('load', () => {
 
       this.mapa.addSource('dataset-incendios-florestais', {
@@ -62,8 +66,8 @@ export class HeatmapComponent implements OnInit {
           ]
         }
       }); // addLayer
-
     });
+
   }
 
 }

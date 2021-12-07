@@ -34,12 +34,14 @@ export class Chart {
     }
   }
 
+  // Gera gráfico com o dataset incluso
   private generateChart(titulo: string, dados: any[], rotulo: string, tipo: string, labels: string[], borderColor: any, backgroundColor: any) {
     const dataset = this.factoryDatasetChart(rotulo, dados, borderColor, backgroundColor);
     const chart = this.factoryChart(titulo, tipo, labels, [dataset]);
     return chart;
   }
 
+  // Tipos de Gráficos
   barChart(titulo: string, dados: any[], rotulo: string) {
     return this.generateChart(titulo, dados, rotulo, 'bar', this.labelsMeses, this.cores.blue, this.cores.blue);
   }
