@@ -8,6 +8,8 @@ import { AuthService } from './../../seguranca/auth.service';
 import { UsuarioService } from './../../usuarios/usuario.service';
 import { Usuario } from './../model';
 
+import { faFireExtinguisher } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -20,6 +22,10 @@ export class NavbarComponent implements OnInit {
   usuarioLogado: Usuario;
 
   darkThemeisActive: boolean = false;
+
+  icones = {
+    extintor: faFireExtinguisher
+  }
 
   constructor(
     private auth: AuthService,

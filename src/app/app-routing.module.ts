@@ -21,9 +21,9 @@ const routes: Routes = [
 
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
 
-  { path: 'usuarios', component: UsuariosPesquisaComponent, canActivate: [] },
+  { path: 'usuarios', component: UsuariosPesquisaComponent, canActivate: [AuthGuard, RoleGuard] },
   { path: 'usuarios/novo', component: UsuariosCadastroComponent, canActivate: [AuthGuard, RoleGuard] },
-  { path: 'usuarios/edicao/:matricula', component: UsuariosCadastroComponent, canActivate: [] },
+  { path: 'usuarios/edicao/:matricula', component: UsuariosCadastroComponent, canActivate: [AuthGuard, RoleGuard] },
   { path: 'usuario/nova-senha', component: UsuariosNovaSenhaComponent, canActivate: [AuthGuard] },
 
   { path: 'incendios', component: IncendiosPesquisaComponent, canActivate: [AuthGuard] },

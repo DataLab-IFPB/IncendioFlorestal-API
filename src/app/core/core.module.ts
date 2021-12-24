@@ -7,6 +7,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { SidebarModule } from 'primeng/sidebar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+
 import { NavbarComponent } from './navbar/navbar.component';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 
@@ -20,7 +22,8 @@ import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao
     TooltipModule,
     SidebarModule,
     InputSwitchModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   exports: [NavbarComponent]
 })

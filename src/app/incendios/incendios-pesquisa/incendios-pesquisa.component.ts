@@ -10,7 +10,7 @@ import * as ARR from 'lodash';
 import { IncendioService } from './../incendio.service';
 import { Incendio } from './../../core/model';
 
-import { faCoffee, faWind, faTint, faTemperatureHigh } from '@fortawesome/free-solid-svg-icons';
+import { faWind, faTint, faTemperatureHigh } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-incendios-pesquisa',
@@ -19,7 +19,6 @@ import { faCoffee, faWind, faTint, faTemperatureHigh } from '@fortawesome/free-s
 })
 export class IncendiosPesquisaComponent implements OnInit {
 
-  faCoffee = faCoffee;
 
   incendio = new Incendio();
 
