@@ -31,14 +31,17 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
 
+    const currentTheme = this.initTheme();
+
+    if (currentTheme == "dark")
+      this.darkThemeisActive = true;
+
+
     this.usuarioLogado = new Usuario();
 
     if (this.auth.getUsuarioLogado) {
       this.buscarUsuario(this.auth.getUsuarioLogado.uid);
     }
-
-
-
   }
 
   logout() {
@@ -58,13 +61,24 @@ export class NavbarComponent implements OnInit {
       })
   }
 
+
+  initTheme() {
+    const theme = localStorage.getItem('theme');
+    this.themeService.switchTheme(theme);
+    return theme;
+  }
+
   changeTheme() {
+
+    localStorage.removeItem('theme');
 
     let theme: string;
 
     if (this.darkThemeisActive) {
+      localStorage.setItem('theme', 'dark');
       theme = 'dark'
     } else {
+      localStorage.setItem('theme', 'light');
       theme = 'light'
     }
 

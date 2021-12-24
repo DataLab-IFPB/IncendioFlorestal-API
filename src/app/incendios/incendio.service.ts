@@ -25,7 +25,7 @@ export class IncendioService {
   listar(numberItems, startKey?): AngularFireList<Incendio[]> {
     return this.db.list(this.dbPath, ref => {
 
-      let query = ref.orderByKey().limitToFirst(numberItems + 1); // limitToFirst começa a partir do topo da coleção
+      let query = ref.orderByKey().limitToLast(numberItems + 1); // limitToFirst começa a partir do topo da coleção
 
       if (startKey) { // Se não houver cursor, começa no início da coleção ... caso contrário, começa no cursor
         query = query.startAt(startKey);

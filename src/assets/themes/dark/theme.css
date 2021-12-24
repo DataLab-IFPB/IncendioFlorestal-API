@@ -33,7 +33,7 @@
 }
 
 
-/* estilo específico bombeiros */
+/* INÍCIO estilo específico bombeiros */
 
 body {
     background-color: var(--surface-d) !important;
@@ -41,6 +41,7 @@ body {
 
 
 /* button {
+    // incluir button-link
     color: #ffffff !important;
 } */
 
@@ -56,7 +57,7 @@ h2 {
 }
 
 
-/* estilo específico bombeiros */
+/* FIM estilo específico bombeiros */
 
 .p-component {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";

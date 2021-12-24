@@ -2,6 +2,10 @@
     margin-bottom: 2rem;
 }
 
+.table-container {
+    background-color: white;
+}
+
 
 /* secondary color table bordered in active fires */
 
@@ -76,6 +80,11 @@
 
 #btn-editar {
     margin-right: .5rem !important;
+    color: green;
+}
+
+#btn-excluir {
+    color: red;
 }
 
 :host ::ng-deep .p-button-icon.pi.pi-chevron-right {

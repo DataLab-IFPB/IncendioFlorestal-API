@@ -10,7 +10,9 @@ export class AppComponent {
   title = 'combate-incendios';
 
   constructor(
-    private router: Router) { }
+    private router: Router) {
+    this.definirTemaPadrao();
+  }
 
   exibindoMenu() {
 
@@ -27,6 +29,16 @@ export class AppComponent {
 
   }
 
+
+  definirTemaPadrao() {
+
+    const theme = localStorage.getItem('theme');
+
+    if (!theme) {
+      localStorage.setItem('theme', 'light');
+    }
+
+  }
 
 
 
