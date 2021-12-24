@@ -1,10 +1,11 @@
-import { ConfirmationService } from 'primeng/api';
-import { Usuario } from 'src/app/core/model';
-import { UsuarioService } from './../../usuarios/usuario.service';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/seguranca/auth.service';
 import { Router } from '@angular/router';
 
+import { ConfirmationService } from 'primeng/api';
+
+import { AuthService } from 'src/app/seguranca/auth.service';
+import { Usuario } from 'src/app/core/model';
+import { UsuarioService } from './../../usuarios/usuario.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

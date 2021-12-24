@@ -2,7 +2,8 @@
 
     <h1>Usuários</h1>
 
-    <p-dataView [value]="usuarios" [paginator]="true" [rows]="30" layout="grid" emptyMessage="Nenhum usuário encontrado">
+    <p-dataView [value]="usuarios" layout="grid" emptyMessage="Nenhum usuário encontrado">
+
         <ng-template pTemplate="header">
 
             <div class="users-list-header">
@@ -40,8 +41,8 @@
                             </div>
 
                             <div class="botoes">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-text" pTooltip="Editar" tooltipPosition="bottom" [routerLink]="['/usuarios/edicao', user.registration]"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmarExclusao(user)"></button>
+                                <button id="btn-editar" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success" pTooltip="Editar" tooltipPosition="bottom" [routerLink]="['/usuarios/edicao', user.registration]"></button>
+                                <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmarExclusao(user)"></button>
                             </div>
                         </div>
                     </ng-template>
@@ -49,13 +50,23 @@
                 </p-card>
 
             </div>
+        </ng-template>
 
+        <ng-template pTemplate="footer">
+            <div class="buttons-prev-next">
+                <button class="prev" type="button" pButton icon="pi pi-chevron-left" (click)="onPrev()" [disabled]="prevKeys?.length == 0" label="Anterior"></button>
+                <button class="next" type="button" pButton icon="pi pi-chevron-right" iconPos="right" (click)="onNext()" [disabled]="nextKey == null" label="Próximo"></button>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="empty">
+            <h3>Nenhum usuário encontrado</h3>
+            <p-progressSpinner class="spinner" *ngIf="spinnerIsActive" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
         </ng-template>
 
     </p-dataView>
 
 </div>
-
 
 
 <p-confirmDialog #cd [style]="{width: '450px'}" [closable]="false">

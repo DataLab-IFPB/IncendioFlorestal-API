@@ -26,7 +26,7 @@ export class LoginComponent {
     private router: Router,
     private messageService: MessageService
   ) {
-    this.login.email = 'oliveiramycaell@bombeirospb.gov';
+    this.login.email = '8881@bombeirospb.gov';
     this.login.password = 'mycaell';
   }
 
@@ -40,6 +40,8 @@ export class LoginComponent {
 
         if (erro === "E-mail inválido") {
           this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
+        } else if (erro === "Conta bloqueada") {
+          this.messageService.add({ severity: 'error', summary: 'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.', detail: ' Tente novamente mais tarde!' });
         } else {
           this.messageService.add({ severity: 'error', summary: 'Nenhum usuário foi encontrado com essas credenciais!' });
         }

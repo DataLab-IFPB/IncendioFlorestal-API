@@ -1,19 +1,19 @@
-import { MessageService } from 'primeng/api';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
-import { Usuario, Login } from './../core/model';
+import { MessageService } from 'primeng/api';
 
 import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs-compat/add/operator/first';
 
-
 import * as moment from 'moment';
-import { Router } from '@angular/router';
-import { Console } from 'console';
-import { TypeScriptEmitter } from '@angular/compiler';
+
+import { Usuario, Login } from './../core/model';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,13 +30,9 @@ export class UsuarioService {
 
   async cadastrar(usuario: Usuario) {
 
-    if (!this.validarDominioDeEmail(usuario.email)) {
-      return Promise.reject("O e-mail não está formatado corretamente");
-    }
-
-    await this.verificarExistenciaDeEmail(usuario.email).then(u => {
+    await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
       if (u) {
-        return Promise.reject("O e-mail já está sendo utilizado");
+        return Promise.reject("Matrícula já utilizada");
       }
     })
 
@@ -60,7 +56,18 @@ export class UsuarioService {
     return Promise.resolve();
   }
 
-  atualizarPerfil(usuario: Usuario, credenciaisLogin: Login) {
+  async atualizarPerfil(usuario: Usuario, credenciaisLogin: Login) {
+
+
+    await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
+      if (u) {
+
+        if (u.key != usuario.key) {
+          return Promise.reject("Matrícula já utilizada");
+        }
+      }
+    })
+
 
     return this.afAuth.signInWithEmailAndPassword(credenciaisLogin.email, credenciaisLogin.password)
       .then(userCredential => {
@@ -89,16 +96,28 @@ export class UsuarioService {
         this.db.list(this.dbPath).update(usuario.key, user)
         this.messageService.add({ severity: 'success', summary: 'Perfil atualizado!' });
 
+        location.reload(); // para atualizar a matricula presente no menu [DAR UM JEITO DE MELHORAR ISSO (adicionar os dados do realtime no local storage ao invés de apenas as credenciais)]
       })
       .catch(erro => {
-        console.log(erro)
-        this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
+        if (erro.code === "auth/too-many-requests") {
+          this.messageService.add({ severity: 'error', summary: 'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.', detail: ' Tente novamente mais tarde!' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
+        }
       })
 
   }
 
 
-  atualizar(usuario: Usuario) {
+  async atualizar(usuario: Usuario) {
+
+    await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
+      if (u) {
+        if (u.key != usuario.key) {
+          return Promise.reject("Matrícula já utilizada");
+        }
+      }
+    })
 
     const user = {
       birthDate: moment(usuario.birthDate).format('DD/MM/YYYY'),
@@ -170,12 +189,29 @@ export class UsuarioService {
   }
 
 
-  listar() {
+
+  listar(numberItems, startKey?): AngularFireList<Usuario[]> {
+    return this.db.list(this.dbPath, ref => {
+
+      var query = ref.orderByKey().limitToFirst(numberItems + 1); // limitToFirst começa a partir do topo da coleção
+
+      if (startKey) { // Se não houver cursor, começa no início da coleção ... caso contrário, começa no cursor
+        query = query.startAt(startKey);
+      }
+
+      return query;
+    });
+  }
+
+  //get all
+  getUsuarios() {
     return this.db.list('users')
       .snapshotChanges().pipe(
         map(changes =>
           changes.map(c =>
-            ({ key: c.payload.key, ...c.payload.exportVal() })
+          ({
+            key: c.payload.key, ...c.payload.exportVal()
+          })
           )
         )
       )
@@ -186,7 +222,7 @@ export class UsuarioService {
 
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         let flag = false;
@@ -213,7 +249,7 @@ export class UsuarioService {
 
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {
@@ -231,7 +267,7 @@ export class UsuarioService {
   buscarUsuarioPorMatricula(matricula: string) {
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {
@@ -252,7 +288,7 @@ export class UsuarioService {
   buscarUsuarioPorEmailEDataNascimento(email: string, dataNascimento: string) {
     let usuarioEncontrado;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {
@@ -288,7 +324,7 @@ export class UsuarioService {
   verificarExistenciaDeEmail(email: string) {
     let usuarioEncontrado = false;
 
-    return this.listar()
+    return this.getUsuarios()
       .map(users => {
 
         users.forEach(user => {
@@ -302,5 +338,25 @@ export class UsuarioService {
       .first()
       .toPromise()
   }
+
+
+  verificarExistenciaDeMatricula(matricula: string) {
+    let usuarioEncontrado;
+
+    return this.getUsuarios()
+      .map(users => {
+
+        users.forEach(user => {
+          if (user.registration == matricula) {
+            usuarioEncontrado = user;
+          }
+        })
+
+        return usuarioEncontrado;
+      })
+      .first()
+      .toPromise()
+  }
+
 
 }

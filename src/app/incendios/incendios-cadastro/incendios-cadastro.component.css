@@ -18,18 +18,14 @@
     text-align: center;
 }
 
-:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month {
-    width: 150px;
+:host ::ng-deep .p-fieldset {
+    margin-bottom: 1rem;
 }
 
-:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year {
-    width: 55px;
-}
-
-:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
-:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year {
-    height: 30px;
-    border: 1px solid #ced4da;
+:host ::ng-deep .p-fieldset .p-fieldset-legend {
+    background-color: #78c1fd52;
+    /* text-transform: uppercase; */
+    font-weight: bold;
 }
 
 form .footer {
@@ -41,6 +37,12 @@ form .footer {
 #btn-cancelar {
     margin-right: .5rem;
     text-decoration: none;
+}
+
+.header-novo-incendio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 

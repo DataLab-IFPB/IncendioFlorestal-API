@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { AuthService } from 'src/app/seguranca/auth.service';
-import { UsuarioService } from '../usuario.service';
-
 import { Router } from '@angular/router';
 
+import { MessageService, ConfirmationService } from 'primeng/api';
+
+import { AuthService } from 'src/app/seguranca/auth.service';
+import { UsuarioService } from '../usuario.service';
 import { Login, Usuario } from './../../core/model';
 
 @Component({
@@ -66,7 +66,6 @@ export class UsuariosNovaSenhaComponent implements OnInit {
     this.usuarioService.buscarUsuarioPorMatricula(matricula)
       .then(user => {
         this.usuario = user;
-        console.log(user)
       })
   }
 

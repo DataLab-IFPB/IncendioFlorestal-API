@@ -1,12 +1,15 @@
-import { TooltipModule } from 'primeng/tooltip';
-import { RouterModule } from '@angular/router';
-import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from './navbar/navbar.component';
+import { RouterModule } from '@angular/router';
+
+import { TooltipModule } from 'primeng/tooltip';
 import { SidebarModule } from 'primeng/sidebar';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { FormsModule } from '@angular/forms';
+
+import { NavbarComponent } from './navbar/navbar.component';
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
+
 
 @NgModule({
   declarations: [PaginaNaoEncontradaComponent, NavbarComponent],

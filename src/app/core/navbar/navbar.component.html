@@ -15,16 +15,16 @@
         <li class="navbar-menuitem usuario" pTooltip="matrícula" tooltipPosition="top">{{usuarioLogado.registration}}</li>
 
         <li class="navbar-menuitem">
-            <a routerLink="/home" (click)="omitir()">
-                <i class="pi pi-home menu-icon"></i>
-                <span>Home</span>
+            <a routerLink="/perfil" (click)="omitir()">
+                <i class="pi pi-user menu-icon"></i>
+                <span>Perfil</span>
             </a>
         </li>
 
         <li class="navbar-menuitem">
-            <a routerLink="/perfil" (click)="omitir()">
-                <i class="pi pi-user menu-icon"></i>
-                <span>Perfil</span>
+            <a routerLink="/home" (click)="omitir()">
+                <i class="pi pi-home menu-icon"></i>
+                <span>Home</span>
             </a>
         </li>
 
@@ -32,6 +32,13 @@
             <a routerLink="/usuarios" (click)="omitir()">
                 <i class="pi pi-users menu-icon"></i>
                 <span>Usuários</span>
+            </a>
+        </li>
+
+        <li class="navbar-menuitem">
+            <a routerLink="/incendios" (click)="omitir()">
+                <i class="fa fa-fire-extinguisher menu-icon incendio-icon"></i>
+                <span>Incêndios</span>
             </a>
         </li>
 
@@ -48,6 +55,4 @@
             <i class="pi pi-moon" style="font-size: 2rem; color: #cccac8;"></i>
         </div>
     </ul>
-
-
 </p-sidebar>
