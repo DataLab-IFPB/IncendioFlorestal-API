@@ -2,9 +2,29 @@
     margin-bottom: 2rem;
 }
 
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
-    background-color: #b3e5fc !important;
+
+/* secondary color table bordered in active fires */
+
+:host ::ng-deep .p-datatable tr.status.true:nth-child(even) {
+    background-color: rgba(84, 175, 98, 0.459);
 }
+
+
+/* secondary color table bordered in inactive fires */
+
+:host ::ng-deep .p-datatable tr.status.false:nth-child(even) {
+    background-color: rgba(190, 106, 106, 0.425);
+}
+
+:host ::ng-deep .p-dataview.p-dataview-list .p-dataview-content .ng-star-inserted+.ng-star-inserted {
+    border-top: 2px solid #1CA65B;
+    /* background: red; */
+}
+
+
+/* :host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
+    background-color: #b3e5fc !important;
+} */
 
 :host ::ng-deep .p-datatable .p-datatable-thead>tr>th,
 :host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
@@ -66,6 +86,14 @@
     margin-right: .5rem;
 }
 
+.clima-icon {
+    margin-right: .5rem;
+}
+
+.icendio-cidade {
+    font-weight: bold;
+}
+
 .buttons-prev-next {
     display: flex;
     align-items: center;
@@ -74,6 +102,10 @@
 
 .buttons-prev-next .prev {
     margin-right: 1rem;
+}
+
+.p-column-title {
+    display: none;
 }
 
 @media only screen and (max-width: 720px) {
@@ -101,5 +133,45 @@
 @media only screen and (max-width: 415px) {
     .btn-buscar {
         margin: .5rem 0 0 0;
+    }
+}
+
+
+/* --- */
+
+@media screen and (max-width: 960px) {
+     :host ::ng-deep .p-datatable.p-datatable-incendios .p-datatable-thead>tr>th {
+        display: none !important;
+    }
+     :host ::ng-deep .p-datatable.p-datatable-incendios .p-datatable-tbody>tr>td {
+        display: flex;
+        /* flex-wrap: wrap !important; */
+        justify-content: space-between;
+        align-items: center;
+        /* text-align: left; */
+        /* border: 0 none !important; */
+        /* width: 100% !important; */
+        width: 100% !important;
+        /* float: left; */
+        /* clear: left; */
+        /* border: 0 none; */
+        border-top: 1px solid gray;
+        border-style: dashed;
+    }
+     :host ::ng-deep .p-datatable.p-datatable-incendios .p-datatable-tbody>tr>td .p-column-title {
+        font-weight: bold;
+        padding: 0.4rem;
+        display: inline-block;
+        margin: -0.4rem 1rem -0.4rem -0.4rem;
+    }
+    #btn-editar {
+        margin: 0 .5rem 0 0 !important;
+    }
+    .td-emptymessage,
+    .td-spinner {
+        display: block !important;
+    }
+     :host ::ng-deep .p-datatable.p-datatable-incendios .p-datatable-tfoot>tr>td {
+        display: block !important;
     }
 }

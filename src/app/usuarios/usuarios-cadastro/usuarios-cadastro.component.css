@@ -2,12 +2,16 @@
     margin: 0;
 }
 
-.card {
-    margin-top: 1rem;
+.conteudo {
+    margin: 1rem 0;
 }
 
 :host ::ng-deep .p-card .p-card-content {
     padding-bottom: 0;
+}
+
+:host ::ng-deep .p-card .p-card-body {
+    padding-bottom: 0.5rem;
 }
 
 .text-center {

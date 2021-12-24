@@ -13,6 +13,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
 import { FieldsetModule } from 'primeng/fieldset';
+import { DropdownModule } from 'primeng/dropdown';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 import { SharedModule } from './../shared/shared.module';
 import { IncendiosPesquisaComponent } from './incendios-pesquisa/incendios-pesquisa.component';
@@ -27,6 +30,7 @@ import { IncendiosCadastroComponent } from './incendios-cadastro/incendios-cadas
   imports: [
     CommonModule,
     SharedModule,
+    FontAwesomeModule,
     RouterModule,
     TableModule,
     TooltipModule,
@@ -38,7 +42,8 @@ import { IncendiosCadastroComponent } from './incendios-cadastro/incendios-cadas
     ConfirmDialogModule,
     CardModule,
     CalendarModule,
-    FieldsetModule
+    FieldsetModule,
+    DropdownModule
   ]
 })
 export class IncendiosModule { }

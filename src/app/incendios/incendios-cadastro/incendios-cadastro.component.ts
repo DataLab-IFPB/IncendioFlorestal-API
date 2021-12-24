@@ -1,10 +1,12 @@
-import { Incendio } from './../../core/model';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
+
 import { IncendioService } from '../incendio.service';
+import { Clima, Incendio } from './../../core/model';
+
 @Component({
   selector: 'app-incendios-cadastro',
   templateUrl: './incendios-cadastro.component.html',
@@ -16,6 +18,16 @@ export class IncendiosCadastroComponent implements OnInit {
 
   key = this.route.snapshot.params['key'];
 
+  periodos = [
+    { label: "Dia", value: "D" },
+    { label: "Noite", value: "N" }
+  ];
+
+  status = [
+    { label: "Ativo", value: true },
+    { label: "Inativo", value: false }
+  ];
+
   constructor(
     private incendioService: IncendioService,
     private router: Router,
@@ -25,28 +37,49 @@ export class IncendiosCadastroComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('key ', this.key)
-  }
+    this.incendio.clima = new Clima();
 
+    if (this.key)
+      this.buscarIncendio(this.key);
+
+  }
 
   get editando() {
     return this.key ? true : false;
   }
 
   buscarIncendio(key: string) {
-
+    this.incendioService.buscarIncendioPorKey(key)
+      .snapshotChanges()
+      .subscribe(incendio => {
+        this.incendio = { key: incendio[0].payload.key, ...incendio[0].payload.exportVal() }
+      })
   }
 
   salvar() {
-
+    this.editando ? this.atualizar() : this.cadastrar()
   }
 
   cadastrar() {
-
+    this.incendioService.cadastrar(this.incendio)
+      .then(() => {
+        this.messageService.add({ severity: 'success', summary: 'Incêndio cadastrado!' });
+        this.router.navigate(['/incendios']);
+      })
+      .catch(erro => {
+        this.messageService.add({ severity: 'error', summary: erro });
+      })
   }
 
   atualizar() {
-
+    this.incendioService.atualizar(this.incendio)
+      .then(() => {
+        this.router.navigate(['/incendios']);
+        this.messageService.add({ severity: 'success', summary: 'Incêndio atualizado!' });
+      })
+      .catch(erro => {
+        this.messageService.add({ severity: 'error', summary: erro });
+      })
   }
 
   goBack() {

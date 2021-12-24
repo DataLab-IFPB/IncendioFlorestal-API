@@ -2,23 +2,19 @@
 
     <h1>Incêndios</h1>
 
-    <p-table [value]="incendios" [rowHover]="true">
+    <p-table [value]="incendios" styleClass="p-datatable-incendios">
 
         <ng-template pTemplate="caption">
-
             <div class="fire-list-header">
 
                 <div class="busca">
-
                     <div>
-                        <input class="texto-buscado" pInputText type="text" [(ngModel)]="busca" name="buscarIncendio" placeholder="Buscar">
+                        <input class="texto-buscado" pInputText type="text" [(ngModel)]="textoBuscado" name="buscarIncendio" placeholder="Buscar">
                     </div>
 
                     <div>
-                        <!-- obrigatorio? -->
-                        <p-calendar id="dataIncendio" dateFormat="dd/mm/yy" name="dataIncendio" [(ngModel)]="dataBuscada" showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="2000:{{anoAtual}}" readonlyInput="true" required #dataIncendio="ngModel"></p-calendar>
-
-                        <app-mensagem-de-erro [controle]="dataIncendio" erro="required" mensagem="Informe a data de nascimento"></app-mensagem-de-erro>
+                        <p-calendar id="dataIncendio" dateFormat="dd/mm/yy" showButtonBar="true" name="dataIncendio" placeholder="Data" [(ngModel)]="dataBuscada" showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="2000:{{anoAtual}}" readonlyInput="true" #dataIncendio="ngModel"></p-calendar>
+                        <!-- <app-mensagem-de-erro [controle]="dataIncendio" erro="required" mensagem="Informe a data de nascimento"></app-mensagem-de-erro> -->
 
                         <button class="btn-buscar" pButton icon="pi pi pi-search" pTooltip="Buscar" tooltipPosition="bottom" (click)="filtrar()"></button>
                     </div>
@@ -28,15 +24,15 @@
                     <a class="btn-new-user button-link" pButton icon="pi pi-plus-circle" pTooltip="Novo incêndio" tooltipPosition="bottom" routerLink="/incendios/novo"></a>
                 </div>
             </div>
-
         </ng-template>
 
         <ng-template pTemplate="header">
             <tr>
-                <th>Detalhes</th>
                 <th>Status</th>
+                <th>Local</th>
                 <th>Período</th>
                 <th>Intencidade</th>
+                <th>Clima</th>
                 <th>Data e Hora</th>
                 <th>Ações</th>
             </tr>
@@ -44,14 +40,47 @@
 
         <ng-template pTemplate="body" let-incendio>
             <tr [class]="'status ' + incendio.ativo">
-
-                <!-- exibe info de clima/longitude-latitude -->
-                <td> <button pButton pRipple type="button" icon="pi pi-eye" class="p-button-rounded p-button-outlined p-button-info" pTooltip="Detalhes" tooltipPosition="bottom"></button></td>
-                <td>{{incendio.ativo ? 'Ativo' : 'Inativo'}}</td>
-                <td>{{incendio.daynight == 'D'? 'Dia' : 'Noite'}}</td>
-                <td>{{incendio.brightness}}</td>
-                <td>{{incendio.acq_datetime}}</td>
                 <td>
+                    <span class="p-column-title">Status</span> {{incendio.ativo ? 'Ativo' : 'Inativo'}}
+                </td>
+                <td>
+                    <span class="p-column-title">Local</span>
+                    <p class="icendio-cidade" *ngIf="incendio.clima" pTooltip="Cidade" tooltipPosition="bottom">
+                        {{incendio.clima.cidade}}
+                    </p>
+
+                    <p pTooltip="Latitude" tooltipPosition="bottom">{{incendio.latitude}}</p>
+                    <p pTooltip="Longitude" tooltipPosition="bottom">{{incendio.longitude}}</p>
+
+                    <!-- <b>lat: </b>{{incendio.latitude}} <br> <b>lon: </b>{{incendio.longitude}} -->
+                </td>
+                <td>
+                    <span class="p-column-title">Período</span> {{incendio.daynight == 'D'? 'Dia' : 'Noite'}}</td>
+                <td>
+                    <span class="p-column-title">Intencidade</span> {{incendio.brightness}}
+                </td>
+                <td>
+                    <span class="p-column-title">Clima</span>
+                    <p *ngIf="incendio.clima" pTooltip="Temperatura" tooltipPosition="bottom">
+                        <fa-icon [icon]="icones.temperatura" class="clima-icon"></fa-icon>
+                        <span>{{incendio.clima.temperatura}}</span>
+                    </p>
+
+                    <p *ngIf="incendio.clima" pTooltip="Humidade" tooltipPosition="bottom">
+                        <fa-icon [icon]="icones.humidade" class="clima-icon"></fa-icon>
+                        <span>{{incendio.clima.humidade_relativa}}</span>
+                    </p>
+
+                    <p *ngIf="incendio.clima" pTooltip="Vento" tooltipPosition="bottom">
+                        <fa-icon [icon]="icones.vento" class="clima-icon"></fa-icon>
+                        <span>{{incendio.clima.velocidade_vento}}</span>
+                    </p>
+                </td>
+                <td>
+                    <span class="p-column-title">Data e Hora</span> {{incendio.acq_datetime}}
+                </td>
+                <td>
+                    <span class="p-column-title">Ações</span>
                     <div class="botoes">
                         <button id="btn-editar" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success" pTooltip="Editar" tooltipPosition="bottom" [routerLink]="['/incendios/edicao', incendio.key]"></button>
                         <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmarExclusao(incendio)"></button>
@@ -63,10 +92,10 @@
 
         <ng-template pTemplate="footer">
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <div class="buttons-prev-next">
                         <button class="prev" type="button" pButton icon="pi pi-chevron-left" (click)="onPrev()" [disabled]="prevKeys?.length == 0" label="Anterior"></button>
-                        <button class="next" type="button" pButton icon="pi pi-chevron-right" iconPos="right" (click)="onNext()" [disabled]="nextKey == null" label="Próximo"></button>
+                        <button class="next" type="button" pButton icon="pi pi-chevron-right" iconPos="right" (click)="onNext()" [disabled]="nextKey == null || nextKey == 'undefined' " label="Próximo"></button>
                     </div>
                 </td>
             </tr>
@@ -74,10 +103,10 @@
 
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="6">Nenhum foco de incêndio encontrado</td>
+                <td colspan="7" class="td-emptymessage">Nenhum foco de incêndio encontrado</td>
             </tr>
             <tr>
-                <td colspan="6">
+                <td colspan="7" class="td-spinner">
                     <p-progressSpinner class="spinner" *ngIf="spinnerIsActive" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
                 </td>
             </tr>

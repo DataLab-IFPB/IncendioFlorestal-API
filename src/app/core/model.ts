@@ -32,7 +32,6 @@ export class Incendio {
   acq_datetime
   acq_time
 
-
   ativo: boolean;
   userCreated: boolean;
 
@@ -56,19 +55,12 @@ export class Incendio {
 
   version
   WKT
+
+  isDeleted: boolean;
+  deletedAt: Date;
+  updatedAt: Date;
 }
 
-
-// clima
-// cidade: "Itaporanga"
-// cobertura_nuvem: 8
-// direcao_vento: "Norte"
-// hora_observacao: "2021-11-03 13:28"
-// humidade_relativa: 35.0938
-// precipitacao: 0
-// temperatura: 32.6
-// velocidade_vento: 4.83744
-// visibilidade: 24
 
 export class Clima {
   cidade;

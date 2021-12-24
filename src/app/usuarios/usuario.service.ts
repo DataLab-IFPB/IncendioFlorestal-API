@@ -96,7 +96,7 @@ export class UsuarioService {
         this.db.list(this.dbPath).update(usuario.key, user)
         this.messageService.add({ severity: 'success', summary: 'Perfil atualizado!' });
 
-        location.reload(); // para atualizar a matricula presente no menu [DAR UM JEITO DE MELHORAR ISSO]
+        location.reload(); // para atualizar a matricula presente no menu [DAR UM JEITO DE MELHORAR ISSO (adicionar os dados do realtime no local storage ao invés de apenas as credenciais)]
       })
       .catch(erro => {
         if (erro.code === "auth/too-many-requests") {
