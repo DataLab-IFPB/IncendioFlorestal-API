@@ -1,4 +1,3 @@
-import { Usuario } from './../../core/model';
 import { Component, OnInit } from '@angular/core';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -6,6 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import 'rxjs/add/operator/map';
 import * as ARR from 'lodash';
 
+import { Usuario } from './../../core/model';
 import { UsuarioService } from './../usuario.service';
 
 @Component({
@@ -16,15 +16,14 @@ import { UsuarioService } from './../usuario.service';
 export class UsuariosPesquisaComponent implements OnInit {
 
 
-  spinnerIsActive = true;
-
   usuario: Usuario;
 
+  spinnerIsActive = true;
 
   busca: string = '';
 
   usuarios: Array<Usuario> = [];
-  //
+
   numberItems = 28;
   nextKey: any;
   prevKeys: any[] = [];
@@ -38,7 +37,6 @@ export class UsuariosPesquisaComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.getUsuarios();
     this.listar();
   }
 
@@ -52,6 +50,7 @@ export class UsuariosPesquisaComponent implements OnInit {
 
         const usuariosFlag = [];
 
+        // for utilizado para verificar se está exluido (todo: tentar remover isso e deixer por conta da query)
         for await (let contents of usuarios) {
           const user = { key: contents.payload.key, ...contents.payload.exportVal() }
           if (!user.isDeleted) {
@@ -78,36 +77,15 @@ export class UsuariosPesquisaComponent implements OnInit {
     this.listar(prevKey)
   }
 
-
-  //
-
   stopSpinner() {
     this.spinnerIsActive = false;
   }
 
-  getUsuarios() {
-    this.usuarioService.getUsuarios()
-      .subscribe(users => {
-
-        const usuariosFlag: Array<Usuario> = [];
-
-        users.forEach(u => {
-          if (!u.isDeleted) {
-            usuariosFlag.push(u);
-          }
-        })
-
-        this.usuarios = usuariosFlag;
-
-      }, (error) => {
-        console.log(error);
-      });
-  }
-
-
   filtrar() {
 
     if (this.busca == '') {
+      this.usuarios = [];
+      this.spinnerIsActive = true;
       this.listar();
     } else {
 
@@ -132,18 +110,16 @@ export class UsuariosPesquisaComponent implements OnInit {
           this.nextKey = undefined;
           this.prevKeys = [];
 
+          this.stopSpinner();
+
         }, (error) => {
           console.log(error);
         });
-
     }
-
-
   }
 
 
   excluir(key: string) {
-
     this.usuarioService.excluir(key)
       .then(() => {
         this.messageService.add({ severity: 'success', summary: 'Usuário excluído!' });
@@ -151,7 +127,6 @@ export class UsuariosPesquisaComponent implements OnInit {
       .catch(error => {
         this.messageService.add({ severity: 'error', summary: error });
       })
-
   }
 
 
@@ -165,8 +140,5 @@ export class UsuariosPesquisaComponent implements OnInit {
       }
     });
   }
-
-
-
 
 }

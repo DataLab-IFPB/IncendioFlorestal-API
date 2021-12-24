@@ -30,6 +30,10 @@
     background-color: red;
 }
 
+:host ::ng-deep .p-card:hover {
+    background-color: #b3e5fc
+}
+
 .card-footer.true {
     display: flex;
     align-items: center;
@@ -44,6 +48,7 @@
 
 :host ::ng-deep .p-card .p-card-footer {
     padding-top: .5rem;
+    margin-top: 0.5rem;
 }
 
 :host ::ng-deep .p-card {
@@ -100,4 +105,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#btn-editar {
+    margin-right: .5rem !important;
 }

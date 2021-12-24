@@ -1,0 +1,98 @@
+<div class="p-grid p-justify-center conteudo">
+
+    <div class="p-col-11 p-sm-10 p-md-4">
+
+        <div class="header-novo-incendio">
+            <h1>{{editando ? 'Edição de' : 'Novo'}} incêndio</h1>
+
+            <!-- TODO -->
+            <!-- <button class="btn-localizar" pButton icon="pi pi-map-marker" pTooltip="Localizar" tooltipPosition="bottom"></button> -->
+        </div>
+
+
+        <p-card>
+
+            <div class="p-grid">
+
+                <form autocomplete="off" class="p-col-12" #formNovoIncendio="ngForm">
+
+                    <p-fieldset>
+                        <ng-template pTemplate="header">Dados</ng-template>
+
+                        <div class="p-field p-fluid">
+                            <label for="periodo">Período</label>
+                            <p-dropdown [options]="periodos" [(ngModel)]="incendio.daynight" name="periodo" [showClear]="true" placeholder="Selecione o período" optionLabel="label" optionValue="value" #periodo="ngModel" required></p-dropdown>
+                            <app-mensagem-de-erro [controle]="periodo" erro="required" mensagem="Informe o período"></app-mensagem-de-erro>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="itencidade">Intencidade</label>
+                            <input id="itencidade" type="number" name="itencidade" [(ngModel)]="incendio.brightness" #intencidade="ngModel" pInputText required/>
+                            <app-mensagem-de-erro [controle]="intencidade" erro="required" mensagem="Informe a intencidade"></app-mensagem-de-erro>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="status">Status</label>
+                            <p-dropdown [options]="status" [(ngModel)]="incendio.ativo" name="status" [showClear]="true" placeholder="Selecione o status" optionLabel="label" optionValue="value" #Status="ngModel" required></p-dropdown>
+                            <app-mensagem-de-erro [controle]="Status" erro="required" mensagem="Informe o status"></app-mensagem-de-erro>
+                        </div>
+                    </p-fieldset>
+
+                    <p-fieldset>
+                        <ng-template pTemplate="header">Local</ng-template>
+
+                        <div class="p-field p-fluid">
+                            <label for="cidade">Cidade</label>
+                            <input id="cidade" type="text" name="cidade" [(ngModel)]="incendio.clima.cidade" #cidade="ngModel" required pInputText/>
+                            <app-mensagem-de-erro [controle]="cidade" erro="required" mensagem="Informe a cidade"></app-mensagem-de-erro>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="latitude">Latitude</label>
+                            <input id="latitude" type="number" name="latitude" [(ngModel)]="incendio.latitude" #latitude="ngModel" required pInputText/>
+                            <app-mensagem-de-erro [controle]="latitude" erro="required" mensagem="Informe a latitude"></app-mensagem-de-erro>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="longitude">Longitude</label>
+                            <input id="longitude" type="number" name="longitude" [(ngModel)]="incendio.longitude" #longitude="ngModel" required pInputText/>
+                            <app-mensagem-de-erro [controle]="longitude" erro="required" mensagem="Informe a longitude"></app-mensagem-de-erro>
+                        </div>
+                    </p-fieldset>
+
+                    <p-fieldset>
+                        <ng-template pTemplate="header">Clima</ng-template>
+
+                        <div class="p-field p-fluid">
+                            <label for="temperatura">Temperatura</label>
+                            <input id="temperatura" type="number" name="temperatura" [(ngModel)]="incendio.clima.temperatura" #temperatura="ngModel" required pInputText/>
+                            <app-mensagem-de-erro [controle]="temperatura" erro="required" mensagem="Informe a temperatura"></app-mensagem-de-erro>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="humidade">Humidade</label>
+                            <input id="humidade" type="number" name="humidade" [(ngModel)]="incendio.clima.humidade_relativa" #humidade="ngModel" required pInputText/>
+                            <app-mensagem-de-erro [controle]="humidade" erro="required" mensagem="Informe a humidade"></app-mensagem-de-erro>
+                        </div>
+
+                        <div class="p-field p-fluid">
+                            <label for="vento">Velocidade do vento</label>
+                            <input id="vento" type="number" name="vento" [(ngModel)]="incendio.clima.velocidade_vento" #vento="ngModel" required pInputText/>
+                            <app-mensagem-de-erro [controle]="vento" erro="required" mensagem="Informe a velocidade do vento"></app-mensagem-de-erro>
+                        </div>
+                    </p-fieldset>
+
+                    <div class="footer">
+                        <a id="btn-cancelar" class="button-link" pButton (click)="goBack()" label="Cancelar"></a>
+                        <button pButton type="button" label="Salvar" (click)="salvar()" [disabled]="!formNovoIncendio.valid"></button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </p-card>
+
+    </div>
+
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, SystemJsNgModuleLoaderConfig } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
@@ -50,10 +50,6 @@ export class NavbarComponent implements OnInit {
         this.usuarioLogado = user;
       })
   }
-
-
-
-
 
 
 }

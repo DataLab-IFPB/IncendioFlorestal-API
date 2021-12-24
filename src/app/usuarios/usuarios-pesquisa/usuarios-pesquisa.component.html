@@ -41,8 +41,8 @@
                             </div>
 
                             <div class="botoes">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-text" pTooltip="Editar" tooltipPosition="bottom" [routerLink]="['/usuarios/edicao', user.registration]"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmarExclusao(user)"></button>
+                                <button id="btn-editar" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success" pTooltip="Editar" tooltipPosition="bottom" [routerLink]="['/usuarios/edicao', user.registration]"></button>
+                                <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmarExclusao(user)"></button>
                             </div>
                         </div>
                     </ng-template>
@@ -59,15 +59,14 @@
             </div>
         </ng-template>
 
+        <ng-template pTemplate="empty">
+            <h3>Nenhum usuário encontrado</h3>
+            <p-progressSpinner class="spinner" *ngIf="spinnerIsActive" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
+        </ng-template>
+
     </p-dataView>
 
-    <h1>prev: {{prevKeys?.length}}</h1>
-    <h1>next: {{nextKey}}</h1>
-
-    <p-progressSpinner class="spinner" *ngIf="spinnerIsActive" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
-
 </div>
-
 
 
 <p-confirmDialog #cd [style]="{width: '450px'}" [closable]="false">

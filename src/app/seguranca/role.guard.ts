@@ -1,10 +1,13 @@
-import { UsuarioService } from './../usuarios/usuario.service';
-import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
 import { Location } from '@angular/common';
+import { Injectable } from '@angular/core';
+
+import { MessageService } from 'primeng/api';
+
+import { Observable } from 'rxjs';
+
+import { AuthService } from './auth.service';
+import { UsuarioService } from './../usuarios/usuario.service';
 
 @Injectable({
   providedIn: 'root'

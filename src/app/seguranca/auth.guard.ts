@@ -1,8 +1,9 @@
-import { MessageService } from 'primeng/api';
-import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { AuthService } from './auth.service';
+import { Injectable } from '@angular/core';
 
+import { MessageService } from 'primeng/api';
+
+import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })

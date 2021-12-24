@@ -44,12 +44,6 @@ export class AuthService {
           return Promise.reject("Usuário não encontrado");
         }
       })
-
-
-
-
-
-
   }
 
   async validarLogin(email: string) {

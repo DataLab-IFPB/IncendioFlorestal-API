@@ -1,19 +1,19 @@
-import { MessageService } from 'primeng/api';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
-import { Usuario, Login } from './../core/model';
+import { MessageService } from 'primeng/api';
 
 import { map } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs-compat/add/operator/first';
 
-
 import * as moment from 'moment';
-import { Router } from '@angular/router';
-import { Console } from 'console';
-import { TypeScriptEmitter } from '@angular/compiler';
+
+import { Usuario, Login } from './../core/model';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -96,7 +96,7 @@ export class UsuarioService {
         this.db.list(this.dbPath).update(usuario.key, user)
         this.messageService.add({ severity: 'success', summary: 'Perfil atualizado!' });
 
-        location.reload(); // para atualizar a matricula presente no menu
+        location.reload(); // para atualizar a matricula presente no menu [DAR UM JEITO DE MELHORAR ISSO (adicionar os dados do realtime no local storage ao invés de apenas as credenciais)]
       })
       .catch(erro => {
         if (erro.code === "auth/too-many-requests") {
@@ -203,12 +203,15 @@ export class UsuarioService {
     });
   }
 
+  //get all
   getUsuarios() {
     return this.db.list('users')
       .snapshotChanges().pipe(
         map(changes =>
           changes.map(c =>
-            ({ key: c.payload.key, ...c.payload.exportVal() })
+          ({
+            key: c.payload.key, ...c.payload.exportVal()
+          })
           )
         )
       )

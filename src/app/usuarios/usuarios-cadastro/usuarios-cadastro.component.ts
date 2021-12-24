@@ -57,7 +57,6 @@ export class UsuariosCadastroComponent implements OnInit {
   }
 
   salvar() {
-
     this.usuario.email = this.usuario.registration + "@bombeirospb.gov";
 
     if (this.usuarioService.validarDominioDeEmail(this.usuario.email)) {
@@ -69,7 +68,6 @@ export class UsuariosCadastroComponent implements OnInit {
   }
 
   cadastrar() {
-
     this.usuarioService.cadastrar(this.usuario)
       .then(() => {
         this.router.navigate(['/usuarios']);
@@ -85,7 +83,6 @@ export class UsuariosCadastroComponent implements OnInit {
   }
 
   atualizar() {
-    // matricula deve ser única !
     this.usuarioService.atualizar(this.usuario)
       .then(() => {
         this.router.navigate(['/usuarios']);
