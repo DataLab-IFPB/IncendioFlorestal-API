@@ -17,7 +17,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HeatmapComponent } from './heatmap/heatmap.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   providers: [ DashboardService ],
@@ -41,7 +43,18 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     ProgressSpinnerModule,
     HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+    }
+    })
   ]
 })
 
 export class DashboardModule { }
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}

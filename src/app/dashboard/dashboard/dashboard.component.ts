@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { PrimeNGConfig } from 'primeng/api';
 import { DashboardService } from '../dashboard.service';
 
 @Component({
@@ -24,15 +26,28 @@ export class DashboardComponent implements OnInit {
   municipiosFilter : string[] = [];
   periodoFilter: Date;
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(
+    private dashboardService: DashboardService, 
+    private primeConfig: PrimeNGConfig,
+    private translateService: TranslateService) { }
 
   ngOnInit() {
+
+    this.translate();
+
     this.dashboardService.initLoadEvent.subscribe(() => {
       this.exibirSpinner = false;
       this.config();
     });
   }
 
+  // Método responsável por traduzir o calendário
+  translate() {
+    this.translateService.use('pt');
+    this.translateService.stream('primeng').subscribe(res => this.primeConfig.setTranslation(res));
+  }
+
+  // Método responsável por iniciar as configurações da página durante a inicialização
   config() {
 
     this.municipios = this.dashboardService.getterFiltrosMunicipios();
