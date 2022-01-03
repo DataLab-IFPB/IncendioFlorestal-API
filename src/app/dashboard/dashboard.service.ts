@@ -1,10 +1,8 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Chart } from './factoryChart';
 import { Datasets } from './datasets';
-import { map } from 'rxjs/operators';
 import { AngularFireDatabase } from '@angular/fire/database';
-import 'rxjs/add/operator/map';
-import 'rxjs-compat/add/operator/first';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -13,73 +11,85 @@ import 'rxjs-compat/add/operator/first';
 export class DashboardService {
 
   private Chart = new Chart();
-  private Datasets = new Datasets();
+  private Datasets = Datasets.getIstance();
   private heatmapEvent = new EventEmitter<object>();
+  private registros = [];
 
+  initLoadEvent = new EventEmitter();
+  updateDataEvent = new EventEmitter<string>();
   tipoDashboard: string;
 
-  constructor(private firebase: AngularFireDatabase) {
+  constructor(private firebase: AngularFireDatabase, private http: HttpClient) {
+    this.carregarFiltros();
     this.gerarDatasets();
   }
 
   // Recuperar municípios e anos que podem ser filtrados
   carregarFiltros() {
+    this.http.get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/25/distritos")
+    .subscribe(
+      (data: object[]) => {
+        data.forEach((municipio) => {
+          this.Datasets.filtroMunicipios.push(municipio['nome']);
+        });
 
-    const filtroMunicipios = new Set();
-    const filtroAno = new Set();
-
-    try {
-      this.Datasets.firebaseColection.forEach(registro => {
-
-        filtroMunicipios.add(registro['temperature']['locale']);
-        filtroAno.add(registro['acq_date'].split('-')[0]);
-
+        this.initLoadEvent.emit();
       });
 
-      // Converter set para list para evitar filtros duplicados
-      this.Datasets.filtroMunicipios = Array.from(filtroMunicipios);
-      this.Datasets.filtroAno = Array.from(filtroAno);
-    } catch(error) {
-      console.log(error);
-    }
+    // Gerar range de anos (2021 até o ano atual)
+    this.initLoadEvent.subscribe(() => {
 
+      let ano = 2021;
+
+      while(true) {
+        this.Datasets.filtroAno.push(String(ano));
+
+        if(ano === new Date().getFullYear()) {
+          break;
+        } else {
+          ano++;
+        }
+      }
+    });
   }
 
   // Recuperar dados do(s) município(s) referente ao ano selecionado no filtro
   // e do ano anterior
   filtrarRegistrosPorAno(municipios: string[], ano: string) {
+    this.obterRegistros(municipios, ano, this.obterRegistrosPorAno);
+  }
+
+  private obterRegistrosPorAno(ano: string, context: any) {
 
     const anoAnterior = String((Number(ano) - 1));
+  
+    context.registros.forEach((registro: object) => {
 
-    this.Datasets.firebaseColection.forEach(registro => {
+      const anoRegistro = registro['acq_date'].split('/')[0];
 
-      try {
-        if(municipios.includes(registro['temperature']['locale'])) {
-
-          const anoRegistro = registro['acq_date'].split('-')[0];
-
-          // Verificar o ano do registro
-          switch(anoRegistro) {
-            case ano:
-              this.Datasets.registrosAnoAtual.push(registro);
-              break;
-            case anoAnterior:
-              this.Datasets.registrosAnoAnterior.push(registro);
-              break;
-          }
-        }
-      } catch(error) {
-        console.log(error);
+      // Verificar o ano do registro
+      switch(anoRegistro) {
+        case ano:
+          context.Datasets.registrosAnoAtual.push(registro);
+          break;
+        case anoAnterior:
+          context.Datasets.registrosAnoAnterior.push(registro);
+          break;
       }
     });
 
     // Gerar os datasets dos gráficos com base nos dados filtrados
-    this.gerarDatasets();
+    context.gerarDatasets();
+    context.registros.length = 0;
   }
 
    // Recuperar dados do(s) município(s) referente a um determinado
    // período selecionado
   filtrarRegistrosPorPeriodo(municipios: string[], periodo: Date) {
+    this.obterRegistros(municipios, periodo, this.obterRegistrosPorPeriodo);
+  }
+
+  private obterRegistrosPorPeriodo(periodo: Date, context: any) {
 
     // Datas selecionadas no filtro
     const dataInicioPeriodo = new Date(periodo[0]);
@@ -92,19 +102,15 @@ export class DashboardService {
     const dataTerminoPeriodoAnoAnterior = new Date(
       `${dataTerminoPeriodo.getFullYear() - 1}-${dataTerminoPeriodo.getMonth()}-${dataTerminoPeriodo.getDate()}`);
 
-   this.Datasets.firebaseColection.forEach(registro => {
-
+    context.registros.forEach((registro: object) =>  {
       try {
         const dataRegistro = new Date(registro['acq_date']);
 
-        if(municipios.includes(registro['temperature']['locale'])) {
-
-          // Filtrar por registros no intervalo de datas
-          if(dataRegistro >= dataInicioPeriodo && dataRegistro <= dataTerminoPeriodo) {
-            this.Datasets.registrosAnoAtual.push(registro);
-          } else if(dataRegistro >= dataInicioPeriodoAnoAnterior && dataRegistro <= dataTerminoPeriodoAnoAnterior) {
-            this.Datasets.registrosAnoAnterior.push(registro);
-          }
+        // Filtrar por registros no intervalo de datas
+        if(dataRegistro >= dataInicioPeriodo && dataRegistro <= dataTerminoPeriodo) {
+          context.Datasets.registrosAnoAtual.push(registro);
+        } else if(dataRegistro >= dataInicioPeriodoAnoAnterior && dataRegistro <= dataTerminoPeriodoAnoAnterior) {
+          context.Datasets.registrosAnoAnterior.push(registro);
         }
       } catch(error) {
         console.log(error);
@@ -112,15 +118,16 @@ export class DashboardService {
     });
 
     // Gerar os datasets dos gráficos com base nos dados filtrados
-    this.gerarDatasets();
+    context.gerarDatasets();
+    context.registros.length = 0;
   }
 
   gerarDatasets() {
 
-    this.Datasets.registrosAnoAtual.forEach(registro => {
+    this.registros.forEach(registro => {
 
       // Registrar dados por mês do ano atual
-      this.Datasets.registrosPorMesAnoAtual[(registro['acq_date'].split('-')[1]) - 1].push(registro);
+      this.Datasets.registrosPorMesAnoAtual[(registro['acq_date'].split('/')[1]) - 1].push(registro);
 
       // Registrar dados do heatmap
       if(this.tipoDashboard === 'dashboard-por-ano') {
@@ -146,11 +153,11 @@ export class DashboardService {
 
      // Registrar dados por mês do ano anterior
     this.Datasets.registrosAnoAnterior.forEach(registro => {
-     this.Datasets.registrosPorMesAnoAnterior[((registro['acq_date'].split('-')[1]) - 1)].push(registro);
+     this.Datasets.registrosPorMesAnoAnterior[((registro['acq_date'].split('/')[1]) - 1)].push(registro);
     });
 
     // Gerar dados por mês
-    this.Datasets.registrosPorMesAnoAtual.forEach(mes => {
+    this.Datasets.registrosPorMesAnoAtual.forEach((mes, indice) => {
 
       const registrosTemperaturas = [];
       const registrosPrecipitacao = [];
@@ -158,13 +165,12 @@ export class DashboardService {
       const registrosPorTurno = {noturno: 0, diurno: 0};
 
       // Total no mês
-      this.Datasets.totalPorMes.push(mes.length);
-
+      this.Datasets.totalPorMes[indice] = mes.length;
+    
       mes.forEach(registro => {
-
-        registrosTemperaturas.push(registro['temperature']['temp_c']);
-        registrosPrecipitacao.push(registro['temperature']['precip_in']);
-        registrosIntensidade.push(registro['frp'] === undefined ? 0 : registro['frp']);
+        registrosTemperaturas.push(registro['clima']['temperatura']);
+        registrosPrecipitacao.push(registro['clima']['precipitacao']);
+        registrosIntensidade.push(registro['frp'] === undefined ? 0 : Number(registro['frp']));
 
         if(registro['daynight'] === 'D') {
           registrosPorTurno.diurno++;
@@ -174,14 +180,16 @@ export class DashboardService {
       });
 
       // Adicionar os dados ao dataset
-      this.adicionarMediaTemperaturaEPrecipitacao(registrosTemperaturas, registrosPrecipitacao);
-      this.adicionarMediaIntensidade(registrosIntensidade);
-      this.adicionarTaxaPorTurno(registrosPorTurno);
+      this.adicionarMediaTemperaturaEPrecipitacao(registrosTemperaturas, registrosPrecipitacao, indice);
+      this.adicionarMediaIntensidade(registrosIntensidade, indice);
+      this.adicionarTaxaPorTurno(registrosPorTurno, indice);
     });
+
+    this.updateDataEvent.emit(this.tipoDashboard);
   }
 
    // Getters filtros
-   getterFiltrosMunicipios(): object[] {
+  getterFiltrosMunicipios(): object[] {
 
     let municipios = [];
 
@@ -190,7 +198,7 @@ export class DashboardService {
       municipios.push({label: municipio, value: municipio});
     });
 
-    return [{label: '', items: municipios}];
+    return [{label: ' ', items: municipios}];
   }
 
   getterFiltroAnos(): string[] {
@@ -246,49 +254,59 @@ export class DashboardService {
   }
 
   // Recuperar dados do firebase
-  getterData() {
-    return this.firebase.list('/dados-firms')
-      .snapshotChanges().pipe(
-        map(changes =>
-          changes.map(c =>
-          ({
-            key: c.payload.key, ...c.payload.exportVal()
-          })
-          )
-        )
-      );
+  private consultarFirebase(municipio: string) {
+    return this.firebase.list('dados-firms',
+      ref => ref.orderByChild('clima/cidade').equalTo(municipio)).valueChanges()
   }
 
-  setterDataFirebase(collection: any) {
-    this.Datasets.firebaseColection = collection;
+  // Recuperar registros do(s) municpio(s)
+  // @param callback: função para obter os registros por ano ou por periodo
+  private obterRegistros(municipios: string[], data: any, callback: (data: any, context: any) => void) {
+
+    municipios.forEach((municipio) => {
+
+      let registrosDoMunicipio = this.Datasets.consultarMunicipio(municipio);
+
+       if(registrosDoMunicipio.length === 0) {
+        this.consultarFirebase(municipio).subscribe(
+          (dados: object[]) => {
+            this.registros.push(...dados);
+            callback(data, this);
+        });
+      } else {
+        this.registros.push(...registrosDoMunicipio);
+        callback(data, this);
+      }
+    });
   }
 
   clearDataset() {
     this.Datasets.clear();
   }
 
-  private adicionarMediaTemperaturaEPrecipitacao(registrosTemperaturas: any[],registrosPrecipitacao: any[]) {
+  private adicionarMediaTemperaturaEPrecipitacao(registrosTemperaturas: any[], registrosPrecipitacao: any[], indiceMes: number) {
 
     // Função reduce soma todos os valores da lista
-    this.Datasets.mediaTemperaturaPorMes.push(
-      registrosTemperaturas.length === 0 ? '0' : ((registrosTemperaturas.reduce((a, b) => a + b)) / registrosTemperaturas.length).toFixed(1));
-
-    this.Datasets.mediaPrecipiticaoPorMes.push(
-      registrosTemperaturas.length === 0 ? '0' : ((registrosPrecipitacao.reduce((a, b) => a + b)) / registrosPrecipitacao.length).toFixed(1))
-
+    if(registrosTemperaturas.length > 0) {
+      this.Datasets.mediaTemperaturaPorMes[indiceMes] += ((registrosTemperaturas.reduce((a, b) => a + b)) / registrosTemperaturas.length);
+    }
+    
+    if(registrosPrecipitacao.length > 0) {
+      this.Datasets.mediaPrecipiticaoPorMes[indiceMes] += ((registrosPrecipitacao.reduce((a, b) => a + b)) / registrosPrecipitacao.length);
+    } 
   }
 
-  private adicionarMediaIntensidade(registrosIntensidade: any[]) {
+  private adicionarMediaIntensidade(registrosIntensidade: any[], indiceMes: number) {
 
     // Função reduce soma todos os valores da lista
-    this.Datasets.mediaIntensidade.push(
-      registrosIntensidade.length === 0 ? '0' : ((registrosIntensidade.reduce((a, b) => a + b)) / registrosIntensidade.length).toFixed(1));
-
+    if(registrosIntensidade.length > 0) {
+      this.Datasets.mediaIntensidade[indiceMes] += ((registrosIntensidade.reduce((a, b) => a + b)) / registrosIntensidade.length);
+    }
   }
 
-  private adicionarTaxaPorTurno(registrosPorTurno: object) {
-    this.Datasets.taxaPorTurno.diurno.push(registrosPorTurno['diurno']);
-    this.Datasets.taxaPorTurno.noturno.push(registrosPorTurno['noturno']);
+  private adicionarTaxaPorTurno(registrosPorTurno: object, indiceMes: number) {
+    this.Datasets.taxaPorTurno.diurno[indiceMes] += registrosPorTurno['diurno'];
+    this.Datasets.taxaPorTurno.noturno[indiceMes] += registrosPorTurno['noturno'];
   }
 
   private calcularMediaPorMes(): string {
@@ -308,7 +326,6 @@ export class DashboardService {
       // Cálculo da taxa de crescimento
       return ((totalRegistrosAnoAtual - totalRegistrosAnoAnterior) / totalRegistrosAnoAnterior).toFixed(2);
     }
-
   }
 
   // Geração dos gráficos
@@ -323,7 +340,7 @@ export class DashboardService {
 
     for(let i = 0; i < 12; i++) {
 
-      if(this.Datasets.totalPorMes[i] === 0) {              // Se o mês do ano atual não possui registros
+      if(this.Datasets.totalPorMes[i] === 0 || this.Datasets.totalPorMes.length === 0) {    // Se o mês do ano atual não possui registros
         dados.push('0');
       } else if(quantidadePorMesAnoAnterior[i] === 0) {     // Se o mês do ano anterior não possui registros
         dados.push('100');
@@ -331,7 +348,6 @@ export class DashboardService {
         const taxaCrescimento = ((this.Datasets.totalPorMes[i] - quantidadePorMesAnoAnterior[i]) / quantidadePorMesAnoAnterior[i]).toFixed(1);
         dados.push(taxaCrescimento);
       }
-
     }
 
     return this.Chart.lineChart('Taxa de Crescimento', dados, 'Crescimento');

@@ -1,5 +1,7 @@
 export class Datasets {
 
+  private static instance: Datasets;
+
   // Coleção de dados do Firebase
   firebaseColection = [];
 
@@ -11,15 +13,9 @@ export class Datasets {
   registrosAnoAtual = [];
   registrosAnoAnterior = [];
 
-  registrosPorMesAnoAtual = [
-    [], [], [], [], [], [],
-    [], [], [], [], [], []
-  ];
+  registrosPorMesAnoAtual = [];
 
- registrosPorMesAnoAnterior = [
-    [], [], [], [], [], [],
-    [], [], [], [], [], []
-  ];
+  registrosPorMesAnoAnterior = [];
 
   totalPorMes = [];
   mediaTemperaturaPorMes = [];
@@ -41,8 +37,52 @@ export class Datasets {
     "diurno": []
   }
 
-  clear() : void {
+  private constructor() {
+    // Inicializar posições da tabela hash
+    for(let i = 0; i < 25; i++) {
+      this.firebaseColection.push([]);
+    }
+  }
 
+  // Criar uma única instância da classe
+  static getIstance(): Datasets {
+
+    if(!Datasets.instance) {
+      Datasets.instance = new Datasets();
+    }
+
+    return Datasets.instance;
+  }
+
+  private calcularHash(municipio: string) {
+    return municipio.charCodeAt(0) % 65;
+  }
+
+  // Adicionar registros de um município a tabela hash
+  adicionarRegistros(registros: object[]) {
+    const registro = registros[0];
+    const hash = this.calcularHash(registro['clima']['cidade']);
+
+    registros.forEach((registro) => {
+      this.firebaseColection[hash].push(registro);
+    });
+  }
+
+  consultarMunicipio(municipio: string) : object[] {
+    const hash = this.calcularHash(municipio);
+    const registros = this.firebaseColection[hash];
+
+    const registrosMunicipio = registros.filter(
+      (registro: object) => {
+        if(registro['clima']['cidade'] === municipio) {
+          return registro;
+        }
+    });
+
+    return registrosMunicipio;
+  }
+
+  clear() {
     this.registrosAnoAtual.length = 0;
     this.registrosAnoAnterior.length = 0;
     this.mediaTemperaturaPorMes.length = 0;
@@ -54,17 +94,23 @@ export class Datasets {
     this.taxaPorTurno.noturno.length = 0;
     this.tipoRegistro.firms = 0;
     this.tipoRegistro.manual = 0;
+    this.registrosPorMesAnoAtual.length = 0;
+    this.registrosPorMesAnoAnterior.length = 0;
 
-    this.registrosPorMesAnoAtual = [
-      [], [], [], [], [], [],
-      [], [], [], [], [], []
-    ];
+    this.inicializarVetoresVazios();
+  }
 
-   this.registrosPorMesAnoAnterior = [
-      [], [], [], [], [], [],
-      [], [], [], [], [], []
-    ];
-
+  private inicializarVetoresVazios() {
+    for(let i = 0; i < 12; i++) {
+      this.registrosPorMesAnoAtual.push([]);
+      this.registrosPorMesAnoAnterior.push([]);
+      this.mediaTemperaturaPorMes.push(0);
+      this.mediaPrecipiticaoPorMes.push(0);
+      this.mediaIntensidade.push(0);
+      this.totalPorMes.push(0);
+      this.taxaPorTurno.diurno.push(0);
+      this.taxaPorTurno.noturno.push(0);
+    }
   }
 
 }
