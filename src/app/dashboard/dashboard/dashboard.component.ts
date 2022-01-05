@@ -33,7 +33,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
+    this.dashboardService.tipoDashboard = this.tipoDashboard;
+
     this.translate();
+    this.dashboardService.carregarFiltros();
+    this.dashboardService.gerarDatasets();
 
     this.dashboardService.initLoadEvent.subscribe(() => {
       this.exibirSpinner = false;
@@ -54,7 +58,7 @@ export class DashboardComponent implements OnInit {
 
     if(this.tipoDashboard === 'dashboard-por-ano') {
       this.periodoAno = this.dashboardService.getterFiltroAnos();
-      this.anoFilter = this.periodoAno[0];
+      this.anoFilter = this.periodoAno[(this.periodoAno.length - 1)];
     }
 
     this.atualizar();

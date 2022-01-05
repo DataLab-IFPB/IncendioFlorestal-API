@@ -18,14 +18,8 @@ export class HeatmapComponent implements OnInit {
   constructor(private dashboardService : DashboardService) {}
 
   ngOnInit(): void {
-
     this.configMap();
     this.configLayer();
-
-    // Ouvinte do evento de atualização do heatmap
-    this.dashboardService.getterHeatmapEvent().subscribe(
-      () => this.mapa.getSource('dataset-incendios-florestais').setData(this.dados)
-    );
   }
 
   private configMap(): void {
@@ -66,8 +60,12 @@ export class HeatmapComponent implements OnInit {
           ]
         }
       }); // addLayer
-    });
 
+      // Ouvinte do evento de atualização do heatmap
+      this.dashboardService.getterHeatmapEvent().subscribe((data) => {
+        this.mapa.getSource('dataset-incendios-florestais').setData(data);
+      });
+    });
   }
 
 }
