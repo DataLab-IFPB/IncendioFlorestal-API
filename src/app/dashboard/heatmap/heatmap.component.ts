@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { DashboardService } from '../dashboard.service';
 
 const mapboxgl = require('mapbox-gl');
 
@@ -10,9 +11,11 @@ const mapboxgl = require('mapbox-gl');
 })
 export class HeatmapComponent implements OnInit {
 
-  mapa: any;
-
   @Input() dados: object;
+
+  private mapa: any;
+
+  constructor(private dashboardService : DashboardService) {}
 
   ngOnInit(): void {
     this.configMap();
@@ -20,13 +23,14 @@ export class HeatmapComponent implements OnInit {
   }
 
   private configMap(): void {
+
     mapboxgl.accessToken = environment.mapboxkey;
 
     this.mapa = new mapboxgl.Map({
       container: 'mapa',
       style: 'mapbox://styles/mapbox/dark-v10',
-      center: [-37.3103333, -7.0219652],
-      zoom: 10,
+      center: [-36.304, -7.199],
+      zoom: 7,
       minZoom: 7
     });
 
@@ -35,6 +39,7 @@ export class HeatmapComponent implements OnInit {
   }
 
   private configLayer(): void {
+
     this.mapa.on('load', () => {
 
       this.mapa.addSource('dataset-incendios-florestais', {
@@ -56,6 +61,10 @@ export class HeatmapComponent implements OnInit {
         }
       }); // addLayer
 
+      // Ouvinte do evento de atualização do heatmap
+      this.dashboardService.getterHeatmapEvent().subscribe((data) => {
+        this.mapa.getSource('dataset-incendios-florestais').setData(data);
+      });
     });
   }
 

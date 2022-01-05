@@ -1,10 +1,13 @@
-<div class="p-d-flex p-flex-column">
+<div class="p-d-flex p-flex-column" *ngIf="!exibirSpinner">
 
+  <!-- Filtros -->
   <div class="p-d-flex p-jc-center p-flex-wrap">
     <p-multiSelect
       [(ngModel)]="municipiosFilter"
       [options]="municipios"
       [group]="true"
+      [style]="{'width': '220px'}"
+      (onChange)="atualizar()"
       display="chip"
       placeholder="Selecione o município">
     </p-multiSelect>
@@ -12,6 +15,7 @@
     <p-dropdown *ngIf="tipoDashboard === 'dashboard-por-ano'"
       [options]="periodoAno"
       [(ngModel)]="anoFilter"
+      (onChange)="atualizar()"
       placeholder="Ano">
     </p-dropdown>
 
@@ -19,15 +23,17 @@
       [(ngModel)]="periodoFilter"
       [showIcon]="true"
       [readonlyInput]="true"
+      (onSelect)="atualizar()"
+      dateFormat="dd/mm/yy"
       placeholder="Selecione o período"
       selectionMode="range">
     </p-calendar>
   </div>
 
-  <div *ngIf="!exibirMensagem()">
-    <!-- Cards Infos -->
+  <div>
+    <!-- Cards Quantitativos -->
     <div class="p-d-flex p-jc-center p-flex-wrap container-card">
-      <div *ngFor="let dados of dadosEstaticos">
+      <div *ngFor="let dados of dadosQuantitativos">
         <app-card-info [imagem]=dados.imagem [titulo]=dados.titulo [dado]=dados.dado></app-card-info>
       </div>
     </div>
@@ -46,9 +52,8 @@
       </div>
     </div>
   </div>
-  
 </div>
 
-<div class="container-message" *ngIf="exibirMensagem()">
-  <p-message severity="warn" text="Nenhum município foi selecionado"></p-message>
+<div class="p-d-flex p-jc-center" *ngIf="exibirSpinner">
+  <p-progressSpinner></p-progressSpinner>
 </div>
