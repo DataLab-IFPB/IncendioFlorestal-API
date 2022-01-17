@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
-import { ThemeService } from 'src/app/shared/theme.service';
-
-import { AuthService } from './../../seguranca/auth.service';
-import { UsuarioService } from './../../usuarios/usuario.service';
-import { Usuario } from './../model';
 
 import { faFireExtinguisher } from '@fortawesome/free-solid-svg-icons';
+
+import { ThemeService } from 'src/app/shared/service/theme.service';
+import { AuthService } from 'src/app/seguranca/auth.service';
+import { UsuarioService } from 'src/app/usuarios/usuario.service';
+import { Usuario } from 'src/app/usuarios/usuario';
 
 @Component({
   selector: 'app-navbar',

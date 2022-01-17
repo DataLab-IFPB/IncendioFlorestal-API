@@ -1,62 +1,60 @@
 :host ::ng-deep .p-grid {
-    margin: 0;
+  margin: 0;
 }
 
 .conteudo {
-    margin: 1rem 0;
+  margin: 1rem 0;
 }
 
 :host ::ng-deep .p-card .p-card-content {
-    padding-bottom: 0;
+  padding-bottom: 0;
 }
 
 :host ::ng-deep .p-card .p-card-body {
-    padding-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 :host ::ng-deep .p-fieldset {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 :host ::ng-deep .p-fieldset .p-fieldset-legend {
-    background-color: #78c1fd52;
-    /* text-transform: uppercase; */
-    font-weight: bold;
+  background-color: #78c1fd52;
+  /* text-transform: uppercase; */
+  font-weight: bold;
 }
 
 form .footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 #btn-cancelar {
-    margin-right: .5rem;
-    text-decoration: none;
+  margin-right: 0.5rem;
+  text-decoration: none;
 }
 
 .header-novo-incendio {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-
 
 /* Chrome, Safari, Edge, Opera */
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
-
 
 /* Firefox */
 
-input[type=number] {
-    -moz-appearance: textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }

@@ -5,7 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
 import { IncendioService } from '../incendio.service';
-import { Clima, Incendio } from './../../core/model';
+import { Incendio, Clima } from '../incendio';
+
 
 @Component({
   selector: 'app-incendios-cadastro',

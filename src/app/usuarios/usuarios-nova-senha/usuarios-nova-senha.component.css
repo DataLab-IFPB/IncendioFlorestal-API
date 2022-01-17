@@ -1,29 +1,29 @@
 :host ::ng-deep .p-grid {
-    margin: 0;
+  margin: 0;
 }
 
 .card {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 :host ::ng-deep .p-card .p-card-content {
-    padding-bottom: 0;
+  padding-bottom: 0;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .header-confirmacao-senha-antiga {
-    font-size: 25px;
-    font-weight: bold;
-    padding-bottom: 5px;
-    border-bottom: 2px solid #404C51;
-    width: 100%;
+  font-size: 25px;
+  font-weight: bold;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #404c51;
+  width: 100%;
 }
 
 form .footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }

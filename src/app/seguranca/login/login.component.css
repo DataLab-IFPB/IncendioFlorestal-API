@@ -1,44 +1,44 @@
 :host ::ng-deep .p-grid {
-    margin: 0;
+  margin: 0;
 }
 
 .card {
-    margin-top: 4rem;
+  padding-top: 4rem;
 }
 
 :host ::ng-deep .p-card .p-card-content {
-    padding-bottom: 0;
+  padding-bottom: 0;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .logo {
-    height: 190px;
-    width: 190px;
+  height: 190px;
+  width: 190px;
 }
 
 .link-esqueci-senha {
-    padding: 0;
-    font-size: 0.9rem;
-    margin-bottom: 30px;
+  padding: 0;
+  font-size: 0.9rem;
+  margin-bottom: 30px;
 }
 
 .header-recuperar-senha {
-    font-size: 25px;
-    font-weight: bold;
-    padding-bottom: 5px;
-    border-bottom: 2px solid #404C51;
-    width: 100%;
+  font-size: 25px;
+  font-weight: bold;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #404c51;
+  width: 100%;
 }
 
 .btn-receberEmail {
-    margin-right: 0 !important;
+  margin-right: 0 !important;
 }
 
 @media only screen and (max-width: 550px) {
-    .card {
-        margin-top: 1rem;
-    }
+  .card {
+    padding-top: 2rem;
+  }
 }

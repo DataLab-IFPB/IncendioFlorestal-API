@@ -1,186 +1,208 @@
 :host ::ng-deep .p-datatable {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .table-container {
-    background-color: white;
+  background-color: white;
 }
-
 
 /* secondary color table bordered in active fires */
 
 :host ::ng-deep .p-datatable tr.status.true:nth-child(even) {
-    background-color: rgba(84, 175, 98, 0.459);
+  background-color: rgba(84, 175, 98, 0.459);
 }
-
 
 /* secondary color table bordered in inactive fires */
 
 :host ::ng-deep .p-datatable tr.status.false:nth-child(even) {
-    background-color: rgba(190, 106, 106, 0.425);
+  background-color: rgba(190, 106, 106, 0.425);
 }
 
-:host ::ng-deep .p-dataview.p-dataview-list .p-dataview-content .ng-star-inserted+.ng-star-inserted {
-    border-top: 2px solid #1CA65B;
-    /* background: red; */
+:host
+  ::ng-deep
+  .p-dataview.p-dataview-list
+  .p-dataview-content
+  .ng-star-inserted
+  + .ng-star-inserted {
+  border-top: 2px solid #1ca65b;
+  /* background: red; */
 }
-
 
 /* :host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
     background-color: #b3e5fc !important;
 } */
 
-:host ::ng-deep .p-datatable .p-datatable-thead>tr>th,
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
-    text-align: center;
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th,
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  text-align: center;
 }
 
 .btn-new-user {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .busca {
-    display: flex;
+  display: flex;
 }
 
 .texto-buscado {
-    margin-right: .5rem;
-    width: 17rem;
+  margin-right: 0.5rem;
+  width: 17rem;
 }
 
 .btn-buscar {
-    margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 
 :host ::ng-deep .p-calendar {
-    width: 17rem;
+  width: 17rem;
 }
 
 .fire-list-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .status.true {
-    background: #dbe7dc;
-    color: #256029;
+  background: #dbe7dc;
+  color: #256029;
 }
 
 .status.false {
-    background: #ffeceec9;
-    color: #c63737;
+  background: #ffeceec9;
+  color: #c63737;
 }
 
 .spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #btn-editar {
-    margin-right: .5rem !important;
-    color: green;
+  margin-right: 0.5rem !important;
+  color: green;
 }
 
 #btn-excluir {
-    color: red;
+  color: red;
 }
 
 :host ::ng-deep .p-button-icon.pi.pi-chevron-right {
-    margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 
 :host ::ng-deep .p-button-icon.pi.pi-chevron-left {
-    margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 
 .clima-icon {
-    margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 
 .icendio-cidade {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .buttons-prev-next {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .buttons-prev-next .prev {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
 
 .p-column-title {
-    display: none;
+  display: none;
 }
 
 @media only screen and (max-width: 720px) {
-    #btn-editar {
-        margin: 0 0 .5rem !important;
-    }
+  #btn-editar {
+    margin: 0 0 0.5rem !important;
+  }
 }
 
 @media only screen and (max-width: 700px) {
-    .busca {
-        display: block;
-    }
-    .texto-buscado {
-        margin-bottom: 0.5rem;
-    }
-    .fire-list-header {
-        align-items: end;
-    }
-     :host ::ng-deep .p-calendar,
-    .texto-buscado {
-        margin-right: 0;
-    }
+  .busca {
+    display: block;
+  }
+  .texto-buscado {
+    margin-bottom: 0.5rem;
+  }
+  .fire-list-header {
+    align-items: end;
+  }
+  :host ::ng-deep .p-calendar,
+  .texto-buscado {
+    margin-right: 0;
+  }
 }
 
 @media only screen and (max-width: 415px) {
-    .btn-buscar {
-        margin: .5rem 0 0 0;
-    }
+  .btn-buscar {
+    margin: 0.5rem 0 0 0;
+  }
 }
-
 
 /* --- */
 
 @media screen and (max-width: 960px) {
-     :host ::ng-deep .p-datatable.p-datatable-incendios .p-datatable-thead>tr>th {
-        display: none !important;
-    }
-     :host ::ng-deep .p-datatable.p-datatable-incendios .p-datatable-tbody>tr>td {
-        display: flex;
-        /* flex-wrap: wrap !important; */
-        justify-content: space-between;
-        align-items: center;
-        /* text-align: left; */
-        /* border: 0 none !important; */
-        /* width: 100% !important; */
-        width: 100% !important;
-        /* float: left; */
-        /* clear: left; */
-        /* border: 0 none; */
-        border-top: 1px solid gray;
-        border-style: dashed;
-    }
-     :host ::ng-deep .p-datatable.p-datatable-incendios .p-datatable-tbody>tr>td .p-column-title {
-        font-weight: bold;
-        padding: 0.4rem;
-        display: inline-block;
-        margin: -0.4rem 1rem -0.4rem -0.4rem;
-    }
-    #btn-editar {
-        margin: 0 .5rem 0 0 !important;
-    }
-    .td-emptymessage,
-    .td-spinner {
-        display: block !important;
-    }
-     :host ::ng-deep .p-datatable.p-datatable-incendios .p-datatable-tfoot>tr>td {
-        display: block !important;
-    }
+  :host
+    ::ng-deep
+    .p-datatable.p-datatable-incendios
+    .p-datatable-thead
+    > tr
+    > th {
+    display: none !important;
+  }
+  :host
+    ::ng-deep
+    .p-datatable.p-datatable-incendios
+    .p-datatable-tbody
+    > tr
+    > td {
+    display: flex;
+    /* flex-wrap: wrap !important; */
+    justify-content: space-between;
+    align-items: center;
+    /* text-align: left; */
+    /* border: 0 none !important; */
+    /* width: 100% !important; */
+    width: 100% !important;
+    /* float: left; */
+    /* clear: left; */
+    /* border: 0 none; */
+    border-top: 1px solid gray;
+    border-style: dashed;
+  }
+  :host
+    ::ng-deep
+    .p-datatable.p-datatable-incendios
+    .p-datatable-tbody
+    > tr
+    > td
+    .p-column-title {
+    font-weight: bold;
+    padding: 0.4rem;
+    display: inline-block;
+    margin: -0.4rem 1rem -0.4rem -0.4rem;
+  }
+  #btn-editar {
+    margin: 0 0.5rem 0 0 !important;
+  }
+  .td-emptymessage,
+  .td-spinner {
+    display: block !important;
+  }
+  :host
+    ::ng-deep
+    .p-datatable.p-datatable-incendios
+    .p-datatable-tfoot
+    > tr
+    > td {
+    display: block !important;
+  }
 }

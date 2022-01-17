@@ -1,60 +1,65 @@
 :root {
-    --color-background: #F0F0F7;
-    /* --color-background: #e0e3e7c2; */
-    --color-primary-green: #1CA65B;
-    --color-primary-red: rgb(209, 65, 65);
-    --color-primary-blue: #1e94d2;
-    --color-primary-gray: #666666;
-    --color-primary-font: #404C51;
+  --color-background: #f0f0f7;
+  /* --color-background: #e0e3e7c2; */
+  --color-primary-green: #1ca65b;
+  --color-primary-red: rgb(209, 65, 65);
+  --color-primary-blue: #1e94d2;
+  --color-primary-gray: #666666;
+  --color-primary-font: #404c51;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    color: var(--color-primary-font);
-    margin: 0;
-    background-color: var(--color-background);
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--color-primary-font);
+  background-color: var(--color-background);
 }
 
 label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 button:hover:enabled,
 .button-link:hover {
-    opacity: .9 !important;
+  opacity: 0.9 !important;
 }
 
 button:hover:disabled,
 .button-link:hover:disabled {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 #btn-cancelar {
-    background: var(--color-primary-red);
+  background: var(--color-primary-red);
 }
 
 .container {
-    padding: 0 .5rem;
+  padding: 0 0.5rem;
 }
 
 @media (min-width: 1200px) {
-    .container {
-        padding: 0;
-        margin: 0 auto;
-        width: 1170px;
-    }
+  .container {
+    padding: 0;
+    margin: 0 auto;
+    width: 1170px;
+  }
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent !important;
+  background: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--color-primary-blue);
-    /* border: 1px solid #a0c7b1; */
-    border-radius: 10px;
+  background: var(--color-primary-blue);
+  /* border: 1px solid #a0c7b1; */
+  border-radius: 10px;
 }

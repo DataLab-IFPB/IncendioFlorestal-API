@@ -9,15 +9,13 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { SegurancaModule } from './seguranca/seguranca.module';
-import { CoreModule } from './core/core.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { IncendiosModule } from './incendios/incendios.module';
-import { environment } from '../environments/environment';
-
-import * as admin from 'firebase-admin'
 import { HomeModule } from './home/home.module';
+import { SharedModule } from './shared/shared.module';
 
 
 
@@ -31,10 +29,11 @@ import { HomeModule } from './home/home.module';
     BrowserModule,
     BrowserAnimationsModule,
 
-    CoreModule,
-    ToastModule,
-
     AppRoutingModule,
+
+    SharedModule,
+
+    ToastModule,
 
     SegurancaModule,
     UsuariosModule,

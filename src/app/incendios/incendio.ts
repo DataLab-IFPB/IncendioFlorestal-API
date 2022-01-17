@@ -1,30 +1,3 @@
-
-export class Login {
-  email: string;
-  password: string;
-}
-export class Usuario {
-
-  birthDate;
-  email: string;
-  password: string;
-  registration: string;
-
-  firstLogin: boolean;
-  isAdmin: boolean = false;
-  isDeleted: boolean;
-
-  lastLoginAt: Date;
-  deletedAt: Date;
-  updatedAt: Date;
-
-  // deletedBy?
-  // updatedBy?
-
-  key: string;
-  uid: string;
-}
-
 export class Incendio {
   key: string;
 
@@ -61,7 +34,6 @@ export class Incendio {
   updatedAt: Date;
 }
 
-
 export class Clima {
   cidade;
   cobertura_nuvem;
@@ -73,6 +45,7 @@ export class Clima {
   velocidade_vento;
   visibilidade;
 }
+
 export class Point {
   0;
   1;

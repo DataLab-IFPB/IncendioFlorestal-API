@@ -1,60 +1,78 @@
 :host ::ng-deep .p-grid {
-    margin: 0;
+  margin: 0;
 }
 
 .conteudo {
-    margin: 1rem 0;
+  margin: 1rem 0;
 }
 
 :host ::ng-deep .p-card .p-card-content {
-    padding-bottom: 0;
+  padding-bottom: 0;
 }
 
 :host ::ng-deep .p-card .p-card-body {
-    padding-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
-:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month {
-    width: 150px;
+:host
+  ::ng-deep
+  .p-datepicker
+  .p-datepicker-header
+  .p-datepicker-title
+  .p-datepicker-month {
+  width: 150px;
 }
 
-:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year {
-    width: 55px;
+:host
+  ::ng-deep
+  .p-datepicker
+  .p-datepicker-header
+  .p-datepicker-title
+  .p-datepicker-year {
+  width: 55px;
 }
 
-:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
-:host ::ng-deep .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year {
-    height: 30px;
-    border: 1px solid #ced4da;
+:host
+  ::ng-deep
+  .p-datepicker
+  .p-datepicker-header
+  .p-datepicker-title
+  .p-datepicker-month,
+:host
+  ::ng-deep
+  .p-datepicker
+  .p-datepicker-header
+  .p-datepicker-title
+  .p-datepicker-year {
+  height: 30px;
+  border: 1px solid #ced4da;
 }
 
 form .footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 #btn-cancelar {
-    margin-right: .5rem;
-    text-decoration: none;
+  margin-right: 0.5rem;
+  text-decoration: none;
 }
-
 
 /* Chrome, Safari, Edge, Opera */
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
-
 
 /* Firefox */
 
-input[type=number] {
-    -moz-appearance: textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }

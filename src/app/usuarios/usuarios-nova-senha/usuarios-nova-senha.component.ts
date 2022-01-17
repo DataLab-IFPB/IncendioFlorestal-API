@@ -5,7 +5,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 
 import { AuthService } from 'src/app/seguranca/auth.service';
 import { UsuarioService } from '../usuario.service';
-import { Login, Usuario } from './../../core/model';
+import { Usuario } from '../usuario';
 
 @Component({
   selector: 'app-usuarios-nova-senha',

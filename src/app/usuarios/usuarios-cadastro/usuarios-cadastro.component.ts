@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
 import { UsuarioService } from './../usuario.service';
-import { Usuario } from 'src/app/core/model';
+import { Usuario } from '../usuario';
 
 import * as moment from 'moment';
 @Component({

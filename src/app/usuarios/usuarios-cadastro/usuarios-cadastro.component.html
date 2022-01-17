@@ -1,54 +1,116 @@
 <div class="p-grid p-justify-center conteudo">
+  <div class="p-col-11 p-sm-10 p-md-4">
+    <h1>{{ editando ? "Edição de" : "Novo" }} usuário</h1>
 
-    <div class="p-col-11 p-sm-10 p-md-4">
+    <p-card>
+      <div class="p-grid">
+        <form
+          autocomplete="off"
+          class="p-col-12 formNovoUsuario"
+          #formNovoUsuario="ngForm"
+        >
+          <div class="p-field p-fluid">
+            <label for="matricula">Matrícula</label>
+            <input
+              id="matricula"
+              type="number"
+              name="matricula"
+              [(ngModel)]="usuario.registration"
+              [disabled]="editando"
+              pInputText
+              required
+              #matricula="ngModel"
+              ngModel
+              onKeyDown="if(this.value.length==16 && event.keyCode>47 && event.keyCode < 58)return false;"
+            />
 
-        <h1>{{editando ? 'Edição de' : 'Novo'}} usuário</h1>
+            <app-mensagem-de-erro
+              [controle]="matricula"
+              erro="required"
+              mensagem="Informe a matrícula"
+            ></app-mensagem-de-erro>
+          </div>
 
-        <p-card>
+          <div class="p-field p-fluid">
+            <label for="email">E-mail</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="{{ usuario.registration }}@bombeirospb.gov"
+              [disabled]="true"
+              pInputText
+              required
+              email
+              #email="ngModel"
+              ngModel
+            />
 
-            <div class="p-grid">
+            <app-mensagem-de-erro
+              [controle]="email"
+              erro="required"
+              mensagem="Informe o email"
+            ></app-mensagem-de-erro>
+            <app-mensagem-de-erro
+              [controle]="email"
+              erro="email"
+              mensagem="E-mail inválido"
+            ></app-mensagem-de-erro>
+          </div>
 
-                <form autocomplete="off" class="p-col-12 formNovoUsuario" #formNovoUsuario="ngForm">
+          <div class="p-field p-fluid">
+            <label for="dataNascimento">Data de Nascimento</label>
+            <p-calendar
+              id="dataNascimento"
+              dateFormat="dd/mm/yy"
+              name="dataNascimento"
+              [(ngModel)]="usuario.birthDate"
+              showIcon="true"
+              monthNavigator="true"
+              yearNavigator="true"
+              yearRange="1900:{{ anoAtual }}"
+              readonlyInput="true"
+              required
+              #dataNascimento="ngModel"
+            ></p-calendar>
 
-                    <div class="p-field p-fluid">
-                        <label for="matricula">Matrícula</label>
-                        <input id="matricula" type="number" name="matricula" [(ngModel)]="usuario.registration" [disabled]="editando" pInputText required #matricula="ngModel" ngModel onKeyDown="if(this.value.length==16 && event.keyCode>47 && event.keyCode < 58)return false;"
-                        />
+            <app-mensagem-de-erro
+              [controle]="dataNascimento"
+              erro="required"
+              mensagem="Informe a data de nascimento"
+            ></app-mensagem-de-erro>
+          </div>
 
-                        <app-mensagem-de-erro [controle]="matricula" erro="required" mensagem="Informe a matrícula"></app-mensagem-de-erro>
-                    </div>
+          <div class="p-field">
+            <label for="admin">Admin</label>
+            <p-selectButton
+              id="admin"
+              name="admin"
+              [options]="userOptions"
+              [(ngModel)]="usuario.isAdmin"
+              optionLabel="label"
+              optionValue="value"
+            ></p-selectButton>
+          </div>
 
-                    <div class="p-field p-fluid">
-                        <label for="email">E-mail</label>
-                        <input id="email" type="email" name="email" placeholder="{{usuario.registration}}@bombeirospb.gov" [disabled]="true" pInputText required email #email="ngModel" ngModel/>
-
-                        <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
-                        <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
-                    </div>
-
-                    <div class="p-field p-fluid">
-                        <label for="dataNascimento">Data de Nascimento</label>
-                        <p-calendar id="dataNascimento" dateFormat="dd/mm/yy" name="dataNascimento" [(ngModel)]="usuario.birthDate" showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="1900:{{anoAtual}}" readonlyInput="true" required #dataNascimento="ngModel"></p-calendar>
-
-                        <app-mensagem-de-erro [controle]="dataNascimento" erro="required" mensagem="Informe a data de nascimento"></app-mensagem-de-erro>
-                    </div>
-
-                    <div class="p-field">
-                        <label for="admin">Admin</label>
-                        <p-selectButton id="admin" name="admin" [options]="userOptions" [(ngModel)]="usuario.isAdmin" optionLabel="label" optionValue="value"></p-selectButton>
-                    </div>
-
-                    <div class="footer">
-                        <a id="btn-cancelar" class="button-link" pButton (click)="goBack()" label="Cancelar"></a>
-                        <button pButton type="button" label="Salvar" (click)="salvar()" [disabled]="!formNovoUsuario.valid"></button>
-                    </div>
-
-                </form>
-
-            </div>
-
-        </p-card>
-
-    </div>
-
+          <div class="footer">
+            <a
+              id="btn-cancelar"
+              class="button-link"
+              pButton
+              (click)="goBack()"
+              label="Cancelar"
+            ></a>
+            <button
+              pButton
+              type="button"
+              label="Salvar"
+              (click)="salvar()"
+              [disabled]="!formNovoUsuario.valid"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </p-card>
+  </div>
 </div>

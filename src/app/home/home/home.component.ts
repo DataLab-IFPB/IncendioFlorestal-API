@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 
 import { AuthService } from 'src/app/seguranca/auth.service';
-import { Usuario } from 'src/app/core/model';
+import { Usuario } from 'src/app/usuarios/usuario';
 import { UsuarioService } from './../../usuarios/usuario.service';
 @Component({
   selector: 'app-home',
@@ -36,8 +36,6 @@ export class HomeComponent implements OnInit {
   }
 
 
-
-
   alertaPrimeiroLogin() {
 
     if (this.usuarioLogado.firstLogin) {
@@ -52,7 +50,6 @@ export class HomeComponent implements OnInit {
         }
       });
     }
-
   }
 
 }

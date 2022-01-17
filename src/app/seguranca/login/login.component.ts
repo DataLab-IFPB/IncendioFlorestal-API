@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
 
-import { UsuarioService } from './../../usuarios/usuario.service';
+import { UsuarioService } from 'src/app/usuarios/usuario.service';
 import { AuthService } from '../auth.service';
-import { Login } from 'src/app/core/model';
+import { Login } from '../seguranca';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +21,8 @@ export class LoginComponent {
   emailEsqueciMinhaSenha: string = '';
 
   constructor(
-    private usuarioService: UsuarioService,
     private auth: AuthService,
+    private usuarioService: UsuarioService,
     private router: Router,
     private messageService: MessageService
   ) {

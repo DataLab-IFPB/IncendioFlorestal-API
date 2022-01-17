@@ -7,10 +7,10 @@ import 'rxjs/add/operator/map';
 import * as moment from 'moment';
 import * as ARR from 'lodash';
 
-import { IncendioService } from './../incendio.service';
-import { Incendio } from './../../core/model';
-
 import { faWind, faTint, faTemperatureHigh } from '@fortawesome/free-solid-svg-icons';
+
+import { IncendioService } from '../incendio.service';
+import { Incendio } from '../incendio';
 
 @Component({
   selector: 'app-incendios-pesquisa',

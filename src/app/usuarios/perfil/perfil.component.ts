@@ -4,10 +4,11 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 
 import { UsuarioService } from './../usuario.service';
-import { Login, Usuario } from './../../core/model';
+
 import { AuthService } from 'src/app/seguranca/auth.service';
 
-import * as moment from 'moment';
+import { Usuario } from '../usuario';
+import { Login } from 'src/app/seguranca/seguranca';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',

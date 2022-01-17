@@ -1,0 +1,69 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="p-grid">
+      <div class="p-col-12">
+        <a href="javascript:;" class="navbar-toggle" (click)="exibeMenu = true"
+          ><i class="pi pi-bars" pTooltip="Menu" tooltipPosition="bottom"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<p-sidebar [(visible)]="exibeMenu">
+  <ul class="navbar-menu">
+    <li
+      class="navbar-menuitem usuario"
+      pTooltip="matrícula"
+      tooltipPosition="top"
+    >
+      {{ usuarioLogado.registration }}
+    </li>
+
+    <li class="navbar-menuitem">
+      <a routerLink="/perfil" (click)="omitir()">
+        <i class="pi pi-user menu-icon"></i>
+        <span>Perfil</span>
+      </a>
+    </li>
+
+    <li class="navbar-menuitem">
+      <a routerLink="/home" (click)="omitir()">
+        <i class="pi pi-home menu-icon"></i>
+        <span>Home</span>
+      </a>
+    </li>
+
+    <li *ngIf="usuarioLogado.isAdmin" class="navbar-menuitem">
+      <a routerLink="/usuarios" (click)="omitir()">
+        <i class="pi pi-users menu-icon"></i>
+        <span>Usuários</span>
+      </a>
+    </li>
+
+    <li class="navbar-menuitem">
+      <a routerLink="/incendios" (click)="omitir()">
+        <fa-icon [icon]="icones.extintor" class="menu-icon"></fa-icon>
+        <span>Incêndios</span>
+      </a>
+    </li>
+
+    <li class="navbar-menuitem logout">
+      <a (click)="logout()">
+        <i class="pi pi-sign-out menu-icon"></i>
+        <span>Sair</span>
+      </a>
+    </li>
+
+    <div class="navbar-menuitem" style="text-align: center">
+      <i class="pi pi-sun" style="font-size: 2rem; color: #cccac8"></i>
+      <p-inputSwitch
+        name="switchTheme"
+        [(ngModel)]="darkThemeisActive"
+        (click)="changeTheme()"
+        style="margin: 0 1rem"
+      ></p-inputSwitch>
+      <i class="pi pi-moon" style="font-size: 2rem; color: #cccac8"></i>
+    </div>
+  </ul>
+</p-sidebar>

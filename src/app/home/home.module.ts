@@ -1,10 +1,11 @@
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DashboardModule } from '../dashboard/dashboard.module';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TabViewModule } from 'primeng/tabview';
+
+import { HomeComponent } from './home/home.component';
+import { DashboardModule } from '../dashboard/dashboard.module';
 
 @NgModule({
   declarations: [HomeComponent],

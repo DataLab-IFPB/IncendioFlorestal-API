@@ -5,7 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import 'rxjs/add/operator/map';
 import * as ARR from 'lodash';
 
-import { Usuario } from './../../core/model';
+import { Usuario } from '../usuario';
 import { UsuarioService } from './../usuario.service';
 
 @Component({

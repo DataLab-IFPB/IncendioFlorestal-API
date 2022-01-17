@@ -1,77 +1,145 @@
 <div class="container">
+  <h1>Usuários</h1>
 
-    <h1>Usuários</h1>
+  <p-dataView
+    [value]="usuarios"
+    layout="grid"
+    emptyMessage="Nenhum usuário encontrado"
+  >
+    <ng-template pTemplate="header">
+      <div class="users-list-header">
+        <div>
+          <input
+            class="campo-busca"
+            pInputText
+            type="text"
+            [(ngModel)]="busca"
+            name="buscarEnsaio"
+            placeholder="Matrícula ou E-mail"
+          />
+          <button
+            pButton
+            icon="pi pi pi-search"
+            pTooltip="Buscar"
+            tooltipPosition="bottom"
+            (click)="filtrar()"
+          ></button>
+        </div>
 
-    <p-dataView [value]="usuarios" layout="grid" emptyMessage="Nenhum usuário encontrado">
+        <div>
+          <a
+            class="btn-new-user button-link"
+            pButton
+            icon="pi pi-plus-circle"
+            pTooltip="Novo usuário"
+            tooltipPosition="bottom"
+            routerLink="/usuarios/novo"
+          ></a>
+        </div>
+      </div>
+    </ng-template>
 
-        <ng-template pTemplate="header">
+    <ng-template let-user pTemplate="gridItem">
+      <div class="p-col-12 p-md-3">
+        <p-card>
+          <div class="user-matricula">
+            <i class="pi pi-id-card user-icon" pTooltip="matrícula"></i>
+            <span>{{ user.registration }}</span>
+          </div>
 
-            <div class="users-list-header">
-                <div>
-                    <input class="campo-busca" pInputText type="text" [(ngModel)]="busca" name="buscarEnsaio" placeholder="Matrícula ou E-mail">
-                    <button pButton icon="pi pi pi-search" pTooltip="Buscar" tooltipPosition="bottom" (click)="filtrar()"></button>
-                </div>
+          <div class="user-email">
+            <i class="pi pi-envelope user-icon" pTooltip="E-mail"></i>
+            <span>{{ user.email }}</span>
+          </div>
 
-                <div>
-                    <a class="btn-new-user button-link" pButton icon="pi pi-plus-circle" pTooltip="Novo usuário" tooltipPosition="bottom" routerLink="/usuarios/novo"></a>
-                </div>
+          <ng-template pTemplate="footer">
+            <div [class]="'card-footer ' + user.isAdmin">
+              <div *ngIf="user.isAdmin">
+                <span class="badge">Admin</span>
+              </div>
+
+              <div class="botoes">
+                <button
+                  id="btn-editar"
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-outlined p-button-success"
+                  pTooltip="Editar"
+                  tooltipPosition="bottom"
+                  [routerLink]="['/usuarios/edicao', user.registration]"
+                ></button>
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-outlined p-button-danger"
+                  pTooltip="Excluir"
+                  tooltipPosition="bottom"
+                  (click)="confirmarExclusao(user)"
+                ></button>
+              </div>
             </div>
+          </ng-template>
+        </p-card>
+      </div>
+    </ng-template>
 
-        </ng-template>
+    <ng-template pTemplate="footer">
+      <div class="buttons-prev-next">
+        <button
+          class="prev"
+          type="button"
+          pButton
+          icon="pi pi-chevron-left"
+          (click)="onPrev()"
+          [disabled]="prevKeys?.length == 0"
+          label="Anterior"
+        ></button>
+        <button
+          class="next"
+          type="button"
+          pButton
+          icon="pi pi-chevron-right"
+          iconPos="right"
+          (click)="onNext()"
+          [disabled]="nextKey == null"
+          label="Próximo"
+        ></button>
+      </div>
+    </ng-template>
 
-        <ng-template let-user pTemplate="gridItem">
-            <div class="p-col-12 p-md-3">
-
-                <p-card>
-
-                    <div class="user-matricula">
-                        <i class="pi pi-id-card user-icon" pTooltip="matrícula"></i>
-                        <span>{{user.registration}}</span>
-                    </div>
-
-                    <div class="user-email">
-                        <i class="pi pi-envelope user-icon" pTooltip="E-mail"></i>
-                        <span>{{user.email}}</span>
-                    </div>
-
-                    <ng-template pTemplate="footer">
-                        <div [class]="'card-footer ' + user.isAdmin">
-                            <div *ngIf="user.isAdmin">
-                                <span class="badge">Admin</span>
-                            </div>
-
-                            <div class="botoes">
-                                <button id="btn-editar" pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success" pTooltip="Editar" tooltipPosition="bottom" [routerLink]="['/usuarios/edicao', user.registration]"></button>
-                                <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger" pTooltip="Excluir" tooltipPosition="bottom" (click)="confirmarExclusao(user)"></button>
-                            </div>
-                        </div>
-                    </ng-template>
-
-                </p-card>
-
-            </div>
-        </ng-template>
-
-        <ng-template pTemplate="footer">
-            <div class="buttons-prev-next">
-                <button class="prev" type="button" pButton icon="pi pi-chevron-left" (click)="onPrev()" [disabled]="prevKeys?.length == 0" label="Anterior"></button>
-                <button class="next" type="button" pButton icon="pi pi-chevron-right" iconPos="right" (click)="onNext()" [disabled]="nextKey == null" label="Próximo"></button>
-            </div>
-        </ng-template>
-
-        <ng-template pTemplate="empty">
-            <h3>Nenhum usuário encontrado</h3>
-            <p-progressSpinner class="spinner" *ngIf="spinnerIsActive" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
-        </ng-template>
-
-    </p-dataView>
-
+    <ng-template pTemplate="empty">
+      <h3>Nenhum usuário encontrado</h3>
+      <p-progressSpinner
+        class="spinner"
+        *ngIf="spinnerIsActive"
+        strokeWidth="3"
+        animationDuration="1s"
+      ></p-progressSpinner>
+    </ng-template>
+  </p-dataView>
 </div>
 
-
-<p-confirmDialog #cd [style]="{width: '450px'}" [closable]="false">
-    <ng-template pTemplate="footer">
-        <button id="btn-cancelar" type="button" pButton icon="pi pi-times" label="Não" (click)="cd.reject()"></button>
-        <button class="btn-salvar" type="button" pButton icon="pi pi-check" label="Sim" (click)="cd.accept()"></button>
-    </ng-template>
+<p-confirmDialog #cd [style]="{ width: '450px' }" [closable]="false">
+  <ng-template pTemplate="footer">
+    <button
+      id="btn-cancelar"
+      type="button"
+      pButton
+      icon="pi pi-times"
+      label="Não"
+      (click)="cd.reject()"
+    ></button>
+    <button
+      class="btn-salvar"
+      type="button"
+      pButton
+      icon="pi pi-check"
+      label="Sim"
+      (click)="cd.accept()"
+    ></button>
+  </ng-template>
 </p-confirmDialog>

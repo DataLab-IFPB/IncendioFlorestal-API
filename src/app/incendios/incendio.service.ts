@@ -1,5 +1,5 @@
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 import { map } from 'rxjs/operators';
 import 'rxjs-compat/add/operator/first';
@@ -7,7 +7,9 @@ import 'rxjs/add/operator/map';
 
 import * as moment from 'moment';
 
-import { Incendio } from './../core/model';
+import { Incendio } from './incendio';
+
+
 
 
 @Injectable({

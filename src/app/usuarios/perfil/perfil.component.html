@@ -1,94 +1,214 @@
 <div class="p-grid p-justify-center conteudo">
+  <div class="p-col-11 p-sm-10 p-md-4">
+    <h1>Perfil</h1>
 
-    <div class="p-col-11 p-sm-10 p-md-4">
+    <p-card>
+      <div class="p-grid">
+        <form
+          autocomplete="off"
+          class="p-col-12 formPerfil"
+          #formPerfil="ngForm"
+        >
+          <div class="p-field p-fluid">
+            <label for="matricula">Matrícula</label>
+            <input
+              id="matricula"
+              type="number"
+              name="matricula"
+              [(ngModel)]="usuario.registration"
+              pInputText
+              required
+              #matricula="ngModel"
+              ngModel
+              onKeyDown="if(this.value.length==16 && event.keyCode>47 && event.keyCode < 58)return false;"
+            />
 
-        <h1>Perfil</h1>
+            <app-mensagem-de-erro
+              [controle]="matricula"
+              erro="required"
+              mensagem="Informe a matrícula"
+            ></app-mensagem-de-erro>
+          </div>
 
-        <p-card>
+          <div class="p-field p-fluid">
+            <label for="email">E-mail</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="{{ usuario.registration }}@bombeirospb.gov"
+              [disabled]="true"
+              pInputText
+              required
+              email
+              #email="ngModel"
+              ngModel
+            />
 
-            <div class="p-grid">
+            <app-mensagem-de-erro
+              [controle]="email"
+              erro="required"
+              mensagem="Informe o email"
+            ></app-mensagem-de-erro>
+            <app-mensagem-de-erro
+              [controle]="email"
+              erro="email"
+              mensagem="E-mail inválido"
+            ></app-mensagem-de-erro>
+          </div>
 
-                <form autocomplete="off" class="p-col-12 formPerfil" #formPerfil="ngForm">
+          <div class="p-field p-fluid">
+            <label for="dataNascimento">Data de Nascimento</label>
+            <p-calendar
+              id="dataNascimento"
+              dateFormat="dd/mm/yy"
+              name="dataNascimento"
+              [(ngModel)]="usuario.birthDate"
+              showIcon="true"
+              monthNavigator="true"
+              yearNavigator="true"
+              yearRange="1900:{{ anoAtual }}"
+              readonlyInput="true"
+              required
+              #dataNascimento="ngModel"
+            ></p-calendar>
 
-                    <div class="p-field p-fluid">
-                        <label for="matricula">Matrícula</label>
-                        <input id="matricula" type="number" name="matricula" [(ngModel)]="usuario.registration" pInputText required #matricula="ngModel" ngModel onKeyDown="if(this.value.length==16 && event.keyCode>47 && event.keyCode < 58)return false;" />
+            <app-mensagem-de-erro
+              [controle]="dataNascimento"
+              erro="required"
+              mensagem="Informe a data de nascimento"
+            ></app-mensagem-de-erro>
+          </div>
 
-                        <app-mensagem-de-erro [controle]="matricula" erro="required" mensagem="Informe a matrícula"></app-mensagem-de-erro>
-                    </div>
+          <div class="p-field p-fluid">
+            <label for="senha">Senha</label>
+            <p-password
+              id="senha"
+              [feedback]="false"
+              toggleMask="true"
+              name="senha"
+              [(ngModel)]="usuario.password"
+              minlength="6"
+              maxlength="50"
+              required
+              #senha="ngModel"
+              ngModel
+            ></p-password>
 
-                    <div class="p-field p-fluid">
-                        <label for="email">E-mail</label>
-                        <input id="email" type="email" name="email" placeholder="{{usuario.registration}}@bombeirospb.gov" [disabled]="true" pInputText required email #email="ngModel" ngModel/>
+            <app-mensagem-de-erro
+              [controle]="senha"
+              erro="required"
+              mensagem="Informe a senha"
+            ></app-mensagem-de-erro>
+            <app-mensagem-de-erro
+              [controle]="senha"
+              erro="minlength"
+              mensagem="Mínimo de {{
+                senha.errors?.minlength?.requiredLength
+              }} caracteres"
+            ></app-mensagem-de-erro>
+          </div>
 
-                        <app-mensagem-de-erro [controle]="email" erro="required" mensagem="Informe o email"></app-mensagem-de-erro>
-                        <app-mensagem-de-erro [controle]="email" erro="email" mensagem="E-mail inválido"></app-mensagem-de-erro>
-                    </div>
+          <div class="p-field" *ngIf="usuario.isAdmin">
+            <label for="admin">Admin</label>
+            <p-selectButton
+              id="admin"
+              name="admin"
+              [options]="userOptions"
+              [(ngModel)]="usuario.isAdmin"
+              optionLabel="label"
+              optionValue="value"
+            ></p-selectButton>
+          </div>
 
-                    <div class="p-field p-fluid">
-                        <label for="dataNascimento">Data de Nascimento</label>
-                        <p-calendar id="dataNascimento" dateFormat="dd/mm/yy" name="dataNascimento" [(ngModel)]="usuario.birthDate" showIcon="true" monthNavigator="true" yearNavigator="true" yearRange="1900:{{anoAtual}}" readonlyInput="true" required #dataNascimento="ngModel"></p-calendar>
-
-                        <app-mensagem-de-erro [controle]="dataNascimento" erro="required" mensagem="Informe a data de nascimento"></app-mensagem-de-erro>
-                    </div>
-
-                    <div class="p-field p-fluid">
-                        <label for="senha">Senha</label>
-                        <p-password id="senha" [feedback]="false" toggleMask=true name="senha" [(ngModel)]="usuario.password" minlength="6" maxlength="50" required #senha="ngModel" ngModel></p-password>
-
-                        <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe a senha"></app-mensagem-de-erro>
-                        <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
-                    </div>
-
-                    <div class="p-field" *ngIf="usuario.isAdmin">
-                        <label for="admin">Admin</label>
-                        <p-selectButton id="admin" name="admin" [options]="userOptions" [(ngModel)]="usuario.isAdmin" optionLabel="label" optionValue="value"></p-selectButton>
-                    </div>
-
-                    <div class="footer">
-                        <button pButton type="button" label="Salvar" (click)="dialogIsVisible = !dialogIsVisible" [disabled]="!formPerfil.dirty"></button>
-                    </div>
-
-                </form>
-
-            </div>
-
-        </p-card>
-
-    </div>
-
+          <div class="footer">
+            <button
+              pButton
+              type="button"
+              label="Salvar"
+              (click)="dialogIsVisible = !dialogIsVisible"
+              [disabled]="!formPerfil.dirty"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </p-card>
+  </div>
 </div>
 
-
-
 <div>
-    <form id="form-confirmacao-senha" #formConfirmacaoSenha="ngForm" autocomplete="off">
+  <form
+    id="form-confirmacao-senha"
+    #formConfirmacaoSenha="ngForm"
+    autocomplete="off"
+  >
+    <p-dialog
+      [modal]="true"
+      [(visible)]="dialogIsVisible"
+      [closable]="false"
+      [baseZIndex]="10000"
+      [draggable]="false"
+      [resizable]="false"
+      [style]="{ width: '450px' }"
+    >
+      <ng-template pTemplate="header">
+        <div class="header-confirmacao-senha">Confirme sua antiga senha</div>
+      </ng-template>
 
-        <p-dialog [modal]=true [(visible)]="dialogIsVisible" [closable]="false" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [style]="{width: '450px'}">
+      <ng-template pTemplate="content">
+        <div class="p-field p-fluid">
+          <label for="senha">Senha</label>
+          <p-password
+            id="senha"
+            [feedback]="false"
+            toggleMask="true"
+            name="senha"
+            [(ngModel)]="confirmacaoDeSenha"
+            minlength="6"
+            maxlength="100"
+            required
+            #senha="ngModel"
+            ngModel
+          ></p-password>
 
-            <ng-template pTemplate="header">
-                <div class="header-confirmacao-senha">
-                    Confirme sua antiga senha
-                </div>
-            </ng-template>
+          <app-mensagem-de-erro
+            [controle]="senha"
+            erro="required"
+            mensagem="Informe sua antiga senha"
+          ></app-mensagem-de-erro>
+          <app-mensagem-de-erro
+            [controle]="senha"
+            erro="minlength"
+            mensagem="Mínimo de {{
+              senha.errors?.minlength?.requiredLength
+            }} caracteres"
+          ></app-mensagem-de-erro>
+        </div>
+      </ng-template>
 
-            <ng-template pTemplate="content">
-                <div class="p-field p-fluid">
-                    <label for="senha">Senha</label>
-                    <p-password id="senha" [feedback]="false" toggleMask=true name="senha" [(ngModel)]="confirmacaoDeSenha" minlength="6" maxlength="100" required #senha="ngModel" ngModel></p-password>
-
-                    <app-mensagem-de-erro [controle]="senha" erro="required" mensagem="Informe sua antiga senha"></app-mensagem-de-erro>
-                    <app-mensagem-de-erro [controle]="senha" erro="minlength" mensagem="Mínimo de {{senha.errors?.minlength?.requiredLength}} caracteres"></app-mensagem-de-erro>
-                </div>
-            </ng-template>
-
-            <ng-template pTemplate="footer">
-                <div class="botoes">
-                    <button id="btn-cancelar" form="form-confirmacao-senha" type="submit" (click)="resetarConfirmacaoDeSenha()" (click)="dialogIsVisible = !dialogIsVisible" label="Cancelar" pButton></button>
-                    <button class="btn-ok ConfirmaSenha" form="form-confirmacao-senha" type="submit" (click)="salvar()" (click)="dialogIsVisible = !dialogIsVisible" label="Ok" [disabled]="!formConfirmacaoSenha.valid" pButton></button>
-                </div>
-            </ng-template>
-
-        </p-dialog>
-    </form>
+      <ng-template pTemplate="footer">
+        <div class="botoes">
+          <button
+            id="btn-cancelar"
+            form="form-confirmacao-senha"
+            type="submit"
+            (click)="resetarConfirmacaoDeSenha()"
+            (click)="dialogIsVisible = !dialogIsVisible"
+            label="Cancelar"
+            pButton
+          ></button>
+          <button
+            class="btn-ok ConfirmaSenha"
+            form="form-confirmacao-senha"
+            type="submit"
+            (click)="salvar()"
+            (click)="dialogIsVisible = !dialogIsVisible"
+            label="Ok"
+            [disabled]="!formConfirmacaoSenha.valid"
+            pButton
+          ></button>
+        </div>
+      </ng-template>
+    </p-dialog>
+  </form>
 </div>

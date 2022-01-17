@@ -11,8 +11,9 @@ import 'rxjs-compat/add/operator/first';
 
 import * as moment from 'moment';
 
-import { Usuario, Login } from './../core/model';
 
+import { Login } from 'src/app/seguranca/seguranca';
+import { Usuario } from './usuario';
 
 @Injectable({
   providedIn: 'root'
