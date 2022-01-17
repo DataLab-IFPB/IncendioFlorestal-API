@@ -27,6 +27,7 @@ import { MensagemDeErroComponent } from './component/mensagem-de-erro/mensagem-d
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { PaginaNaoEncontradaComponent } from './component/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { PanelLoaderComponent } from './component/panel-loader/panel-loader.component';
+import { DatePickerComponent } from './component/date-picker/date-picker.component';
 
 const angularModules: any = [
   CommonModule,
@@ -62,7 +63,8 @@ const primeModules: any= [
     MensagemDeErroComponent,
     PaginaNaoEncontradaComponent,
     NavbarComponent,
-    PanelLoaderComponent
+    PanelLoaderComponent,
+    DatePickerComponent
   ],
   imports: [
     angularModules,
@@ -78,7 +80,8 @@ const primeModules: any= [
     MensagemDeErroComponent,
     PaginaNaoEncontradaComponent,
     NavbarComponent,
-    PanelLoaderComponent
+    PanelLoaderComponent,
+    DatePickerComponent
   ]
 })
 export class SharedModule { }

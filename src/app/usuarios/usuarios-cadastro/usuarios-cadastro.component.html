@@ -60,19 +60,13 @@
 
           <div class="p-field p-fluid">
             <label for="dataNascimento">Data de Nascimento</label>
-            <p-calendar
+            <app-date-picker
               id="dataNascimento"
-              dateFormat="dd/mm/yy"
               name="dataNascimento"
               [(ngModel)]="usuario.birthDate"
-              showIcon="true"
-              monthNavigator="true"
-              yearNavigator="true"
-              yearRange="1900:{{ anoAtual }}"
-              readonlyInput="true"
-              required
               #dataNascimento="ngModel"
-            ></p-calendar>
+              required
+            ></app-date-picker>
 
             <app-mensagem-de-erro
               [controle]="dataNascimento"

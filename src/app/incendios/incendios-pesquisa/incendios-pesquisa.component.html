@@ -18,21 +18,14 @@
             </div>
 
             <div>
-              <p-calendar
+              <app-date-picker
                 id="dataIncendio"
-                dateFormat="dd/mm/yy"
-                showButtonBar="true"
                 name="dataIncendio"
                 placeholder="Data"
+                [initYearRange]="2000"
                 [(ngModel)]="dataBuscada"
-                showIcon="true"
-                monthNavigator="true"
-                yearNavigator="true"
-                yearRange="2000:{{ anoAtual }}"
-                readonlyInput="true"
                 #dataIncendio="ngModel"
-              ></p-calendar>
-              <!-- <app-mensagem-de-erro [controle]="dataIncendio" erro="required" mensagem="Informe a data de nascimento"></app-mensagem-de-erro> -->
+              ></app-date-picker>
 
               <button
                 class="btn-buscar"
@@ -199,7 +192,7 @@
         </tr>
         <tr>
           <td colspan="7">
-            <app-panel-loader [visible]="spinnerIsActive"></app-panel-loader>
+            <!-- <app-panel-loader [visible]="spinnerIsActive"></app-panel-loader> -->
           </td>
         </tr>
       </ng-template>
