@@ -74,12 +74,6 @@
   color: #c63737;
 }
 
-.spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 #btn-editar {
   margin-right: 0.5rem !important;
   color: green;
@@ -158,6 +152,7 @@
     > th {
     display: none !important;
   }
+
   :host
     ::ng-deep
     .p-datatable.p-datatable-incendios
@@ -178,6 +173,7 @@
     border-top: 1px solid gray;
     border-style: dashed;
   }
+
   :host
     ::ng-deep
     .p-datatable.p-datatable-incendios
@@ -190,13 +186,15 @@
     display: inline-block;
     margin: -0.4rem 1rem -0.4rem -0.4rem;
   }
+
   #btn-editar {
     margin: 0 0.5rem 0 0 !important;
   }
-  .td-emptymessage,
-  .td-spinner {
+
+  .td-emptymessage {
     display: block !important;
   }
+
   :host
     ::ng-deep
     .p-datatable.p-datatable-incendios

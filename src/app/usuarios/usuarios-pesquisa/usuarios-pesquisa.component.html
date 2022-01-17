@@ -113,12 +113,7 @@
 
     <ng-template pTemplate="empty">
       <h3>Nenhum usuário encontrado</h3>
-      <p-progressSpinner
-        class="spinner"
-        *ngIf="spinnerIsActive"
-        strokeWidth="3"
-        animationDuration="1s"
-      ></p-progressSpinner>
+      <app-panel-loader [visible]="spinnerIsActive"></app-panel-loader>
     </ng-template>
   </p-dataView>
 </div>

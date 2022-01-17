@@ -198,13 +198,8 @@
           </td>
         </tr>
         <tr>
-          <td colspan="7" class="td-spinner">
-            <p-progressSpinner
-              class="spinner"
-              *ngIf="spinnerIsActive"
-              strokeWidth="3"
-              animationDuration="1s"
-            ></p-progressSpinner>
+          <td colspan="7">
+            <app-panel-loader [visible]="spinnerIsActive"></app-panel-loader>
           </td>
         </tr>
       </ng-template>

@@ -26,6 +26,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { MensagemDeErroComponent } from './component/mensagem-de-erro/mensagem-de-erro.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { PaginaNaoEncontradaComponent } from './component/pagina-nao-encontrada/pagina-nao-encontrada.component';
+import { PanelLoaderComponent } from './component/panel-loader/panel-loader.component';
 
 const angularModules: any = [
   CommonModule,
@@ -60,7 +61,8 @@ const primeModules: any= [
   declarations: [
     MensagemDeErroComponent,
     PaginaNaoEncontradaComponent,
-    NavbarComponent
+    NavbarComponent,
+    PanelLoaderComponent
   ],
   imports: [
     angularModules,
@@ -75,7 +77,8 @@ const primeModules: any= [
 
     MensagemDeErroComponent,
     PaginaNaoEncontradaComponent,
-    NavbarComponent
+    NavbarComponent,
+    PanelLoaderComponent
   ]
 })
 export class SharedModule { }

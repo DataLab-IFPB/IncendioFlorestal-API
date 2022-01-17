@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DashboardService } from '../dashboard.service';
 
-const mapboxgl = require('mapbox-gl');
+// const mapboxgl = require('mapbox-gl');
 
 @Component({
   selector: 'app-heatmap',
@@ -24,18 +24,18 @@ export class HeatmapComponent implements OnInit {
 
   private configMap(): void {
 
-    mapboxgl.accessToken = environment.mapboxkey;
+    // mapboxgl.accessToken = environment.mapboxkey;
 
-    this.mapa = new mapboxgl.Map({
-      container: 'mapa',
-      style: 'mapbox://styles/mapbox/dark-v10',
-      center: [-36.304, -7.199],
-      zoom: 7,
-      minZoom: 7
-    });
+    // this.mapa = new mapboxgl.Map({
+    //   container: 'mapa',
+    //   style: 'mapbox://styles/mapbox/dark-v10',
+    //   center: [-36.304, -7.199],
+    //   zoom: 7,
+    //   minZoom: 7
+    // });
 
-    this.mapa.dragRotate.disable();
-    this.mapa.touchZoomRotate.disableRotation();
+    // this.mapa.dragRotate.disable();
+    // this.mapa.touchZoomRotate.disableRotation();
   }
 
   private configLayer(): void {
