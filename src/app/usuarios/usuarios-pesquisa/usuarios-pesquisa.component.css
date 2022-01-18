@@ -1,5 +1,5 @@
 :host ::ng-deep .p-dataview {
-  padding-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 :host ::ng-deep .p-dataview .p-dataview-header {

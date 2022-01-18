@@ -7,8 +7,6 @@ import { CardInfoComponent } from './card-info/card-info.component';
 import { DashboardService } from './dashboard.service';
 
 import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
@@ -34,8 +32,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
   imports: [
     CommonModule,
     FormsModule,
-    // BrowserModule,
-    // BrowserAnimationsModule,
     CardModule,
     ChartModule,
     DropdownModule,

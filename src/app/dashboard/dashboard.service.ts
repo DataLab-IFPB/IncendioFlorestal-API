@@ -1,8 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AngularFireDatabase } from '@angular/fire/database';
+
 import { Chart } from './factoryChart';
 import { Datasets } from './datasets';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -25,7 +26,7 @@ export class DashboardService {
   carregarFiltros() {
 
     if(this.tipoDashboard === 'dashboard-por-ano') {
-      this.http.get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/25/distritos") 
+      this.http.get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/25/distritos")
       .subscribe(
         (data: object[]) => {
           if(this.Datasets.filtroMunicipios.length === 0) {
@@ -33,17 +34,17 @@ export class DashboardService {
               this.Datasets.filtroMunicipios.push(municipio['nome']);
             });
           }
-         
+
           this.initLoadEvent.emit();
       });
-    
-      // Gerar range de anos (2021 até o ano atual) 
+
+      // Gerar range de anos (2021 até o ano atual)
       if(this.Datasets.filtroAno.length === 0) {
         let ano = 2021;
 
         while(true) {
           this.Datasets.filtroAno.push(String(ano));
-  
+
           if(ano === new Date().getFullYear()) {
             break;
           } else {
@@ -51,7 +52,7 @@ export class DashboardService {
           }
         }
       }
-     
+
     }
   }
 
@@ -132,10 +133,10 @@ export class DashboardService {
 
         // Registrar dados por mês do ano atual
         this.Datasets.registrosPorMesAnoAtual[(registro['acq_date'].split('/')[1]) - 1].push(registro);
-  
+
         // Registrar dados do heatmap
         if(this.tipoDashboard === 'dashboard-por-ano') {
-  
+
          this.Datasets.heatmap.features.push(
             {
               "type": "Feature",
@@ -147,42 +148,42 @@ export class DashboardService {
             }
           );
         }
-  
+
         if(registro['userCreated']) {
           this.Datasets.tipoRegistro.manual++;
         } else {
           this.Datasets.tipoRegistro.firms++;
         }
       });
-  
+
        // Registrar dados por mês do ano anterior
       this.Datasets.registrosAnoAnterior.forEach(registro => {
        this.Datasets.registrosPorMesAnoAnterior[((registro['acq_date'].split('/')[1]) - 1)].push(registro);
       });
-  
+
       // Gerar dados por mês
       this.Datasets.registrosPorMesAnoAtual.forEach((mes, indice) => {
-  
+
         const registrosTemperaturas = [];
         const registrosPrecipitacao = [];
         const registrosIntensidade = [];
         const registrosPorTurno = {noturno: 0, diurno: 0};
-  
+
         // Total no mês
         this.Datasets.totalPorMes[indice] = mes.length;
-      
+
         mes.forEach((registro: object) => {
           registrosTemperaturas.push(registro['clima']['temperatura']);
           registrosPrecipitacao.push(registro['clima']['precipitacao']);
           registrosIntensidade.push(registro['frp'] === undefined ? 0 : Number(registro['frp']));
-  
+
           if(registro['daynight'] === 'D') {
             registrosPorTurno.diurno++;
           } else {
             registrosPorTurno.noturno++;
           }
         });
-  
+
         // Adicionar os dados ao dataset
         this.adicionarMediaTemperaturaEPrecipitacao(registrosTemperaturas, registrosPrecipitacao, indice);
         this.adicionarMediaIntensidade(registrosIntensidade, indice);
@@ -295,10 +296,10 @@ export class DashboardService {
     if(registrosTemperaturas.length > 0) {
       this.Datasets.mediaTemperaturaPorMes[indiceMes] += ((registrosTemperaturas.reduce((a, b) => a + b)) / registrosTemperaturas.length);
     }
-    
+
     if(registrosPrecipitacao.length > 0) {
       this.Datasets.mediaPrecipiticaoPorMes[indiceMes] += ((registrosPrecipitacao.reduce((a, b) => a + b)) / registrosPrecipitacao.length);
-    } 
+    }
   }
 
   private adicionarMediaIntensidade(registrosIntensidade: any[], indiceMes: number) {

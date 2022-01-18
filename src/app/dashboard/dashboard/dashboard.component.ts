@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+
 import { PrimeNGConfig } from 'primeng/api';
+
+import { TranslateService } from '@ngx-translate/core';
+
 import { DashboardService } from '../dashboard.service';
 
 @Component({

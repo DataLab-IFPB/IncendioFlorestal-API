@@ -2,6 +2,10 @@
   margin-bottom: 2rem;
 }
 
+:host ::ng-deep .p-datatable .p-datatable-header {
+  padding: 1rem 0.5rem;
+}
+
 .table-container {
   background-color: white;
 }

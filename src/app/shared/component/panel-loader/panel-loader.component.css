@@ -1,12 +1,18 @@
 .panel-loader {
-  align-items: center;
   background-color: rgba(179, 179, 179, 0.438);
   display: flex;
-  height: 100%;
+  align-items: center;
   justify-content: center;
-  left: 0;
-  position: absolute;
-  top: 0;
+  height: 100%;
   width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
   z-index: 100;
+}
+
+:host ::ng-deep .p-progress-spinner {
+  background: #f8f9fa;
+  border-radius: 50px;
+  opacity: 0.9;
 }

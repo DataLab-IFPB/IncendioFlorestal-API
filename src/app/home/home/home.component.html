@@ -11,8 +11,20 @@
   </p-tabPanel>
 </p-tabView>
 
-<p-confirmDialog #cd [style]="{width: '450px'}" key="alertaTrocaDeSenha" [closable]="false">
-    <ng-template pTemplate="footer">
-        <button class="btn-salvar" type="button" pButton icon="pi pi-check" label="Ok" (click)="cd.accept()"></button>
-    </ng-template>
+<p-confirmDialog
+  #cd
+  [style]="{ width: '450px' }"
+  key="alertaTrocaDeSenha"
+  [closable]="false"
+>
+  <ng-template pTemplate="footer">
+    <button
+      class="btn-salvar"
+      type="button"
+      pButton
+      icon="pi pi-check"
+      label="Ok"
+      (click)="cd.accept()"
+    ></button>
+  </ng-template>
 </p-confirmDialog>

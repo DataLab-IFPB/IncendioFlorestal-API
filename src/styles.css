@@ -1,6 +1,5 @@
 :root {
   --color-background: #f0f0f7;
-  /* --color-background: #e0e3e7c2; */
   --color-primary-green: #1ca65b;
   --color-primary-red: rgb(209, 65, 65);
   --color-primary-blue: #1e94d2;
@@ -60,6 +59,6 @@ button:hover:disabled,
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-primary-blue);
-  /* border: 1px solid #a0c7b1; */
+  border: 1px solid #a0c7b1;
   border-radius: 10px;
 }
