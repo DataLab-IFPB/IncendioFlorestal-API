@@ -20,11 +20,11 @@
             <div>
               <app-date-picker
                 id="dataIncendio"
-                name="dataIncendio"
                 placeholder="Data"
                 [initYearRange]="2000"
+                [buttons]="true"
+                name="dataIncendio"
                 [(ngModel)]="dataBuscada"
-                #dataIncendio="ngModel"
               ></app-date-picker>
 
               <button
@@ -190,7 +190,7 @@
         </tr>
         <tr>
           <td colspan="7">
-            <app-panel-loader [visible]="spinnerIsActive"></app-panel-loader>
+            <!-- <app-panel-loader [visible]="spinnerIsActive"></app-panel-loader> -->
           </td>
         </tr>
       </ng-template>
