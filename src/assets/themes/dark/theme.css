@@ -41,11 +41,11 @@ body {
   background-color: var(--surface-d) !important;
 }
 
-button,
+/* button,
 button span,
 .button-link {
   color: rgb(0, 0, 0) !important;
-}
+} */
 
 h1,
 h2 {
