@@ -52,7 +52,8 @@ h2 {
   color: #ebe5e5;
 }
 
-label {
+label,
+.link span {
   color: rgba(223, 219, 219, 0.829) !important;
 }
 
