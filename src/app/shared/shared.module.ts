@@ -20,6 +20,7 @@ import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
@@ -52,7 +53,8 @@ const primeModules: any= [
   RippleModule,
   TableModule,
   FieldsetModule,
-  DropdownModule
+  DropdownModule,
+  ToastModule
 
 
 ];

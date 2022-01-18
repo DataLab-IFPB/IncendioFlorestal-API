@@ -9,9 +9,6 @@ import * as moment from 'moment';
 
 import { Incendio } from './incendio';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })

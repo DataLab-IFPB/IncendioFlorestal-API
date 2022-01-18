@@ -37,16 +37,14 @@ export class HomeComponent implements OnInit {
 
 
   alertaPrimeiroLogin() {
-
     if (this.usuarioLogado.firstLogin) {
-
       this.confirmationService.confirm({
         header: 'Atenção!',
         message: 'Este é o seu primeiro login, por favor altere sua senha.',
         icon: 'pi pi-info-circle',
         key: 'alertaTrocaDeSenha',
         accept: () => {
-          this.router.navigate(['/usuario/nova-senha']);
+          this.router.navigate(['/usuarios/nova-senha']);
         }
       });
     }

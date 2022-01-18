@@ -12,12 +12,10 @@ export class AuthService {
 
   constructor(
     public afAuth: AngularFireAuth,
-    private usuarioService: UsuarioService,
-    private messageService: MessageService
+    private usuarioService: UsuarioService
   ) { }
 
   async logar(email: string, senha: string) {
-
     await this.validarLogin(email)
 
     await this.usuarioService.buscarUsuarioPorEmail(email)
@@ -47,7 +45,6 @@ export class AuthService {
   }
 
   async validarLogin(email: string) {
-
     if (!this.usuarioService.validarDominioDeEmail(email))
       return Promise.reject("E-mail inválido");
 

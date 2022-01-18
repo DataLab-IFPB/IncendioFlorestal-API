@@ -11,9 +11,9 @@ import 'rxjs-compat/add/operator/first';
 
 import * as moment from 'moment';
 
-
 import { Login } from 'src/app/seguranca/seguranca';
 import { Usuario } from './usuario';
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,6 @@ export class UsuarioService {
   ) { }
 
   async cadastrar(usuario: Usuario) {
-
     await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
       if (u) {
         return Promise.reject("Matrícula já utilizada");
@@ -58,8 +57,6 @@ export class UsuarioService {
   }
 
   async atualizarPerfil(usuario: Usuario, credenciaisLogin: Login) {
-
-
     await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
       if (u) {
 
@@ -111,7 +108,6 @@ export class UsuarioService {
 
 
   async atualizar(usuario: Usuario) {
-
     await this.verificarExistenciaDeMatricula(usuario.registration).then(u => {
       if (u) {
         if (u.key != usuario.key) {
@@ -132,7 +128,6 @@ export class UsuarioService {
 
 
   atualizarFirstLogin(key: string) {
-
     const user = {
       firstLogin: false,
     }
@@ -141,7 +136,6 @@ export class UsuarioService {
   }
 
   atualizarUid(key: string, uid: string) {
-
     const user = {
       uid: uid,
     }
@@ -169,7 +163,6 @@ export class UsuarioService {
       .catch(erro => {
         this.messageService.add({ severity: 'error', summary: 'A senha informada está incorreta!.' });
       })
-
   }
 
 
@@ -190,7 +183,7 @@ export class UsuarioService {
   }
 
 
-
+  // listar com base na regra de paginação
   listar(numberItems, startKey?): AngularFireList<Usuario[]> {
     return this.db.list(this.dbPath, ref => {
 
@@ -204,7 +197,7 @@ export class UsuarioService {
     });
   }
 
-  //get all
+  // get all
   getUsuarios() {
     return this.db.list('users')
       .snapshotChanges().pipe(
@@ -220,7 +213,6 @@ export class UsuarioService {
 
 
   buscarUsuarioPorUid(uid: string) {
-
     let usuarioEncontrado;
 
     return this.getUsuarios()
@@ -247,7 +239,6 @@ export class UsuarioService {
   }
 
   buscarUsuarioPorEmail(email: string) {
-
     let usuarioEncontrado;
 
     return this.getUsuarios()
@@ -286,26 +277,7 @@ export class UsuarioService {
   }
 
 
-  buscarUsuarioPorEmailEDataNascimento(email: string, dataNascimento: string) {
-    let usuarioEncontrado;
-
-    return this.getUsuarios()
-      .map(users => {
-
-        users.forEach(user => {
-          if (user.email == email && user.birthDate == dataNascimento) {
-            usuarioEncontrado = user;
-          }
-        })
-
-        return usuarioEncontrado;
-      })
-      .first()
-      .toPromise()
-  }
-
   excluir(key: string) {
-
     const user = {
       isDeleted: true,
       deletedAt: new Date()
@@ -320,24 +292,6 @@ export class UsuarioService {
 
   validarDominioDeEmail(email: string) {
     return email.endsWith("@bombeirospb.gov")
-  }
-
-  verificarExistenciaDeEmail(email: string) {
-    let usuarioEncontrado = false;
-
-    return this.getUsuarios()
-      .map(users => {
-
-        users.forEach(user => {
-          if (user.email == email) {
-            usuarioEncontrado = true;
-          }
-        })
-
-        return usuarioEncontrado;
-      })
-      .first()
-      .toPromise()
   }
 
 

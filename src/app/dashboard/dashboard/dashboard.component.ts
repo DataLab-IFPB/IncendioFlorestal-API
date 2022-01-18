@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
   periodoFilter: Date;
 
   constructor(
-    private dashboardService: DashboardService, 
+    private dashboardService: DashboardService,
     private primeConfig: PrimeNGConfig,
     private translateService: TranslateService) { }
 
@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.tipoDashboard = this.tipoDashboard;
 
     this.dashboardService.clearDataset();
-      
+
     if(this.municipiosFilter.length === 0) {        // Limpar dados quando não nenhuma cidade foi selecionada
       this.updateDashboard();
     } else {

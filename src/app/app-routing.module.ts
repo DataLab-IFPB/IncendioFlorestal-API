@@ -1,3 +1,7 @@
+import { HomeModule } from './home/home.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { IncendiosModule } from './incendios/incendios.module';
+import { SegurancaModule } from './seguranca/seguranca.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -14,23 +18,28 @@ import { AuthGuard } from './seguranca/auth.guard';
 import { RoleGuard } from './seguranca/role.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  // Rota vazia, redireciona para '/login'
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
 
-  { path: 'home', component: HomeComponent },
+  { path: 'login',
+    loadChildren: () => import('./seguranca/seguranca.module').then(m => m.SegurancaModule)
+  },
 
-  { path: 'perfil', component: PerfilComponent },
+  { path: 'usuarios',
+    loadChildren: () => import('./usuarios/usuarios.module').then(m => m.UsuariosModule)
+  },
 
-  { path: 'usuarios', component: UsuariosPesquisaComponent },
-  { path: 'usuarios/novo', component: UsuariosCadastroComponent},
-  { path: 'usuarios/edicao/:matricula', component: UsuariosCadastroComponent },
-  { path: 'usuario/nova-senha', component: UsuariosNovaSenhaComponent},
+  { path: 'incendios',
+    loadChildren: () => import('./incendios/incendios.module').then(m => m.IncendiosModule)
+  },
 
-  { path: 'incendios', component: IncendiosPesquisaComponent },
-  { path: 'incendios/novo', component: IncendiosCadastroComponent},
-  { path: 'incendios/edicao/:key', component: IncendiosCadastroComponent },
+  { path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+  },
 
   { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
+
+  // Rota inválida, redireciona para '/pagina-nao-encontrada'
   { path: '**', redirectTo: 'pagina-nao-encontrada' }
 ];
 

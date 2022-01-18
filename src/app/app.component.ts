@@ -9,8 +9,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'combate-incendios';
 
-  constructor(
-    private router: Router) {
+  constructor(private router: Router) {
     this.definirTemaPadrao();
   }
 
@@ -20,7 +19,7 @@ export class AppComponent {
 
     if (url.includes('/login')
       || url.includes('/pagina-nao-encontrada')
-      || url.includes('/usuario/nova-senha')) {
+      || url.includes('/usuarios/nova-senha')) {
 
       return false;
     } else {

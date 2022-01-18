@@ -5,6 +5,7 @@ import { UsuariosPesquisaComponent } from './usuarios-pesquisa/usuarios-pesquisa
 import { UsuariosCadastroComponent } from './usuarios-cadastro/usuarios-cadastro.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosNovaSenhaComponent } from './usuarios-nova-senha/usuarios-nova-senha.component';
+import { UsuariosRoutingModule } from './usuarios-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { UsuariosNovaSenhaComponent } from './usuarios-nova-senha/usuarios-nova-
     UsuariosNovaSenhaComponent
   ],
   imports: [
-    SharedModule
+    SharedModule,
+    UsuariosRoutingModule
   ]
 })
 export class UsuariosModule { }
