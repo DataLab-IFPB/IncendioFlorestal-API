@@ -5,14 +5,16 @@ import { UsuariosNovaSenhaComponent } from './usuarios-nova-senha/usuarios-nova-
 import { UsuariosCadastroComponent } from './usuarios-cadastro/usuarios-cadastro.component';
 import { UsuariosPesquisaComponent } from './usuarios-pesquisa/usuarios-pesquisa.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { AuthGuard } from '../seguranca/auth.guard';
+import { RoleGuard } from './../seguranca/role.guard';
 
 const routes: Routes = [
 
-  { path: '', component: UsuariosPesquisaComponent },
-  { path: 'perfil', component: PerfilComponent },
-  { path: 'novo', component: UsuariosCadastroComponent },
-  { path: 'edicao/:matricula', component: UsuariosCadastroComponent },
-  { path: 'nova-senha', component: UsuariosNovaSenhaComponent },
+  { path: '', component: UsuariosPesquisaComponent, canActivate: [AuthGuard, RoleGuard]  },
+  { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
+  { path: 'novo', component: UsuariosCadastroComponent, canActivate: [AuthGuard, RoleGuard]  },
+  { path: 'edicao/:matricula', component: UsuariosCadastroComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: 'nova-senha', component: UsuariosNovaSenhaComponent, canActivate: [AuthGuard] },
 
 ];
 
