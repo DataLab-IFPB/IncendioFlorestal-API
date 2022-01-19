@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 
 import { UsuarioService } from './../usuario.service';
 import { Usuario } from '../usuario';
+import { DatePickerComponent } from './../../shared/component/date-picker/date-picker.component';
 
 import * as moment from 'moment';
 @Component({
@@ -19,9 +20,9 @@ export class UsuariosCadastroComponent implements OnInit {
 
   userOptions: any[];
 
-  anoAtual = new Date().getFullYear();
-
   matricula = this.route.snapshot.params['matricula'];
+
+  @ViewChild('dataNascimento') customDatePicker: DatePickerComponent;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -49,6 +50,7 @@ export class UsuariosCadastroComponent implements OnInit {
     return this.matricula ? true : false;
   }
 
+
   buscarUsuario(matricula: string) {
     this.usuarioService.buscarUsuarioPorMatricula(matricula)
       .then(user => {
@@ -58,6 +60,9 @@ export class UsuariosCadastroComponent implements OnInit {
 
   salvar() {
     this.usuario.email = this.usuario.registration + "@bombeirospb.gov";
+
+    const dataNascimento = this.customDatePicker.selectedDate;
+    this.usuario.birthDate = moment(dataNascimento).format('DD/MM/YYYY')
 
     if (this.usuarioService.validarDominioDeEmail(this.usuario.email)) {
       this.editando ? this.atualizar() : this.cadastrar();

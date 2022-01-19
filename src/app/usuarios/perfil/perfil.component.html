@@ -61,10 +61,12 @@
             <label for="dataNascimento">Data de Nascimento</label>
             <app-date-picker
               id="dataNascimento"
+              [selectedDate]="usuario.birthDate"
+              [required]="true"
               name="dataNascimento"
-              [(ngModel)]="usuario.birthDate"
               #dataNascimento="ngModel"
-              required
+              ngModel
+              ngDefaultControl
             ></app-date-picker>
 
             <app-mensagem-de-erro

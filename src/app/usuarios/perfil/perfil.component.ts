@@ -1,7 +1,9 @@
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
+
+import * as moment from 'moment';
 
 import { UsuarioService } from './../usuario.service';
 
@@ -9,6 +11,7 @@ import { AuthService } from 'src/app/seguranca/auth.service';
 
 import { Usuario } from '../usuario';
 import { Login } from 'src/app/seguranca/seguranca';
+import { DatePickerComponent } from './../../shared/component/date-picker/date-picker.component';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -25,7 +28,7 @@ export class PerfilComponent implements OnInit {
   confirmacaoDeSenha: string = '';
   email: string;
 
-  anoAtual = new Date().getFullYear();
+  @ViewChild('dataNascimento') customDatePicker: DatePickerComponent;
 
   constructor(
     private auth: AuthService,
@@ -56,8 +59,10 @@ export class PerfilComponent implements OnInit {
     credenciais.email = this.email;
     credenciais.password = this.confirmacaoDeSenha;
 
-
     this.usuario.email = this.usuario.registration + "@bombeirospb.gov";
+
+    const dataNascimento = this.customDatePicker.selectedDate;
+    this.usuario.birthDate = moment(dataNascimento).format('DD/MM/YYYY')
 
     this.usuarioService.atualizarPerfil(this.usuario, credenciais)
       .then(() => {

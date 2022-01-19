@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 
@@ -11,6 +11,7 @@ import { faWind, faTint, faTemperatureHigh } from '@fortawesome/free-solid-svg-i
 
 import { IncendioService } from '../incendio.service';
 import { Incendio } from '../incendio';
+import { DatePickerComponent } from './../../shared/component/date-picker/date-picker.component';
 
 @Component({
   selector: 'app-incendios-pesquisa',
@@ -27,7 +28,7 @@ export class IncendiosPesquisaComponent implements OnInit {
   textoBuscado: string = '';
   dataBuscada: Date;
 
-  anoAtual = new Date().getFullYear();
+  @ViewChild('dataBuscada') customDatePicker: DatePickerComponent;
 
 
   incendios: Array<Incendio> = [];
@@ -114,6 +115,8 @@ export class IncendiosPesquisaComponent implements OnInit {
 
 
   filtrar() {
+
+    this.dataBuscada = this.customDatePicker.selectedDate;
 
     if (this.textoBuscado == '' && this.dataBuscada == undefined) {
       this.incendios = [];

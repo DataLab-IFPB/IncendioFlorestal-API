@@ -13,7 +13,6 @@ export class MensagemDeErroComponent {
   @Input() controle: FormControl;
   @Input() mensagem: string;
 
-
   temErro(): boolean {
     return this.controle.hasError(this.erro) && this.controle.dirty;
   }
