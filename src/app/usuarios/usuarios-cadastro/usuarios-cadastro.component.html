@@ -60,15 +60,21 @@
 
           <div class="p-field p-fluid">
             <label for="dataNascimento">Data de Nascimento</label>
-            <app-date-picker
+
+            <p-calendar
               id="dataNascimento"
-              [selectedDate]="usuario.birthDate"
-              [required]="true"
+              dateFormat="dd/mm/yy"
               name="dataNascimento"
+              [(ngModel)]="usuario.birthDate"
+              showIcon="true"
+              monthNavigator="true"
+              yearNavigator="true"
+              yearRange="1900:{{ anoAtual }}"
+              readonlyInput="true"
+              required
               #dataNascimento="ngModel"
               ngModel
-              ngDefaultControl
-            ></app-date-picker>
+            ></p-calendar>
 
             <app-mensagem-de-erro
               [controle]="dataNascimento"
@@ -102,12 +108,7 @@
               type="button"
               label="Salvar"
               (click)="salvar()"
-              [disabled]="
-                !formNovoUsuario.valid ||
-                dataNascimento.selectedDate == undefined
-                  ? true
-                  : false
-              "
+              [disabled]="!formNovoUsuario.valid"
             ></button>
           </div>
         </form>

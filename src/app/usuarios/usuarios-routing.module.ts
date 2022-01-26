@@ -9,18 +9,31 @@ import { AuthGuard } from '../seguranca/auth.guard';
 import { RoleGuard } from './../seguranca/role.guard';
 
 const routes: Routes = [
-
-  { path: '', component: UsuariosPesquisaComponent, canActivate: [AuthGuard, RoleGuard]  },
+  {
+    path: '',
+    component: UsuariosPesquisaComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
-  { path: 'novo', component: UsuariosCadastroComponent, canActivate: [AuthGuard, RoleGuard]  },
-  { path: 'edicao/:matricula', component: UsuariosCadastroComponent, canActivate: [AuthGuard, RoleGuard] },
-  { path: 'nova-senha', component: UsuariosNovaSenhaComponent, canActivate: [AuthGuard] },
-
+  {
+    path: 'novo',
+    component: UsuariosCadastroComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'edicao/:matricula',
+    component: UsuariosCadastroComponent,
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'nova-senha',
+    component: UsuariosNovaSenhaComponent,
+    canActivate: [AuthGuard],
+  },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UsuariosRoutingModule { }
+export class UsuariosRoutingModule {}

@@ -10,23 +10,20 @@ import * as moment from 'moment';
 import { Incendio } from './incendio';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IncendioService {
-
   private dbPath = '/dados-firms';
 
-  constructor(
-    private db: AngularFireDatabase
-  ) { }
+  constructor(private db: AngularFireDatabase) {}
 
-
+  // listando com base na estratégia de paginação adotada
   listar(numberItems, startKey?): AngularFireList<Incendio[]> {
-    return this.db.list(this.dbPath, ref => {
-
+    return this.db.list(this.dbPath, (ref) => {
       let query = ref.orderByKey().limitToFirst(numberItems + 1); // limitToFirst começa a partir do topo da coleção
 
-      if (startKey) { // Se não houver cursor, começa no início da coleção ... caso contrário, começa no cursor
+      if (startKey) {
+        // Se não houver cursor, começa no início da coleção ... caso contrário, começa no cursor
         query = query.startAt(startKey);
       }
 
@@ -36,16 +33,17 @@ export class IncendioService {
 
   // get all
   getIncendios() {
-    return this.db.list(this.dbPath)
-      .snapshotChanges().pipe(
-        map(changes =>
-          changes.map(c =>
-          ({
-            key: c.payload.key, ...c.payload.exportVal()
-          })
-          )
+    return this.db
+      .list(this.dbPath)
+      .snapshotChanges()
+      .pipe(
+        map((changes) =>
+          changes.map((c) => ({
+            key: c.payload.key,
+            ...c.payload.exportVal(),
+          }))
         )
-      )
+      );
   }
 
   cadastrar(incendio: Incendio) {
@@ -56,8 +54,8 @@ export class IncendioService {
       latitude: incendio.latitude,
       longitude: incendio.longitude,
       clima: incendio.clima,
-      acq_datetime: moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
-    }
+      acq_datetime: moment(new Date()).format('YYYY/MM/DD HH:mm:ss'),
+    };
 
     return this.db.list(this.dbPath).push(fire);
   }
@@ -70,33 +68,24 @@ export class IncendioService {
       latitude: incendio.latitude,
       longitude: incendio.longitude,
       clima: incendio.clima,
-      updatedAt: new Date()
-    }
+      updatedAt: new Date(),
+    };
 
-    return this.db.list(this.dbPath).update(incendio.key, fire)
+    return this.db.list(this.dbPath).update(incendio.key, fire);
   }
 
   excluir(key: string) {
     const fire = {
       isDeleted: true,
-      deletedAt: new Date()
-    }
+      deletedAt: new Date(),
+    };
 
     return this.db.list(this.dbPath).update(key, fire);
   }
 
-
   buscarIncendioPorKey(key: string): AngularFireList<Incendio[]> {
-    return this.db.list(this.dbPath, ref => {
-      return ref.orderByKey().equalTo(key)
+    return this.db.list(this.dbPath, (ref) => {
+      return ref.orderByKey().equalTo(key);
     });
   }
-
-  buscarIncendioPorLatitude(latitude: string): AngularFireList<Incendio[]> {
-    return this.db.list(this.dbPath, ref => {
-      return ref.orderByChild("latitude").equalTo(latitude)
-    });
-  }
-
-
 }

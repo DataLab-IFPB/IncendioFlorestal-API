@@ -9,10 +9,9 @@ import { UsuarioService } from './../../usuarios/usuario.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-
   usuarioLogado: Usuario;
 
   constructor(
@@ -20,34 +19,31 @@ export class HomeComponent implements OnInit {
     private usuarioService: UsuarioService,
     private confirmationService: ConfirmationService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.buscarUsuario(this.auth.getUsuarioLogado.uid);
+    this.buscarUsuario(this.auth.getUsuarioLogado.registration);
   }
 
-
-  buscarUsuario(uid: string) {
-    this.usuarioService.buscarUsuarioPorUid(uid)
-      .then(user => {
+  // buscando usuário para atualizar o objeto quando vindo da tela de redefinição de senha (firstLogin)
+  buscarUsuario(matricula: string) {
+    this.usuarioService
+      .buscarUsuario('registration', matricula)
+      .then((user) => {
         this.usuarioLogado = user;
-        this.alertaPrimeiroLogin();
-      })
-  }
-
-
-  alertaPrimeiroLogin() {
-    if (this.usuarioLogado.firstLogin) {
-      this.confirmationService.confirm({
-        header: 'Atenção!',
-        message: 'Este é o seu primeiro login, por favor altere sua senha.',
-        icon: 'pi pi-info-circle',
-        key: 'alertaTrocaDeSenha',
-        accept: () => {
-          this.router.navigate(['/usuarios/nova-senha']);
-        }
+        if (user.firstLogin) this.exibirAlertaPrimeiroLogin();
       });
-    }
   }
 
+  exibirAlertaPrimeiroLogin() {
+    this.confirmationService.confirm({
+      header: 'Atenção!',
+      message: 'Este é o seu primeiro login, por favor altere sua senha.',
+      icon: 'pi pi-info-circle',
+      key: 'alertaTrocaDeSenha',
+      accept: () => {
+        this.router.navigate(['/usuarios/nova-senha']);
+      },
+    });
+  }
 }

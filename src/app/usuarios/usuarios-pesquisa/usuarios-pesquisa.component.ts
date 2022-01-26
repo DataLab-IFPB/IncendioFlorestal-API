@@ -11,11 +11,9 @@ import { UsuarioService } from './../usuario.service';
 @Component({
   selector: 'app-usuarios-pesquisa',
   templateUrl: './usuarios-pesquisa.component.html',
-  styleUrls: ['./usuarios-pesquisa.component.css']
+  styleUrls: ['./usuarios-pesquisa.component.css'],
 })
 export class UsuariosPesquisaComponent implements OnInit {
-
-
   usuario: Usuario;
 
   spinnerIsActive = true;
@@ -33,48 +31,49 @@ export class UsuariosPesquisaComponent implements OnInit {
     private usuarioService: UsuarioService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
-  ) { }
-
+  ) {}
 
   ngOnInit(): void {
     this.listar();
   }
 
   listar(key?) {
+    if (this.subscription) this.subscription.unsubscribe();
 
-    if (this.subscription) this.subscription.unsubscribe()
-
-    this.subscription = this.usuarioService.listar(this.numberItems, key)
+    this.subscription = this.usuarioService
+      .listar(this.numberItems, key)
       .snapshotChanges()
-      .subscribe(async usuarios => {
-
+      .subscribe(async (usuarios) => {
         const usuariosFlag = [];
 
         // for utilizado para verificar se está exluido (todo: tentar remover isso e deixer por conta da query)
         for await (let contents of usuarios) {
-          const user = { key: contents.payload.key, ...contents.payload.exportVal() }
+          const user = {
+            key: contents.payload.key,
+            ...contents.payload.exportVal(),
+          };
           if (!user.isDeleted) {
-            usuariosFlag.push(user)
+            usuariosFlag.push(user);
           }
         }
 
-        this.usuarios = ARR.slice(usuariosFlag, 0, this.numberItems) // elimina o último incêndio (ele é a próxima key)
-        this.nextKey = ARR.get(usuarios[this.numberItems], 'key')
+        this.usuarios = ARR.slice(usuariosFlag, 0, this.numberItems); // elimina o último incêndio (ele é a próxima key)
+        this.nextKey = ARR.get(usuarios[this.numberItems], 'key');
 
         this.stopSpinner();
-      })
+      });
   }
 
   onNext() {
-    this.prevKeys.push(ARR.first(this.usuarios)['key']) // get prev key
-    this.listar(this.nextKey)
+    this.prevKeys.push(ARR.first(this.usuarios)['key']); // get prev key
+    this.listar(this.nextKey);
   }
 
   onPrev() {
-    const prevKey = ARR.last(this.prevKeys) // get last key
-    this.prevKeys = ARR.dropRight(this.prevKeys) // delete last key
+    const prevKey = ARR.last(this.prevKeys); // get last key
+    this.prevKeys = ARR.dropRight(this.prevKeys); // delete last key
 
-    this.listar(prevKey)
+    this.listar(prevKey);
   }
 
   stopSpinner() {
@@ -82,28 +81,28 @@ export class UsuariosPesquisaComponent implements OnInit {
   }
 
   filtrar() {
-
     if (this.busca == '') {
       this.usuarios = [];
       this.spinnerIsActive = true;
       this.listar();
     } else {
-
-      this.usuarioService.getUsuarios()
-        .subscribe(users => {
-
+      this.usuarioService.getUsuarios().subscribe(
+        (users) => {
           const usuariosFlag: Array<Usuario> = [];
 
-          users.forEach(u => {
+          users.forEach((u) => {
             if (!u.isDeleted) {
               const email = String(u.email);
               const registration = String(u.registration);
 
-              if (email.includes(this.busca) || registration.includes(this.busca)) {
+              if (
+                email.includes(this.busca) ||
+                registration.includes(this.busca)
+              ) {
                 usuariosFlag.push(u);
               }
             }
-          })
+          });
 
           this.usuarios = usuariosFlag;
 
@@ -111,24 +110,27 @@ export class UsuariosPesquisaComponent implements OnInit {
           this.prevKeys = [];
 
           this.stopSpinner();
-
-        }, (error) => {
+        },
+        (error) => {
           console.log(error);
-        });
+        }
+      );
     }
   }
 
-
   excluir(key: string) {
-    this.usuarioService.excluir(key)
+    this.usuarioService
+      .excluir(key)
       .then(() => {
-        this.messageService.add({ severity: 'success', summary: 'Usuário excluído!' });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Usuário excluído!',
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         this.messageService.add({ severity: 'error', summary: error });
-      })
+      });
   }
-
 
   confirmarExclusao(usuario: Usuario) {
     this.confirmationService.confirm({
@@ -137,8 +139,7 @@ export class UsuariosPesquisaComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.excluir(usuario.key);
-      }
+      },
     });
   }
-
 }

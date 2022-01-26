@@ -5,12 +5,7 @@ import { SharedModule } from './../shared/shared.module';
 import { SegurancaRoutingModule } from './seguranca-routing.module';
 
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
-  imports: [
-    SharedModule,
-    SegurancaRoutingModule
-  ]
+  declarations: [LoginComponent],
+  imports: [SharedModule, SegurancaRoutingModule],
 })
-export class SegurancaModule { }
+export class SegurancaModule {}

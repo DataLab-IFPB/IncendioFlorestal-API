@@ -12,11 +12,8 @@ import { UsuariosRoutingModule } from './usuarios-routing.module';
     UsuariosPesquisaComponent,
     UsuariosCadastroComponent,
     PerfilComponent,
-    UsuariosNovaSenhaComponent
+    UsuariosNovaSenhaComponent,
   ],
-  imports: [
-    SharedModule,
-    UsuariosRoutingModule
-  ]
+  imports: [SharedModule, UsuariosRoutingModule],
 })
-export class UsuariosModule { }
+export class UsuariosModule {}

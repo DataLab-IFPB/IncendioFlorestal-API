@@ -1,33 +1,33 @@
 export class Incendio {
   key: string;
 
-  acq_date
-  acq_datetime
-  acq_time
+  acq_date;
+  acq_datetime;
+  acq_time;
 
   ativo: boolean;
   userCreated: boolean;
 
-  brightness
-  brightness_2
+  brightness;
+  brightness_2;
 
   clima: Clima;
   point: Point;
 
-  confidence
-  daynight
+  confidence;
+  daynight;
 
-  frp
+  frp;
 
-  latitude
-  longitude
-  satellite
+  latitude;
+  longitude;
+  satellite;
 
-  scan
-  track
+  scan;
+  track;
 
-  version
-  WKT
+  version;
+  WKT;
 
   isDeleted: boolean;
   deletedAt: Date;

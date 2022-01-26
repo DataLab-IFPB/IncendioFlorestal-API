@@ -11,10 +11,9 @@ import { Login } from '../seguranca';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-
   login = new Login();
 
   dialogIsVisible: boolean = false;
@@ -26,46 +25,71 @@ export class LoginComponent {
     private router: Router,
     private messageService: MessageService
   ) {
-
+    this.login.email = ' 201915@bombeirospb.gov';
+    this.login.password = '123456';
   }
 
   logar() {
-    this.auth.logar(this.login.email, this.login.password)
+    this.auth
+      .logar(this.login.email, this.login.password)
       .then(() => {
         this.router.navigate(['/home']);
-        this.messageService.add({ severity: 'success', summary: 'Você entrou!' });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Você entrou!',
+        });
       })
-      .catch(erro => {
-
-        if (erro === "E-mail inválido") {
-          this.messageService.add({ severity: 'error', summary: 'O e-mail não está formatado corretamente.' });
-        } else if (erro === "Conta bloqueada") {
-          this.messageService.add({ severity: 'error', summary: 'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.', detail: ' Tente novamente mais tarde!' });
-        } else {
-          this.messageService.add({ severity: 'error', summary: 'Nenhum usuário foi encontrado com essas credenciais!' });
+      .catch((erro) => {
+        if (erro === 'E-mail inválido') {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'O e-mail não está formatado corretamente.',
+          });
+        } else if (erro === 'Conta bloqueada') {
+          this.messageService.add({
+            severity: 'error',
+            summary:
+              'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.',
+            detail: ' Tente novamente mais tarde!',
+          });
+        } else if (
+          erro === 'Usuário não encontrado' ||
+          erro === 'Usuário deletado' ||
+          erro === 'Credenciais inválidas'
+        ) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Nenhum usuário foi encontrado com essas credenciais!',
+          });
         }
-
-      })
+      });
   }
 
   enviarEmailDeSenhaEsquecida(form: FormControl) {
-    this.usuarioService.resetarSenha(this.emailEsqueciMinhaSenha)
+    this.usuarioService
+      .enviarEmailParaResetarSenha(this.emailEsqueciMinhaSenha)
       .then(() => {
-        this.messageService.add({ severity: 'success', summary: 'Instruções para redefinir sua senha foram envidas para seu email!' });
+        this.messageService.add({
+          severity: 'success',
+          summary:
+            'Instruções para redefinir sua senha foram envidas para seu email!',
+        });
         this.dialogIsVisible = false;
         form.reset();
         this.emailEsqueciMinhaSenha = '';
       })
-      .catch(erro => {
+      .catch((erro) => {
         if (erro.code == 'auth/invalid-email') {
-          this.messageService.add({ severity: 'error', summary: 'O e-mail está formatado incorretamente.' });
+          this.messageService.add({
+            severity: 'error',
+            summary: 'O e-mail está formatado incorretamente.',
+          });
         } else if (erro.code == 'auth/user-not-found') {
-          this.messageService.add({ severity: 'error', summary: 'Nenhum usuário foi encontrado com esse e-mail!' });
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Nenhum usuário foi encontrado com esse e-mail!',
+          });
         }
-      })
+      });
   }
-
-
-
-
 }

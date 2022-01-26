@@ -1,5 +1,4 @@
 export class Datasets {
-
   private static instance: Datasets;
 
   // Coleção de dados do Firebase
@@ -23,31 +22,30 @@ export class Datasets {
   mediaIntensidade = [];
 
   heatmap = {
-    "type": "FeatureCollection",
-    "features": []
+    type: 'FeatureCollection',
+    features: [],
   };
 
   tipoRegistro = {
-    "firms": 0,
-    "manual": 0
+    firms: 0,
+    manual: 0,
   };
 
   taxaPorTurno = {
-    "noturno": [],
-    "diurno": []
-  }
+    noturno: [],
+    diurno: [],
+  };
 
   private constructor() {
     // Inicializar posições da tabela hash
-    for(let i = 0; i < 25; i++) {
+    for (let i = 0; i < 25; i++) {
       this.firebaseColection.push([]);
     }
   }
 
   // Criar uma única instância da classe
   static getIstance(): Datasets {
-
-    if(!Datasets.instance) {
+    if (!Datasets.instance) {
       Datasets.instance = new Datasets();
     }
 
@@ -68,15 +66,14 @@ export class Datasets {
     });
   }
 
-  consultarMunicipio(municipio: string) : object[] {
+  consultarMunicipio(municipio: string): object[] {
     const hash = this.calcularHash(municipio);
     const registros = this.firebaseColection[hash];
 
-    const registrosMunicipio = registros.filter(
-      (registro: object) => {
-        if(registro['clima']['cidade'] === municipio) {
-          return registro;
-        }
+    const registrosMunicipio = registros.filter((registro: object) => {
+      if (registro['clima']['cidade'] === municipio) {
+        return registro;
+      }
     });
 
     return registrosMunicipio;
@@ -101,7 +98,7 @@ export class Datasets {
   }
 
   private inicializarVetoresVazios() {
-    for(let i = 0; i < 12; i++) {
+    for (let i = 0; i < 12; i++) {
       this.registrosPorMesAnoAtual.push([]);
       this.registrosPorMesAnoAnterior.push([]);
       this.mediaTemperaturaPorMes.push(0);
@@ -112,5 +109,4 @@ export class Datasets {
       this.taxaPorTurno.noturno.push(0);
     }
   }
-
 }

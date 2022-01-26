@@ -1,5 +1,4 @@
 export class Usuario {
-
   birthDate;
   email: string;
   password: string;

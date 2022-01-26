@@ -6,13 +6,7 @@ import { IncendiosCadastroComponent } from './incendios-cadastro/incendios-cadas
 import { IncendiosRoutingModule } from './incendios-routing.module';
 
 @NgModule({
-  declarations: [
-    IncendiosPesquisaComponent,
-    IncendiosCadastroComponent
-  ],
-  imports: [
-    SharedModule,
-    IncendiosRoutingModule
-  ]
+  declarations: [IncendiosPesquisaComponent, IncendiosCadastroComponent],
+  imports: [SharedModule, IncendiosRoutingModule],
 })
-export class IncendiosModule { }
+export class IncendiosModule {}

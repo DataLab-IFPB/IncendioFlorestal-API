@@ -22,21 +22,16 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { MensagemDeErroComponent } from './component/mensagem-de-erro/mensagem-de-erro.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { PaginaNaoEncontradaComponent } from './component/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { PanelLoaderComponent } from './component/panel-loader/panel-loader.component';
-import { DatePickerComponent } from './component/date-picker/date-picker.component';
 
-const angularModules: any = [
-  CommonModule,
-  RouterModule,
-  FormsModule
-];
+const angularModules: any = [CommonModule, RouterModule, FormsModule];
 
-const primeModules: any= [
+const primeModules: any = [
   TooltipModule,
   SidebarModule,
   InputSwitchModule,
@@ -54,11 +49,8 @@ const primeModules: any= [
   TableModule,
   FieldsetModule,
   DropdownModule,
-  ToastModule
-
-
+  ToastModule,
 ];
-
 
 @NgModule({
   declarations: [
@@ -66,13 +58,8 @@ const primeModules: any= [
     PaginaNaoEncontradaComponent,
     NavbarComponent,
     PanelLoaderComponent,
-    DatePickerComponent
   ],
-  imports: [
-    angularModules,
-    primeModules,
-    FontAwesomeModule
-  ],
+  imports: [angularModules, primeModules, FontAwesomeModule],
   exports: [
     angularModules,
     primeModules,
@@ -83,7 +70,6 @@ const primeModules: any= [
     PaginaNaoEncontradaComponent,
     NavbarComponent,
     PanelLoaderComponent,
-    DatePickerComponent
-  ]
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -6,17 +6,21 @@ import { IncendiosPesquisaComponent } from './../incendios/incendios-pesquisa/in
 import { AuthGuard } from '../seguranca/auth.guard';
 
 const routes: Routes = [
-
   { path: '', component: IncendiosPesquisaComponent, canActivate: [AuthGuard] },
-  { path: 'novo', component: IncendiosCadastroComponent, canActivate: [AuthGuard] },
-  { path: 'edicao/:key', component: IncendiosCadastroComponent, canActivate: [AuthGuard] },
-
+  {
+    path: 'novo',
+    component: IncendiosCadastroComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'edicao/:key',
+    component: IncendiosCadastroComponent,
+    canActivate: [AuthGuard],
+  },
 ];
-
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class IncendiosRoutingModule { }
+export class IncendiosRoutingModule {}

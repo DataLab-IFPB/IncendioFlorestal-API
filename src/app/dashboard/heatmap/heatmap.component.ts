@@ -8,15 +8,14 @@ const mapboxgl = require('mapbox-gl');
 @Component({
   selector: 'app-heatmap',
   templateUrl: './heatmap.component.html',
-  styleUrls: ['./heatmap.component.css']
+  styleUrls: ['./heatmap.component.css'],
 })
 export class HeatmapComponent implements OnInit {
-
   @Input() dados: object;
 
   private mapa: any;
 
-  constructor(private dashboardService : DashboardService) {}
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.configMap();
@@ -24,42 +23,32 @@ export class HeatmapComponent implements OnInit {
   }
 
   private configMap(): void {
-
     mapboxgl.accessToken = environment.mapboxkey;
-
     this.mapa = new mapboxgl.Map({
       container: 'mapa',
       style: 'mapbox://styles/mapbox/dark-v10',
       center: [-36.304, -7.199],
       zoom: 7,
-      minZoom: 7
+      minZoom: 7,
     });
-
     this.mapa.dragRotate.disable();
     this.mapa.touchZoomRotate.disableRotation();
   }
 
   private configLayer(): void {
-
     this.mapa.on('load', () => {
-
       this.mapa.addSource('dataset-incendios-florestais', {
-        'type': 'geojson',
-        'data': this.dados
+        type: 'geojson',
+        data: this.dados,
       }); // addSource
 
       this.mapa.addLayer({
-        'id': 'incendios-florestais-heatmap',
-        'type': 'heatmap',
-        'source': 'dataset-incendios-florestais',
-        'paint': {
-          'heatmap-radius': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            0, 2, 1, 10
-          ]
-        }
+        id: 'incendios-florestais-heatmap',
+        type: 'heatmap',
+        source: 'dataset-incendios-florestais',
+        paint: {
+          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 2, 1, 10],
+        },
       }); // addLayer
 
       // Ouvinte do evento de atualização do heatmap
@@ -68,5 +57,4 @@ export class HeatmapComponent implements OnInit {
       });
     });
   }
-
 }

@@ -11,89 +11,67 @@ import { AuthService } from 'src/app/seguranca/auth.service';
 
 import { Usuario } from '../usuario';
 import { Login } from 'src/app/seguranca/seguranca';
-import { DatePickerComponent } from './../../shared/component/date-picker/date-picker.component';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css']
+  styleUrls: ['./perfil.component.css'],
 })
 export class PerfilComponent implements OnInit {
-
   usuario = new Usuario();
 
-  userOptions: any[];
+  userOptions: any[] = [
+    { label: 'Não', value: false },
+    { label: 'Sim', value: true },
+  ];
 
   dialogIsVisible: boolean = false;
 
   confirmacaoDeSenha: string = '';
   email: string;
 
-  @ViewChild('dataNascimento') customDatePicker: DatePickerComponent;
+  anoAtual = new Date().getFullYear();
 
   constructor(
     private auth: AuthService,
     private usuarioService: UsuarioService,
     private messageService: MessageService,
     public afAuth: AngularFireAuth
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
-    if (this.auth.getUsuarioLogado.uid) {
-      this.email = this.auth.getUsuarioLogado.email;
-      this.buscarUsuario(this.auth.getUsuarioLogado.uid);
-    } else {
-      this.usuario = new Usuario();
+    const user = this.auth.getUsuarioLogado;
+    if (user) {
+      this.usuario = user;
+      this.email = user.email;
+      this.usuario.birthDate = moment(user.birthDate, 'DD-MM-YYYY').toDate();
     }
-
-    this.userOptions = [
-      { label: "Não", value: false },
-      { label: "Sim", value: true }
-    ];
-
   }
 
   salvar() {
-
     const credenciais = new Login();
     credenciais.email = this.email;
     credenciais.password = this.confirmacaoDeSenha;
 
-    this.usuario.email = this.usuario.registration + "@bombeirospb.gov";
+    this.usuario.email = this.usuario.registration + '@bombeirospb.gov';
 
-    const dataNascimento = this.customDatePicker.selectedDate;
-    this.usuario.birthDate = moment(dataNascimento).format('DD/MM/YYYY')
-
-    this.usuarioService.atualizarPerfil(this.usuario, credenciais)
+    this.usuarioService
+      .atualizarPerfil(this.usuario, credenciais)
       .then(() => {
-
         this.email = this.auth.getUsuarioLogado.email;
-
       })
-      .catch(erro => {
+      .catch((erro) => {
         if (erro == 'Matrícula já utilizada') {
-          this.messageService.add({ severity: 'error', summary: 'Matrícula já utilizada!' });
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Matrícula já utilizada!',
+          });
         }
-      })
+      });
 
     this.resetarConfirmacaoDeSenha();
-
-
   }
-
-  buscarUsuario(uid: string) {
-    this.usuarioService.buscarUsuarioPorUid(uid)
-      .then(user => {
-        this.usuario = user;
-      })
-  }
-
 
   resetarConfirmacaoDeSenha() {
     this.confirmacaoDeSenha = '';
   }
-
-
-
-
 }

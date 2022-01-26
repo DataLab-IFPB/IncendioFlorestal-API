@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularFireModule } from '@angular/fire'
-import { AngularFireDatabaseModule } from '@angular/fire/database'
-import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -13,13 +13,8 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { SharedModule } from './shared/shared.module';
 
-
-
 @NgModule({
-  declarations: [
-    AppComponent,
-
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -32,10 +27,9 @@ import { SharedModule } from './shared/shared.module';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
 
-    AngularFireModule.initializeApp(environment.firebaseConfig)
-
+    AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [MessageService, ConfirmationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

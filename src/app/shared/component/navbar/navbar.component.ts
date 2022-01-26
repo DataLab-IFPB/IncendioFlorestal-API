@@ -13,19 +13,18 @@ import { Usuario } from 'src/app/usuarios/usuario';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-
   exibeMenu = false;
 
-  usuarioLogado: Usuario;
+  usuarioLogado: Usuario = new Usuario();
 
-  darkThemeisActive: boolean = false;
+  toggleTheme: boolean = false;
 
   icones = {
-    extintor: faFireExtinguisher
-  }
+    extintor: faFireExtinguisher,
+  };
 
   constructor(
     private auth: AuthService,
@@ -33,21 +32,14 @@ export class NavbarComponent implements OnInit {
     private messageService: MessageService,
     private usuarioService: UsuarioService,
     private themeService: ThemeService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
     const currentTheme = this.initTheme();
+    if (currentTheme == 'dark') this.toggleTheme = true;
 
-    if (currentTheme == "dark")
-      this.darkThemeisActive = true;
-
-
-    this.usuarioLogado = new Usuario();
-
-    if (this.auth.getUsuarioLogado) {
-      this.buscarUsuario(this.auth.getUsuarioLogado.uid);
-    }
+    const user = this.auth.getUsuarioLogado;
+    if (user) this.usuarioLogado = user;
   }
 
   logout() {
@@ -56,17 +48,9 @@ export class NavbarComponent implements OnInit {
     this.messageService.add({ severity: 'success', summary: 'Você saiu!' });
   }
 
-  omitir() {
+  omitirMenu() {
     this.exibeMenu = !this.exibeMenu;
   }
-
-  buscarUsuario(uid: string) {
-    this.usuarioService.buscarUsuarioPorUid(uid)
-      .then(user => {
-        this.usuarioLogado = user;
-      })
-  }
-
 
   initTheme() {
     const theme = localStorage.getItem('theme');
@@ -75,21 +59,8 @@ export class NavbarComponent implements OnInit {
   }
 
   changeTheme() {
-
-    localStorage.removeItem('theme');
-
     let theme: string;
-
-    if (this.darkThemeisActive) {
-      localStorage.setItem('theme', 'dark');
-      theme = 'dark'
-    } else {
-      localStorage.setItem('theme', 'light');
-      theme = 'light'
-    }
-
+    this.toggleTheme ? (theme = 'dark') : (theme = 'light');
     this.themeService.switchTheme(theme);
-
   }
-
 }

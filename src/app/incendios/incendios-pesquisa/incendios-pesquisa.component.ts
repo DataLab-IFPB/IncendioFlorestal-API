@@ -7,29 +7,28 @@ import 'rxjs/add/operator/map';
 import * as moment from 'moment';
 import * as ARR from 'lodash';
 
-import { faWind, faTint, faTemperatureHigh } from '@fortawesome/free-solid-svg-icons';
+import {
+  faWind,
+  faTint,
+  faTemperatureHigh,
+} from '@fortawesome/free-solid-svg-icons';
 
 import { IncendioService } from '../incendio.service';
 import { Incendio } from '../incendio';
-import { DatePickerComponent } from './../../shared/component/date-picker/date-picker.component';
 
 @Component({
   selector: 'app-incendios-pesquisa',
   templateUrl: './incendios-pesquisa.component.html',
-  styleUrls: ['./incendios-pesquisa.component.css']
+  styleUrls: ['./incendios-pesquisa.component.css'],
 })
 export class IncendiosPesquisaComponent implements OnInit {
-
-
   incendio = new Incendio();
 
   spinnerIsActive = true;
 
   textoBuscado: string = '';
   dataBuscada: Date;
-
-  @ViewChild('dataBuscada') customDatePicker: DatePickerComponent;
-
+  anoAtual = new Date().getFullYear();
 
   incendios: Array<Incendio> = [];
 
@@ -41,61 +40,62 @@ export class IncendiosPesquisaComponent implements OnInit {
   icones = {
     temperatura: faTemperatureHigh,
     humidade: faTint,
-    vento: faWind
-  }
-
+    vento: faWind,
+  };
 
   constructor(
     private incendioService: IncendioService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getFogo();
   }
 
-
   getFogo(key?) {
+    if (this.subscription) this.subscription.unsubscribe();
 
-    if (this.subscription) this.subscription.unsubscribe()
-
-    this.subscription = this.incendioService.listar(this.numberItems, key)
+    this.subscription = this.incendioService
+      .listar(this.numberItems, key)
       .snapshotChanges()
-      .subscribe(async incendios => {
-
+      .subscribe(async (incendios) => {
         const incendiosFlag = [];
 
         // for utilizado para verificar se está exluido (todo: tentar remover isso e deixer por conta da query)
         for await (let contents of incendios) {
-          const fire = { key: contents.payload.key, ...contents.payload.exportVal() };
+          const fire = {
+            key: contents.payload.key,
+            ...contents.payload.exportVal(),
+          };
           if (!fire.isDeleted) {
-
             if (fire.acq_datetime) {
-              fire.acq_datetime = moment(fire.acq_datetime).format('DD/MM/YYYY HH:mm:ss')
+              fire.acq_datetime = moment(fire.acq_datetime).format(
+                'DD/MM/YYYY HH:mm:ss'
+              );
             }
 
-            incendiosFlag.push(fire)
+            incendiosFlag.push(fire);
           }
         }
 
-        this.incendios = ARR.slice(incendiosFlag, 0, this.numberItems) // elimina o último incêndio (ele é a próxima key)
-        this.nextKey = ARR.get(incendios[this.numberItems], 'key')
+        this.incendios = ARR.slice(incendiosFlag, 0, this.numberItems); // elimina o último incêndio (ele é a próxima key)
+        this.nextKey = ARR.get(incendios[this.numberItems], 'key');
 
         this.stopSpinner();
-      })
+      });
   }
 
   onNext() {
-    this.prevKeys.push(ARR.first(this.incendios)['key']) // get prev key
-    this.getFogo(this.nextKey)
+    this.prevKeys.push(ARR.first(this.incendios)['key']); // get prev key
+    this.getFogo(this.nextKey);
   }
 
   onPrev() {
-    const prevKey = ARR.last(this.prevKeys) // get last key
-    this.prevKeys = ARR.dropRight(this.prevKeys) // delete last key
+    const prevKey = ARR.last(this.prevKeys); // get last key
+    this.prevKeys = ARR.dropRight(this.prevKeys); // delete last key
 
-    this.getFogo(prevKey)
+    this.getFogo(prevKey);
   }
 
   stopSpinner() {
@@ -103,38 +103,32 @@ export class IncendiosPesquisaComponent implements OnInit {
   }
 
   listar() {
-    this.incendioService.getIncendios()
-      .subscribe(incendios => {
+    this.incendioService.getIncendios().subscribe(
+      (incendios) => {
         this.incendios = incendios;
         this.stopSpinner();
-
-      }, (error) => {
+      },
+      (error) => {
         console.log(error);
-      });
+      }
+    );
   }
 
-
   filtrar() {
-
-    this.dataBuscada = this.customDatePicker.selectedDate;
-
     if (this.textoBuscado == '' && this.dataBuscada == undefined) {
       this.incendios = [];
       this.spinnerIsActive = true;
       this.getFogo();
-    }
-    else {
+    } else {
       this.incendios = [];
       this.spinnerIsActive = true;
 
-      this.incendioService.getIncendios()
-        .subscribe(incendios => {
-
+      this.incendioService.getIncendios().subscribe(
+        (incendios) => {
           const incendiosFlag: Array<Incendio> = [];
 
-          incendios.forEach(incendio => {
+          incendios.forEach((incendio) => {
             if (!incendio.isDeleted) {
-
               const status = incendio.ativo;
               const cidade = String(incendio?.clima?.cidade);
               const latitude = String(incendio.latitude);
@@ -144,52 +138,79 @@ export class IncendiosPesquisaComponent implements OnInit {
               const temperatura = String(incendio.incendio?.clima?.temperatura);
               const humidade = String(incendio?.clima?.humidade_relativa);
               const vento = String(incendio?.clima?.velocidade_vento);
-              let data = String(incendio?.acq_datetime).split(" ")[0];
+              let data = String(incendio?.acq_datetime).split(' ')[0];
               data = moment(data).format('DD/MM/YYYY');
 
-              const dataBuscadaFormatada = moment(this.dataBuscada).format('DD/MM/YYYY');
+              const dataBuscadaFormatada = moment(this.dataBuscada).format(
+                'DD/MM/YYYY'
+              );
 
               if (incendio.acq_datetime) {
-                incendio.acq_datetime = moment(incendio.acq_datetime).format('DD/MM/YYYY HH:mm:ss')
+                incendio.acq_datetime = moment(incendio.acq_datetime).format(
+                  'DD/MM/YYYY HH:mm:ss'
+                );
               }
 
               if (this.textoBuscado != '' && this.dataBuscada != undefined) {
-
-                if (status === this.getStatusComBaseNoTextoDigitado(this.textoBuscado) && data === dataBuscadaFormatada
-                  || cidade != undefined && cidade.includes(this.textoBuscado) && data === dataBuscadaFormatada
-                  || latitude != undefined && latitude.includes(this.textoBuscado) && data === dataBuscadaFormatada
-                  || longitude != undefined && longitude.includes(this.textoBuscado) && data === dataBuscadaFormatada
-                  || periodo === this.getPeriodoComBaseNoTextoDigitado(this.textoBuscado) && data === dataBuscadaFormatada
-                  || intencidade != undefined && intencidade.includes(this.textoBuscado) && data === dataBuscadaFormatada
-                  || temperatura != undefined && temperatura.includes(this.textoBuscado) && data === dataBuscadaFormatada
-                  || humidade != undefined && humidade.includes(this.textoBuscado) && data === dataBuscadaFormatada
-                  || vento != undefined && vento.includes(this.textoBuscado) && data === dataBuscadaFormatada
+                if (
+                  (status ===
+                    this.getStatusComBaseNoTextoDigitado(this.textoBuscado) &&
+                    data === dataBuscadaFormatada) ||
+                  (cidade != undefined &&
+                    cidade.includes(this.textoBuscado) &&
+                    data === dataBuscadaFormatada) ||
+                  (latitude != undefined &&
+                    latitude.includes(this.textoBuscado) &&
+                    data === dataBuscadaFormatada) ||
+                  (longitude != undefined &&
+                    longitude.includes(this.textoBuscado) &&
+                    data === dataBuscadaFormatada) ||
+                  (periodo ===
+                    this.getPeriodoComBaseNoTextoDigitado(this.textoBuscado) &&
+                    data === dataBuscadaFormatada) ||
+                  (intencidade != undefined &&
+                    intencidade.includes(this.textoBuscado) &&
+                    data === dataBuscadaFormatada) ||
+                  (temperatura != undefined &&
+                    temperatura.includes(this.textoBuscado) &&
+                    data === dataBuscadaFormatada) ||
+                  (humidade != undefined &&
+                    humidade.includes(this.textoBuscado) &&
+                    data === dataBuscadaFormatada) ||
+                  (vento != undefined &&
+                    vento.includes(this.textoBuscado) &&
+                    data === dataBuscadaFormatada)
                 ) {
                   incendiosFlag.push(incendio);
                 }
-
-
               } else if (this.textoBuscado != '') {
-                if (status === this.getStatusComBaseNoTextoDigitado(this.textoBuscado)
-                  || cidade != undefined && cidade.includes(this.textoBuscado)
-                  || latitude != undefined && latitude.includes(this.textoBuscado)
-                  || longitude != undefined && longitude.includes(this.textoBuscado)
-                  || periodo === this.getPeriodoComBaseNoTextoDigitado(this.textoBuscado)
-                  || intencidade != undefined && intencidade.includes(this.textoBuscado)
-                  || temperatura != undefined && temperatura.includes(this.textoBuscado)
-                  || humidade != undefined && humidade.includes(this.textoBuscado)
-                  || vento != undefined && vento.includes(this.textoBuscado)
+                if (
+                  status ===
+                    this.getStatusComBaseNoTextoDigitado(this.textoBuscado) ||
+                  (cidade != undefined && cidade.includes(this.textoBuscado)) ||
+                  (latitude != undefined &&
+                    latitude.includes(this.textoBuscado)) ||
+                  (longitude != undefined &&
+                    longitude.includes(this.textoBuscado)) ||
+                  periodo ===
+                    this.getPeriodoComBaseNoTextoDigitado(this.textoBuscado) ||
+                  (intencidade != undefined &&
+                    intencidade.includes(this.textoBuscado)) ||
+                  (temperatura != undefined &&
+                    temperatura.includes(this.textoBuscado)) ||
+                  (humidade != undefined &&
+                    humidade.includes(this.textoBuscado)) ||
+                  (vento != undefined && vento.includes(this.textoBuscado))
                 ) {
                   incendiosFlag.push(incendio);
                 }
-
               } else {
                 if (data != undefined && data === dataBuscadaFormatada) {
                   incendiosFlag.push(incendio);
                 }
               }
             }
-          })
+          });
 
           this.incendios = incendiosFlag;
 
@@ -197,25 +218,27 @@ export class IncendiosPesquisaComponent implements OnInit {
           this.prevKeys = [];
 
           this.stopSpinner();
-
-        }, (error) => {
+        },
+        (error) => {
           console.log(error);
-        });
+        }
+      );
     }
   }
 
-
-
   excluir(key: string) {
-    this.incendioService.excluir(key)
+    this.incendioService
+      .excluir(key)
       .then(() => {
-        this.messageService.add({ severity: 'success', summary: 'Incêndio excluído!' });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Incêndio excluído!',
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         this.messageService.add({ severity: 'error', summary: error });
-      })
+      });
   }
-
 
   confirmarExclusao(incendio: Incendio) {
     this.confirmationService.confirm({
@@ -224,29 +247,25 @@ export class IncendiosPesquisaComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.excluir(incendio.key);
-      }
+      },
     });
   }
 
-
   getStatusComBaseNoTextoDigitado(textoDigitado: string) {
-    if (textoDigitado.toLowerCase() == "ativo") {
+    if (textoDigitado.toLowerCase() == 'ativo') {
       return true;
-    } else if (textoDigitado.toLowerCase() == "inativo") {
+    } else if (textoDigitado.toLowerCase() == 'inativo') {
       return false;
     }
     return undefined;
   }
 
   getPeriodoComBaseNoTextoDigitado(textoDigitado: string) {
-    if (textoDigitado.toLowerCase() == "dia") {
+    if (textoDigitado.toLowerCase() == 'dia') {
       return 'D';
-    } else if (textoDigitado.toLowerCase() == "noite") {
+    } else if (textoDigitado.toLowerCase() == 'noite') {
       return 'N';
     }
     return undefined;
   }
-
-
-
 }

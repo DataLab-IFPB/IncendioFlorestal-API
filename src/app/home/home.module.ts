@@ -17,7 +17,7 @@ import { DashboardModule } from '../dashboard/dashboard.module';
     HomeRoutingModule,
     ConfirmDialogModule,
     DashboardModule,
-    TabViewModule
-  ]
+    TabViewModule,
+  ],
 })
-export class HomeModule { }
+export class HomeModule {}

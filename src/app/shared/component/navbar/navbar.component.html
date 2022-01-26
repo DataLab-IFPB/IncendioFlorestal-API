@@ -21,28 +21,28 @@
     </li>
 
     <li class="navbar-menuitem">
-      <a routerLink="/usuarios/perfil" (click)="omitir()">
+      <a routerLink="/usuarios/perfil" (click)="omitirMenu()">
         <i class="pi pi-user menu-icon"></i>
         <span>Perfil</span>
       </a>
     </li>
 
     <li class="navbar-menuitem">
-      <a routerLink="/home" (click)="omitir()">
+      <a routerLink="/home" (click)="omitirMenu()">
         <i class="pi pi-home menu-icon"></i>
         <span>Home</span>
       </a>
     </li>
 
     <li *ngIf="usuarioLogado.isAdmin" class="navbar-menuitem">
-      <a routerLink="/usuarios" (click)="omitir()">
+      <a routerLink="/usuarios" (click)="omitirMenu()">
         <i class="pi pi-users menu-icon"></i>
         <span>Usuários</span>
       </a>
     </li>
 
     <li class="navbar-menuitem">
-      <a routerLink="/incendios" (click)="omitir()">
+      <a routerLink="/incendios" (click)="omitirMenu()">
         <fa-icon [icon]="icones.extintor" class="menu-icon"></fa-icon>
         <span>Incêndios</span>
       </a>
@@ -56,14 +56,24 @@
     </li>
 
     <div class="navbar-menuitem" style="text-align: center">
-      <i class="pi pi-sun" style="font-size: 2rem; color: #cccac8"></i>
+      <i
+        class="pi pi-sun"
+        style="font-size: 2rem; color: #cccac8"
+        pTooltip="Claro"
+        tooltipPosition="bottom"
+      ></i>
       <p-inputSwitch
         name="switchTheme"
-        [(ngModel)]="darkThemeisActive"
+        [(ngModel)]="toggleTheme"
         (click)="changeTheme()"
         style="margin: 0 1rem"
       ></p-inputSwitch>
-      <i class="pi pi-moon" style="font-size: 2rem; color: #cccac8"></i>
+      <i
+        class="pi pi-moon"
+        style="font-size: 2rem; color: #cccac8"
+        pTooltip="Escuro"
+        tooltipPosition="bottom"
+      ></i>
     </div>
   </ul>
 </p-sidebar>

@@ -19,15 +19,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-
 @NgModule({
-  providers: [ DashboardService ],
-  exports: [ DashboardComponent ],
+  providers: [DashboardService],
+  exports: [DashboardComponent],
   declarations: [
     CardChartComponent,
     DashboardComponent,
     CardInfoComponent,
-    HeatmapComponent
+    HeatmapComponent,
   ],
   imports: [
     CommonModule,
@@ -44,13 +43,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-    }
-    })
-  ]
+        deps: [HttpClient],
+      },
+    }),
+  ],
 })
-
-export class DashboardModule { }
+export class DashboardModule {}
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);

@@ -18,14 +18,20 @@
             </div>
 
             <div>
-              <app-date-picker
+              <p-calendar
                 id="dataIncendio"
-                placeholder="Data"
-                [initYearRange]="2000"
-                [buttons]="true"
+                dateFormat="dd/mm/yy"
+                showButtonBar="true"
                 name="dataIncendio"
-                #dataBuscada
-              ></app-date-picker>
+                placeholder="Data"
+                [(ngModel)]="dataBuscada"
+                showIcon="true"
+                monthNavigator="true"
+                yearNavigator="true"
+                yearRange="2000:{{ anoAtual }}"
+                readonlyInput="true"
+                #dataIncendio="ngModel"
+              ></p-calendar>
 
               <button
                 class="btn-buscar"

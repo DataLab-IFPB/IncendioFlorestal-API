@@ -1,14 +1,12 @@
-
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-mensagem-de-erro',
   templateUrl: './mensagem-de-erro.component.html',
-  styleUrls: ['./mensagem-de-erro.component.css']
+  styleUrls: ['./mensagem-de-erro.component.css'],
 })
 export class MensagemDeErroComponent {
-
   @Input() erro: string;
   @Input() controle: FormControl;
   @Input() mensagem: string;
