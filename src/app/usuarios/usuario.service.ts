@@ -6,8 +6,6 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { MessageService } from 'primeng/api';
 
 import { map } from 'rxjs/operators';
-import 'rxjs/add/operator/map';
-import 'rxjs-compat/add/operator/first';
 
 import * as moment from 'moment';
 
