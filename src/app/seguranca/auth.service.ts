@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { MessageService } from 'primeng/api';
-
-import { map } from 'rxjs/operators';
 import { Usuario } from '../usuarios/usuario';
 
 import { UsuarioService } from '../usuarios/usuario.service';

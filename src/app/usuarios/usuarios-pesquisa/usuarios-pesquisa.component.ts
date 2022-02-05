@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
 import 'rxjs/add/operator/map';
 import * as ARR from 'lodash';
 
 import { Usuario } from '../usuario';
 import { UsuarioService } from './../usuario.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-usuarios-pesquisa',
@@ -30,7 +31,7 @@ export class UsuariosPesquisaComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -122,13 +123,10 @@ export class UsuariosPesquisaComponent implements OnInit {
     this.usuarioService
       .excluir(key)
       .then(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Usuário excluído!',
-        });
+        this.toastService.showMessage('success', 'Usuário excluído!');
       })
       .catch((error) => {
-        this.messageService.add({ severity: 'error', summary: error });
+        this.toastService.showMessage('error', error);
       });
   }
 

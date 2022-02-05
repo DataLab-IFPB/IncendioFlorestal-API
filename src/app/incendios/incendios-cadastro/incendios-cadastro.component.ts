@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { MessageService } from 'primeng/api';
-
 import { IncendioService } from '../incendio.service';
 import { Incendio, Clima } from '../incendio';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-incendios-cadastro',
@@ -31,8 +30,8 @@ export class IncendiosCadastroComponent implements OnInit {
     private incendioService: IncendioService,
     private router: Router,
     private route: ActivatedRoute,
-    private messageService: MessageService,
-    private location: Location
+    private location: Location,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -65,14 +64,11 @@ export class IncendiosCadastroComponent implements OnInit {
     this.incendioService
       .cadastrar(this.incendio)
       .then(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Incêndio cadastrado!',
-        });
+        this.toastService.showMessage('success', 'Incêndio cadastrado!');
         this.router.navigate(['/incendios']);
       })
       .catch((erro) => {
-        this.messageService.add({ severity: 'error', summary: erro });
+        this.toastService.showMessage('error', erro);
       });
   }
 
@@ -80,14 +76,11 @@ export class IncendiosCadastroComponent implements OnInit {
     this.incendioService
       .atualizar(this.incendio)
       .then(() => {
+        this.toastService.showMessage('success', 'Incêndio atualizado!');
         this.router.navigate(['/incendios']);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Incêndio atualizado!',
-        });
       })
       .catch((erro) => {
-        this.messageService.add({ severity: 'error', summary: erro });
+        this.toastService.showMessage('error', erro);
       });
   }
 

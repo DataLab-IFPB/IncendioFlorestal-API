@@ -2,12 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { MessageService } from 'primeng/api';
-
 import { UsuarioService } from './../usuario.service';
 import { Usuario } from '../usuario';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
-import * as moment from 'moment';
 @Component({
   selector: 'app-usuarios-cadastro',
   templateUrl: './usuarios-cadastro.component.html',
@@ -26,8 +24,8 @@ export class UsuariosCadastroComponent implements OnInit {
     private usuarioService: UsuarioService,
     private router: Router,
     private route: ActivatedRoute,
-    private messageService: MessageService,
-    private location: Location
+    private location: Location,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -53,11 +51,8 @@ export class UsuariosCadastroComponent implements OnInit {
         this.usuario = user;
       })
       .catch((erro) => {
+        this.toastService.showMessage('error', 'Usuário não encontrado!');
         this.router.navigate(['/usuarios']);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Usuário não encontrado!',
-        });
       });
   }
 
@@ -67,10 +62,10 @@ export class UsuariosCadastroComponent implements OnInit {
     if (this.usuarioService.validarDominioDeEmail(this.usuario.email)) {
       this.editando ? this.atualizar() : this.cadastrar();
     } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'O e-mail não está formatado corretamente.',
-      });
+      this.toastService.showMessage(
+        'error',
+        'O e-mail não está formatado corretamente!'
+      );
     }
   }
 
@@ -78,20 +73,14 @@ export class UsuariosCadastroComponent implements OnInit {
     this.usuarioService
       .cadastrar(this.usuario)
       .then(() => {
+        this.toastService.showMessage('success', 'Usuário cadastrado!');
         this.router.navigate(['/usuarios']);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Usuário cadastrado!',
-        });
       })
       .catch((erro) => {
         if (erro == 'Matrícula já utilizada') {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Matrícula já utilizada!',
-          });
+          this.toastService.showMessage('error', 'Matrícula já utilizada!');
         } else {
-          this.messageService.add({ severity: 'error', summary: erro });
+          this.toastService.showMessage('error', erro);
         }
       });
   }
@@ -100,20 +89,14 @@ export class UsuariosCadastroComponent implements OnInit {
     this.usuarioService
       .atualizar(this.usuario)
       .then(() => {
+        this.toastService.showMessage('success', 'Usuário atualizado!');
         this.router.navigate(['/usuarios']);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Usuário atualizado!',
-        });
       })
       .catch((erro) => {
         if (erro == 'Matrícula já utilizada') {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Matrícula já utilizada!',
-          });
+          this.toastService.showMessage('error', 'Matrícula já utilizada!');
         } else {
-          this.messageService.add({ severity: 'error', summary: erro });
+          this.toastService.showMessage('error', erro);
         }
       });
   }

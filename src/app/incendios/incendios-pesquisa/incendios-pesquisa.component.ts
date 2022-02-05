@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
 import 'rxjs/add/operator/map';
 
@@ -15,6 +15,7 @@ import {
 
 import { IncendioService } from '../incendio.service';
 import { Incendio } from '../incendio';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-incendios-pesquisa',
@@ -45,8 +46,8 @@ export class IncendiosPesquisaComponent implements OnInit {
 
   constructor(
     private incendioService: IncendioService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -230,13 +231,10 @@ export class IncendiosPesquisaComponent implements OnInit {
     this.incendioService
       .excluir(key)
       .then(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Incêndio excluído!',
-        });
+        this.toastService.showMessage('success', 'Incêndio excluído!');
       })
       .catch((error) => {
-        this.messageService.add({ severity: 'error', summary: error });
+        this.toastService.showMessage('error', error);
       });
   }
 

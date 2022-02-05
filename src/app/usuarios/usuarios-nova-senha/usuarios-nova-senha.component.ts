@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MessageService, ConfirmationService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
 import { AuthService } from 'src/app/seguranca/auth.service';
 import { UsuarioService } from '../usuario.service';
 import { Usuario } from '../usuario';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-usuarios-nova-senha',
@@ -23,10 +24,10 @@ export class UsuariosNovaSenhaComponent implements OnInit {
 
   constructor(
     private usuarioService: UsuarioService,
-    private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -38,10 +39,10 @@ export class UsuariosNovaSenhaComponent implements OnInit {
     if (this.novaSenha === this.confirmacaoNovaSenha) {
       this.confirmarTrocaDeSenha(this.usuario);
     } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'As senhas informadas não são compatíveis!',
-      });
+      this.toastService.showMessage(
+        'error',
+        'As senhas informadas não são compatíveis!'
+      );
     }
   }
 
@@ -51,10 +52,7 @@ export class UsuariosNovaSenhaComponent implements OnInit {
     this.usuarioService
       .criarUsuarioFirstLogin(usuario.key, usuario.email, usuario.password)
       .then(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Senha atualizada!',
-        });
+        this.toastService.showMessage('success', 'Senha atualizada!');
         this.router.navigate(['/home']);
       });
   }

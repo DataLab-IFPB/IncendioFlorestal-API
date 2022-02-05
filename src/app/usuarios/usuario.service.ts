@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-
-import { MessageService } from 'primeng/api';
 
 import { map } from 'rxjs/operators';
 
@@ -11,7 +8,7 @@ import * as moment from 'moment';
 
 import { Login } from 'src/app/seguranca/seguranca';
 import { Usuario } from './usuario';
-import { AuthService } from '../seguranca/auth.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +19,7 @@ export class UsuarioService {
   constructor(
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
-    private messageService: MessageService,
-    private router: Router
+    private toastService: ToastService
   ) {}
 
   async cadastrar(usuario: Usuario) {
@@ -104,26 +100,22 @@ export class UsuarioService {
         localStorage.setItem('user', JSON.stringify(usuario));
 
         this.db.list(this.dbPath).update(usuario.key, user);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Perfil atualizado!',
-        });
+
+        this.toastService.showMessage('success', 'Perfil atualizado!');
 
         location.reload(); // para atualizar a matricula presente no menu e a data do date-picker
       })
       .catch((erro) => {
         if (erro.code === 'auth/too-many-requests') {
-          this.messageService.add({
-            severity: 'error',
-            summary:
-              'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.',
-            detail: ' Tente novamente mais tarde!',
-          });
+          this.toastService.showMessage(
+            'error',
+            'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas!, Tente novamente mais tarde.'
+          );
         } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'A senha informada está incorreta!.',
-          });
+          this.toastService.showMessage(
+            'error',
+            'A senha informada está incorreta!'
+          );
         }
       });
   }

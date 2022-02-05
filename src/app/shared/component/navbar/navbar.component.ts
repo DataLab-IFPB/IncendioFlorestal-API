@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MessageService } from 'primeng/api';
-
 import { faFireExtinguisher } from '@fortawesome/free-solid-svg-icons';
 
-import { ThemeService } from 'src/app/shared/service/theme.service';
 import { AuthService } from 'src/app/seguranca/auth.service';
 import { UsuarioService } from 'src/app/usuarios/usuario.service';
 import { Usuario } from 'src/app/usuarios/usuario';
+import { ThemeService } from 'src/app/shared/service/theme.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Component({
   selector: 'app-navbar',
@@ -29,9 +28,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private messageService: MessageService,
-    private usuarioService: UsuarioService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -43,9 +41,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    this.toastService.showMessage('success', 'Você saiu!');
     this.auth.deslogar();
     this.router.navigate(['/login']);
-    this.messageService.add({ severity: 'success', summary: 'Você saiu!' });
   }
 
   omitirMenu() {

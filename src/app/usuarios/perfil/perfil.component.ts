@@ -1,8 +1,6 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { MessageService } from 'primeng/api';
-
 import * as moment from 'moment';
 
 import { UsuarioService } from './../usuario.service';
@@ -11,6 +9,7 @@ import { AuthService } from 'src/app/seguranca/auth.service';
 
 import { Usuario } from '../usuario';
 import { Login } from 'src/app/seguranca/seguranca';
+import { ToastService } from 'src/app/shared/service/toast.service';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -34,8 +33,8 @@ export class PerfilComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private usuarioService: UsuarioService,
-    private messageService: MessageService,
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -61,10 +60,7 @@ export class PerfilComponent implements OnInit {
       })
       .catch((erro) => {
         if (erro == 'Matrícula já utilizada') {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Matrícula já utilizada!',
-          });
+          this.toastService.showMessage('error', 'Matrícula já utilizada!');
         }
       });
 

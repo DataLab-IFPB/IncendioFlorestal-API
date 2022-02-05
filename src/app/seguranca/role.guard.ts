@@ -1,19 +1,16 @@
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  Router,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 
-import { MessageService } from 'primeng/api';
-
 import { Observable } from 'rxjs';
 
 import { AuthService } from './auth.service';
-import { UsuarioService } from './../usuarios/usuario.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +18,8 @@ import { UsuarioService } from './../usuarios/usuario.service';
 export class RoleGuard implements CanActivate {
   constructor(
     private auth: AuthService,
-    private messageService: MessageService,
-    private usuarioService: UsuarioService,
-    private location: Location
+    private location: Location,
+    private toastService: ToastService
   ) {}
 
   canActivate(
@@ -39,10 +35,7 @@ export class RoleGuard implements CanActivate {
     if (user.isAdmin) {
       return true;
     } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Apenas admins têm acesso!',
-      });
+      this.toastService.showMessage('error', 'Apenas admins têm acesso!');
       this.location.back();
       return false;
     }

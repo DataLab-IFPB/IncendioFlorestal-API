@@ -7,9 +7,8 @@ import {
 } from '@angular/router';
 import { Injectable } from '@angular/core';
 
-import { MessageService } from 'primeng/api';
-
 import { AuthService } from './auth.service';
+import { ToastService } from 'src/app/shared/service/toast.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,7 +16,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private messageService: MessageService
+    private toastService: ToastService
   ) {}
 
   async canActivate(
@@ -28,11 +27,11 @@ export class AuthGuard implements CanActivate {
     const isAuthenticated = user ? true : false;
 
     if (!isAuthenticated) {
+      this.toastService.showMessage(
+        'error',
+        'Para acessar o sistema você deve se autenticar!'
+      );
       this.router.navigate(['/login']);
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Para acessar o sistema você deve se autenticar!',
-      });
     }
 
     return isAuthenticated;
