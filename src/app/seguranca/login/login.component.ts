@@ -49,6 +49,11 @@ export class LoginComponent {
               'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.',
             detail: ' Tente novamente mais tarde!',
           });
+        } else if(erro.code === 'auth/wrong-password'){
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Credenciais inválidas.',
+        })
         } else if (
           erro === 'Usuário não encontrado' ||
           erro === 'Usuário deletado' ||

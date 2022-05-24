@@ -119,7 +119,7 @@ export class UsuarioService {
               'Conta temporariamente desativada devido a muitas tentativas de login malsucedidas.',
             detail: ' Tente novamente mais tarde!',
           });
-        } else {
+        }else {
           this.messageService.add({
             severity: 'error',
             summary: 'A senha informada está incorreta!.',
