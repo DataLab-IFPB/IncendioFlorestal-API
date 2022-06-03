@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  combate-incendios:
+    image: wandeilsongomes/combate-incendios:v1
+    container_name: combate-incendios
+    ports: 
+      - "8099:80"
