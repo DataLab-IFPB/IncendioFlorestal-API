@@ -1,0 +1,19 @@
+1-Entrar na parte de "Instâncias de VM".
+2-"Criar VM".
+3-Adiciona o nome da VM no campo "nome".
+4-Nos campos "Região" e "Zona" pode deixar o padrão mesmo. 
+São eles:Região: "us-central1(iowa)" e Zona "us-central1-a").
+5-Na parte de "Configuração da máquina"
+5.1- O Campo "série" deixa "E2" mesmo. No "Tipo de máquina" de escolhe a CPU e a memória. Deixamos "e2-small", 
+um núcleo compartilhado e com 2 GB de RAM.
+6- No "Disco de inicialização", clica em "Mudar", na aba de "Imagens públicas", seleciona o "Sistema operacional"
+como Ubuntu versão 18.04 LTS. O "Tipo de inicialização" deixa o padrão, "Disco permanente equilibrado". O "Tamanho"
+foi colocado 10GB.
+7- Na parte do "Firewall" seleciona os dois campos: "Permitir tráfego HTTP e HTTPS".
+8- Agora é só clicar em "Criar".
+9- Agora a máquina já está criada, mas o "IP externo" dela não está fixo, ou seja,
+toda vez que a máquina for reiniciada ela vai mudar o IP, e ele tem que ser FIXO.
+10- Para configurar um IP FIXO, na parte das "instâncias de VM", clica nos três pontinhos da sua VM e vai em
+"Ver detalhes de rede", agora na parte superior esquerda, vai em "Endereços IP",
+depois em "Reservar endereço estático externo". Coloca um nome e na parte final no campo
+ "Anexado a" é só selecionar o nome da VM que vc quer atribuir esse IP e está finalizado.

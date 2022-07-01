@@ -4,7 +4,10 @@ COPY . .
 RUN npm install
 RUN npm run build --prod
 
+
 FROM nginx:1.22
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
 COPY --from=node /app/dist/combate-incendios /usr/share/nginx/html
 
 EXPOSE 80

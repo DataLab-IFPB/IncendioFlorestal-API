@@ -2,7 +2,12 @@ version: '3.7'
 
 services:
   combate-incendios:
-    image: wandeilsongomes/combate-incendios:v1
+    image: wandeilsongomes/combate-incendios:v2
     container_name: combate-incendios
+    restart: always
     ports: 
       - "8099:80"
+  combate-incendios-backend:
+    image: wandeilsongomes/combate-incendios-backend:v5
+    container_name: combate-incendios-backend
+    restart: always
