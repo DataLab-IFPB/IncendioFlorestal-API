@@ -6,7 +6,7 @@ services:
     container_name: combate-incendios
     restart: always
     ports: 
-      - "8099:80"
+      - "81:80"
   combate-incendios-backend:
     image: wandeilsongomes/combate-incendios-backend:v5
     container_name: combate-incendios-backend
