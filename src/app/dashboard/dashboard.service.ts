@@ -67,7 +67,7 @@ export class DashboardService {
     const anoAnterior = String(Number(ano) - 1);
 
     context.registros.forEach((registro: object) => {
-      const anoRegistro = registro['acq_date'].split('/')[0];
+      const anoRegistro = registro['status']['registered_at'].split('-')[0];
 
       // Verificar o ano do registro
       switch (anoRegistro) {
@@ -111,7 +111,7 @@ export class DashboardService {
 
     context.registros.forEach((registro: object) => {
       try {
-        const dataRegistro = new Date(registro['acq_date']);
+        const dataRegistro = new Date(registro['status']['registered_at']);
 
         // Filtrar por registros no intervalo de datas
         if (
@@ -137,75 +137,81 @@ export class DashboardService {
   }
 
   gerarDatasets() {
-    if (this.Datasets.registrosAnoAtual.length > 0) {
-      this.registros.forEach((registro) => {
-        // Registrar dados por mês do ano atual
-        this.Datasets.registrosPorMesAnoAtual[
-          registro['acq_date'].split('/')[1] - 1
-        ].push(registro);
+    try {
+      if (this.Datasets.registrosAnoAtual.length > 0) {
+        this.registros.forEach((registro) => {
 
-        // Registrar dados do heatmap
-        if (this.tipoDashboard === 'dashboard-por-ano') {
-          this.Datasets.heatmap.features.push({
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'Point',
-              coordinates: [registro['longitude'], registro['latitude']],
-            },
-          });
-        }
+          // Registrar dados por mês do ano atual
+          this.Datasets.registrosPorMesAnoAtual[
+            +registro['status']['registered_at'].split('-')[1] - 1
+          ].push(registro);
 
-        if (registro['userCreated']) {
-          this.Datasets.tipoRegistro.manual++;
-        } else {
-          this.Datasets.tipoRegistro.firms++;
-        }
-      });
+          // Registrar dados do heatmap
+          if (this.tipoDashboard === 'dashboard-por-ano') {
+            this.Datasets.heatmap.features.push({
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'Point',
+                coordinates: [registro['longitude'], registro['latitude']],
+              },
+            });
+          }
 
-      // Registrar dados por mês do ano anterior
-      this.Datasets.registrosAnoAnterior.forEach((registro) => {
-        this.Datasets.registrosPorMesAnoAnterior[
-          registro['acq_date'].split('/')[1] - 1
-        ].push(registro);
-      });
-
-      // Gerar dados por mês
-      this.Datasets.registrosPorMesAnoAtual.forEach((mes, indice) => {
-        const registrosTemperaturas = [];
-        const registrosPrecipitacao = [];
-        const registrosIntensidade = [];
-        const registrosPorTurno = { noturno: 0, diurno: 0 };
-
-        // Total no mês
-        this.Datasets.totalPorMes[indice] = mes.length;
-
-        mes.forEach((registro: object) => {
-          registrosTemperaturas.push(registro['clima']['temperatura']);
-          registrosPrecipitacao.push(registro['clima']['precipitacao']);
-          registrosIntensidade.push(
-            registro['frp'] === undefined ? 0 : Number(registro['frp'])
-          );
-
-          if (registro['daynight'] === 'D') {
-            registrosPorTurno.diurno++;
+          if (registro['userCreated']) {
+            this.Datasets.tipoRegistro.manual++;
           } else {
-            registrosPorTurno.noturno++;
+            this.Datasets.tipoRegistro.firms++;
           }
         });
 
-        // Adicionar os dados ao dataset
-        this.adicionarMediaTemperaturaEPrecipitacao(
-          registrosTemperaturas,
-          registrosPrecipitacao,
-          indice
-        );
-        this.adicionarMediaIntensidade(registrosIntensidade, indice);
-        this.adicionarTaxaPorTurno(registrosPorTurno, indice);
-      });
-    }
+        // Registrar dados por mês do ano anterior
+        this.Datasets.registrosAnoAnterior.forEach((registro) => {
+          this.Datasets.registrosPorMesAnoAnterior[
+            +registro['status']['registered_at'].split('-')[1] - 1
+          ].push(registro);
+        });
 
-    this.updateDataEvent.emit(this.tipoDashboard);
+
+        // Gerar dados por mês
+        this.Datasets.registrosPorMesAnoAtual.forEach((mes, indice) => {
+          const registrostemp_cs = [];
+          const registrosprecip_in = [];
+          const registrosIntensidade = [];
+          const registrosPorTurno = { noturno: 0, diurno: 0 };
+
+          // Total no mês
+          this.Datasets.totalPorMes[indice] = mes.length;
+
+          mes.forEach((registro: object) => {
+            registrostemp_cs.push(registro['weather']['temp_c']);
+            registrosprecip_in.push(registro['weather']['precip_in']);
+            registrosIntensidade.push(
+              registro['frp'] === undefined ? 0 : Number(registro['frp'])
+            );
+
+            if (registro['daynight'] && registro['daynight'] === 'D') {
+              registrosPorTurno.diurno++;
+            } else {
+              registrosPorTurno.noturno++;
+            }
+          });
+
+          // Adicionar os dados ao dataset
+          this.adicionarMediatemp_cEprecip_in(
+            registrostemp_cs,
+            registrosprecip_in,
+            indice
+          );
+          this.adicionarMediaIntensidade(registrosIntensidade, indice);
+          this.adicionarTaxaPorTurno(registrosPorTurno, indice);
+        });
+      }
+
+      this.updateDataEvent.emit(this.tipoDashboard);
+    } catch (error) {
+      console.log("🚀 ~ file: dashboard.service.ts:212 ~ DashboardService ~ gerarDatasets ~ error:", error)
+    }
   }
 
   // Getters filtros
@@ -269,11 +275,11 @@ export class DashboardService {
   getterDadosGraficos() {
     return [
       this.graficoTaxaCrescimento(),
-      this.graficoOcorrenciasAtentidasPorMes(),
-      this.graficoTemperaturaPorPrecipiticao(),
+      this.graficotemp_cPorPrecipiticao(),
       this.graficoTaxaPorTurno(),
       this.graficoMediaIntensidade(),
       this.graficoTaxaRegistros(),
+      this.graficoOcorrenciasAtentidasPorMes()
     ];
   }
 
@@ -290,8 +296,8 @@ export class DashboardService {
   // Recuperar dados do firebase
   private consultarFirebase(municipio: string) {
     return this.firebase
-      .list('dados-firms', (ref) =>
-        ref.orderByChild('clima/cidade').equalTo(municipio)
+      .list('fires', (ref) =>
+        ref.orderByChild('weather/locale').equalTo(municipio)
       )
       .valueChanges();
   }
@@ -322,22 +328,22 @@ export class DashboardService {
     this.Datasets.clear();
   }
 
-  private adicionarMediaTemperaturaEPrecipitacao(
-    registrosTemperaturas: any[],
-    registrosPrecipitacao: any[],
+  private adicionarMediatemp_cEprecip_in(
+    registrostemp_cs: any[],
+    registrosprecip_in: any[],
     indiceMes: number
   ) {
     // Função reduce soma todos os valores da lista
-    if (registrosTemperaturas.length > 0) {
+    if (registrostemp_cs.length > 0) {
       this.Datasets.mediaTemperaturaPorMes[indiceMes] +=
-        registrosTemperaturas.reduce((a, b) => a + b) /
-        registrosTemperaturas.length;
+        registrostemp_cs.reduce((a, b) => a + b) /
+        registrostemp_cs.length;
     }
 
-    if (registrosPrecipitacao.length > 0) {
+    if (registrosprecip_in.length > 0) {
       this.Datasets.mediaPrecipiticaoPorMes[indiceMes] +=
-        registrosPrecipitacao.reduce((a, b) => a + b) /
-        registrosPrecipitacao.length;
+        registrosprecip_in.reduce((a, b) => a + b) /
+        registrosprecip_in.length;
     }
   }
 
@@ -416,12 +422,21 @@ export class DashboardService {
   }
 
   private graficoOcorrenciasAtentidasPorMes() {
-    // Ainda não possui implementação
-    const dados = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    return this.Chart.barChart('Ocorrência Atendidas', dados, 'Quantidade');
+   this.Datasets.registrosAnoAtual.forEach((registro) => {
+      const totalNoMes = this.Datasets.totalAtendimentoPorMes[+registro['status']['registered_at'].split('-')[1] - 1];
+
+      if (!!registro['status']['in_attendance_at']) {
+        this.Datasets.totalAtendimentoPorMes[
+          +registro['status']['registered_at'].split('-')[1] - 1
+        ] = totalNoMes + 1;
+      }
+    });
+
+
+    return this.Chart.barChart('Ocorrência Atendidas', this.Datasets.totalAtendimentoPorMes, 'Quantidade');
   }
 
-  private graficoTemperaturaPorPrecipiticao() {
+  private graficotemp_cPorPrecipiticao() {
     const dados = [
       {
         rotulo: 'Focos',

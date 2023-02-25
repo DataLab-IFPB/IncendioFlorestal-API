@@ -12,7 +12,17 @@
   height: 100%;
 }
 
+.wrap {
+  display: flex;
+  align-items: center;
+}
+
+.wrap div:nth-child(1) {
+  margin: 0 16px !important;
+}
+
 .navbar {
+  display: flex;
   padding: 20px 20px;
   background-color: var(--color-primary-blue);
 }

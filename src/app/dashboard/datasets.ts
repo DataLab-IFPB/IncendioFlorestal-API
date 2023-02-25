@@ -20,6 +20,7 @@ export class Datasets {
   mediaTemperaturaPorMes = [];
   mediaPrecipiticaoPorMes = [];
   mediaIntensidade = [];
+  totalAtendimentoPorMes =[];
 
   heatmap = {
     type: 'FeatureCollection',
@@ -59,7 +60,7 @@ export class Datasets {
   // Adicionar registros de um município a tabela hash
   adicionarRegistros(registros: object[]) {
     const registro = registros[0];
-    const hash = this.calcularHash(registro['clima']['cidade']);
+    const hash = this.calcularHash(registro['weather']['locale']);
 
     registros.forEach((registro) => {
       this.firebaseColection[hash].push(registro);
@@ -71,7 +72,7 @@ export class Datasets {
     const registros = this.firebaseColection[hash];
 
     const registrosMunicipio = registros.filter((registro: object) => {
-      if (registro['clima']['cidade'] === municipio) {
+      if (registro['weather']['locale'] === municipio) {
         return registro;
       }
     });
@@ -93,6 +94,7 @@ export class Datasets {
     this.tipoRegistro.manual = 0;
     this.registrosPorMesAnoAtual.length = 0;
     this.registrosPorMesAnoAnterior.length = 0;
+    this.totalAtendimentoPorMes.length = 0;
 
     this.inicializarVetoresVazios();
   }
@@ -107,6 +109,7 @@ export class Datasets {
       this.totalPorMes.push(0);
       this.taxaPorTurno.diurno.push(0);
       this.taxaPorTurno.noturno.push(0);
+      this.totalAtendimentoPorMes.push(0);
     }
   }
 }
